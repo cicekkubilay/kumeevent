@@ -1,0 +1,3049 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#d8cec2">
+
+  <title>Münevver & Kubilay | Verlobung</title>
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    /* =========================================================
+       GRUNDEINSTELLUNGEN
+    ========================================================= */
+
+    :root {
+      --bg: #eee7df;
+      --bg-dark: #ded2c6;
+      --paper: #f8f4ee;
+      --paper-dark: #eee4d9;
+
+      --text: #181411;
+      --muted: #947d69;
+      --line: rgba(55, 42, 32, 0.14);
+
+      --white: #fffdfa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 400;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+
+    /* =========================================================
+       1. EINLADUNGS-ANIMATION
+    ========================================================= */
+
+    .invitation-scroll {
+      position: relative;
+
+      /*
+        Dadurch haben wir genug Scrollweg,
+        um die Animation langsam abzuspielen.
+      */
+
+      height: 400vh;
+
+      background: #d9cec2;
+    }
+
+
+    .invitation-sticky {
+      position: sticky;
+      top: 0;
+
+      width: 100%;
+      height: 100vh;
+
+      overflow: hidden;
+    }
+
+
+    /* =========================================================
+       TISCH
+    ========================================================= */
+
+    .table-scene {
+      position: relative;
+
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      perspective: 1900px;
+
+      overflow: hidden;
+
+      background:
+
+        radial-gradient(
+          circle at 48% 36%,
+          rgba(255,255,255,.58),
+          transparent 36%
+        ),
+
+        radial-gradient(
+          circle at 85% 85%,
+          rgba(117,89,67,.12),
+          transparent 35%
+        ),
+
+        linear-gradient(
+          120deg,
+          #eee7df 0%,
+          #ddd2c7 48%,
+          #cfc0b3 100%
+        );
+    }
+
+
+    /*
+      Dezente Tischstruktur
+    */
+
+    .table-scene::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background:
+
+        repeating-linear-gradient(
+          92deg,
+          rgba(80,55,35,.018) 0px,
+          rgba(80,55,35,.018) 1px,
+          transparent 1px,
+          transparent 110px
+        );
+
+      pointer-events: none;
+    }
+
+
+    /*
+      Licht von links oben
+    */
+
+    .table-scene::after {
+      content: "";
+
+      position: absolute;
+
+      width: 75vw;
+      height: 90vh;
+
+      left: -25vw;
+      top: -30vh;
+
+      background:
+
+        radial-gradient(
+          ellipse,
+          rgba(255,255,255,.75),
+          transparent 67%
+        );
+
+      filter: blur(30px);
+
+      pointer-events: none;
+    }
+
+
+    /* =========================================================
+       DEKORATION AUF DEM TISCH
+    ========================================================= */
+
+    .table-decoration {
+      position: absolute;
+
+      width: 280px;
+      height: 280px;
+
+      right: 5vw;
+      top: 8vh;
+
+      opacity: .16;
+
+      transform:
+        rotate(25deg);
+
+      pointer-events: none;
+    }
+
+
+    .branch {
+      position: absolute;
+
+      width: 2px;
+      height: 240px;
+
+      background: #675748;
+
+      left: 50%;
+      top: 10px;
+
+      transform: rotate(28deg);
+    }
+
+
+    .leaf {
+      position: absolute;
+
+      width: 38px;
+      height: 15px;
+
+      border-radius: 100% 0 100% 0;
+
+      background: #716052;
+    }
+
+
+    .leaf-1 {
+      left: 125px;
+      top: 45px;
+
+      transform: rotate(15deg);
+    }
+
+    .leaf-2 {
+      left: 153px;
+      top: 78px;
+
+      transform: rotate(80deg);
+    }
+
+    .leaf-3 {
+      left: 102px;
+      top: 112px;
+
+      transform: rotate(-5deg);
+    }
+
+    .leaf-4 {
+      left: 162px;
+      top: 145px;
+
+      transform: rotate(75deg);
+    }
+
+    .leaf-5 {
+      left: 90px;
+      top: 180px;
+
+      transform: rotate(-15deg);
+    }
+
+
+    /* =========================================================
+       SCHATTEN UNTER KARTE
+    ========================================================= */
+
+    .ambient-shadow {
+      position: absolute;
+
+      width: 470px;
+      height: 170px;
+
+      border-radius: 50%;
+
+      background: rgba(50,35,25,.25);
+
+      filter: blur(45px);
+
+      transform:
+        translateY(170px)
+        scaleX(1.15);
+
+      opacity: .5;
+
+      will-change: transform, opacity;
+    }
+
+
+    /* =========================================================
+       DIE EIGENTLICHE KARTE
+    ========================================================= */
+
+    .physical-card {
+      position: relative;
+
+      width: 390px;
+      height: 540px;
+
+      transform-style: preserve-3d;
+
+      /*
+        STARTPOSITION:
+        Karte liegt perspektivisch auf dem Tisch.
+      */
+
+      transform:
+        rotateX(62deg)
+        rotateZ(-8deg)
+        translateY(40px)
+        scale(.70);
+
+      will-change: transform;
+
+      z-index: 5;
+    }
+
+
+    /* =========================================================
+       RECHTE INNENSEITE
+    ========================================================= */
+
+    .card-right-inside {
+      position: absolute;
+      inset: 0;
+
+      background:
+
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.60),
+          rgba(216,201,187,.12)
+        ),
+
+        var(--paper);
+
+      border:
+        1px solid rgba(100,80,60,.07);
+
+      box-shadow:
+        0 25px 60px rgba(55,40,28,.17);
+
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    /*
+      Papiertextur
+    */
+
+    .card-right-inside::after,
+    .cover-face::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      opacity: .13;
+
+      pointer-events: none;
+
+      background:
+
+        repeating-radial-gradient(
+          circle at 0 0,
+          rgba(70,50,35,.08) 0px,
+          transparent 1px,
+          transparent 5px
+        );
+    }
+
+
+    /* =========================================================
+       AUFKLAPPENDER DECKEL
+    ========================================================= */
+
+    .card-cover {
+      position: absolute;
+      inset: 0;
+
+      z-index: 10;
+
+      transform-origin: left center;
+      transform-style: preserve-3d;
+
+      transform:
+        rotateY(0deg);
+
+      will-change: transform;
+    }
+
+
+    .cover-face {
+      position: absolute;
+      inset: 0;
+
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+
+      overflow: hidden;
+
+      border:
+        1px solid rgba(100,80,60,.07);
+    }
+
+
+    /* =========================================================
+       VORDERSEITE
+    ========================================================= */
+
+    .cover-front {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+
+        radial-gradient(
+          circle at 30% 20%,
+          rgba(255,255,255,.55),
+          transparent 35%
+        ),
+
+        linear-gradient(
+          145deg,
+          #f2ebe3,
+          #e5d9cd
+        );
+
+      box-shadow:
+        20px 25px 55px rgba(60,45,34,.20);
+    }
+
+
+    /*
+      Auf der geschlossenen Karte bewusst
+      KEINE Namen / Datum / Informationen.
+    */
+
+    .cover-minimal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      color: #9b826d;
+    }
+
+
+    .cover-circle {
+      width: 68px;
+      height: 68px;
+
+      border:
+        1px solid rgba(145,120,100,.48);
+
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size: 31px;
+
+      font-style: italic;
+    }
+
+
+    .cover-small-line {
+      width: 45px;
+      height: 1px;
+
+      background:
+        rgba(145,120,100,.50);
+
+      margin-top: 22px;
+    }
+
+
+    /* =========================================================
+       LINKE INNENSEITE
+    ========================================================= */
+
+    .cover-back {
+      transform:
+        rotateY(180deg);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          #faf6f0,
+          #eee4d9
+        );
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    .left-inside {
+      text-align: center;
+
+      color: #947d69;
+
+      padding: 42px;
+    }
+
+
+    .left-heart {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size: 43px;
+    }
+
+
+    .left-line {
+      width: 45px;
+      height: 1px;
+
+      background: #aa927e;
+
+      margin: 25px auto;
+    }
+
+
+    .left-inside p {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size: 22px;
+
+      font-style: italic;
+
+      line-height: 1.55;
+    }
+
+
+    /* =========================================================
+       EINLADUNGSTEXT
+    ========================================================= */
+
+    .invitation-content {
+      position: relative;
+
+      z-index: 2;
+
+      width: 100%;
+
+      padding: 42px;
+
+      text-align: center;
+
+      opacity: 0;
+
+      transform:
+        translateY(20px)
+        scale(.94);
+
+      will-change:
+        opacity,
+        transform;
+    }
+
+
+    .invite-small {
+      font-size: 9px;
+
+      letter-spacing: 4px;
+
+      text-transform: uppercase;
+
+      color: #947d69;
+
+      margin-bottom: 25px;
+    }
+
+
+    .invitation-content h1 {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size: 57px;
+
+      font-weight: 400;
+
+      line-height: .92;
+    }
+
+
+    .invitation-content h1 span {
+      display: block;
+
+      font-size: 36px;
+
+      color: #a58b76;
+
+      margin:
+        7px 0;
+    }
+
+
+    .invite-line {
+      width: 48px;
+      height: 1px;
+
+      background: #ad9784;
+
+      margin:
+        27px auto;
+    }
+
+
+    .invite-date {
+      font-size: 10px;
+
+      letter-spacing: 4px;
+
+      text-transform: uppercase;
+    }
+
+
+    .invite-location {
+      margin-top: 10px;
+
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size: 25px;
+
+      font-style: italic;
+
+      color: #957c68;
+    }
+
+
+    .invite-text {
+      max-width: 280px;
+
+      margin: auto;
+
+      font-size: 10px;
+
+      line-height: 1.9;
+
+      color: #655b53;
+    }
+
+
+    /* =========================================================
+       SCROLL HINWEIS
+    ========================================================= */
+
+    .scroll-instruction {
+      position: absolute;
+
+      left: 50%;
+      bottom: 35px;
+
+      transform:
+        translateX(-50%);
+
+      z-index: 20;
+
+      text-align: center;
+
+      color: #746252;
+
+      transition:
+        opacity .1s linear;
+
+      will-change: opacity;
+    }
+
+
+    .scroll-instruction span {
+      display: block;
+
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size: 18px;
+    }
+
+
+    .scroll-instruction strong {
+      display: block;
+
+      margin-top: 7px;
+
+      font-size: 8px;
+
+      font-weight: 400;
+
+      letter-spacing: 4px;
+
+      text-transform: uppercase;
+    }
+
+
+    .scroll-line {
+      width: 1px;
+      height: 38px;
+
+      margin:
+        14px auto 0;
+
+      background:
+        rgba(110,90,70,.5);
+    }
+
+
+    /* =========================================================
+       NACH DER KARTE
+    ========================================================= */
+
+    .content-section {
+      position: relative;
+
+      padding:
+        120px 24px;
+
+      background:
+        #f5f0ea;
+    }
+
+
+    .container {
+      width:
+        min(1050px, 100%);
+
+      margin:
+        0 auto;
+    }
+
+
+    .section-eyebrow {
+      text-align: center;
+
+      font-size: 9px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+
+      margin-bottom: 22px;
+    }
+
+
+    .section-title {
+      text-align: center;
+
+      font-size:
+        clamp(52px, 8vw, 85px);
+
+      line-height: 1;
+
+      margin-bottom: 60px;
+    }
+
+
+    /* =========================================================
+       INTRO
+    ========================================================= */
+
+    .intro {
+      text-align: center;
+    }
+
+
+    .intro-text {
+      max-width: 620px;
+
+      margin: auto;
+
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        clamp(22px, 3vw, 29px);
+
+      line-height: 1.65;
+
+      color: #62574e;
+    }
+
+
+    .intro-divider {
+      width: 55px;
+      height: 1px;
+
+      background: var(--muted);
+
+      margin:
+        40px auto;
+
+      opacity: .55;
+    }
+
+
+    /* =========================================================
+       COUNTDOWN
+    ========================================================= */
+
+    .countdown-section {
+      padding:
+        120px 24px;
+
+      background:
+        #191512;
+
+      color:
+        #fffaf4;
+
+      text-align:
+        center;
+    }
+
+
+    .countdown-section .section-eyebrow {
+      color:
+        #b9a692;
+    }
+
+
+    .countdown-section .section-title {
+      margin-bottom:
+        55px;
+    }
+
+
+    .countdown {
+      max-width:
+        800px;
+
+      margin:
+        auto;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+    }
+
+
+    .count-item {
+      padding:
+        10px;
+
+      border-right:
+        1px solid rgba(255,255,255,.15);
+    }
+
+
+    .count-item:last-child {
+      border-right:
+        none;
+    }
+
+
+    .count-number {
+      display:
+        block;
+
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        clamp(47px, 7vw, 80px);
+
+      font-weight:
+        300;
+    }
+
+
+    .count-label {
+      display:
+        block;
+
+      margin-top:
+        7px;
+
+      font-size:
+        8px;
+
+      letter-spacing:
+        3px;
+
+      text-transform:
+        uppercase;
+
+      color:
+        #bba895;
+    }
+
+
+    /* =========================================================
+       DETAILS
+    ========================================================= */
+
+    .details-grid {
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      border-top:
+        1px solid var(--line);
+
+      border-bottom:
+        1px solid var(--line);
+    }
+
+
+    .detail {
+      padding:
+        55px 25px;
+
+      text-align:
+        center;
+
+      border-right:
+        1px solid var(--line);
+    }
+
+
+    .detail:last-child {
+      border-right:
+        none;
+    }
+
+
+    .detail-number {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        53px;
+
+      color:
+        var(--muted);
+
+      margin-bottom:
+        20px;
+    }
+
+
+    .detail h3 {
+      font-size:
+        29px;
+
+      margin-bottom:
+        10px;
+    }
+
+
+    .detail p {
+      font-size:
+        11px;
+
+      line-height:
+        1.9;
+
+      color:
+        #655b53;
+    }
+
+
+    /* =========================================================
+       PROGRAMM
+    ========================================================= */
+
+    .program {
+      background:
+        #e9dfd5;
+    }
+
+
+    .timeline {
+      max-width:
+        690px;
+
+      margin:
+        auto;
+    }
+
+
+    .timeline-item {
+      display:
+        grid;
+
+      grid-template-columns:
+        105px 1fr;
+
+      gap:
+        30px;
+
+      padding:
+        31px 0;
+
+      border-bottom:
+        1px solid var(--line);
+    }
+
+
+    .timeline-time {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        32px;
+
+      color:
+        var(--muted);
+    }
+
+
+    .timeline-item h3 {
+      font-size:
+        27px;
+
+      margin-bottom:
+        7px;
+    }
+
+
+    .timeline-item p {
+      font-size:
+        11px;
+
+      line-height:
+        1.8;
+
+      color:
+        #655b53;
+    }
+
+
+    /* =========================================================
+       LOCATION
+    ========================================================= */
+
+    .location {
+      text-align:
+        center;
+    }
+
+
+    .location-name {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        34px;
+    }
+
+
+    .location-address {
+      margin-top:
+        12px;
+
+      font-size:
+        11px;
+
+      line-height:
+        1.9;
+
+      color:
+        #655b53;
+    }
+
+
+    /* =========================================================
+       RSVP
+    ========================================================= */
+
+    .rsvp {
+      background:
+        #fffdfa;
+    }
+
+
+    .rsvp-box {
+      width:
+        min(650px, 100%);
+
+      margin:
+        auto;
+
+      text-align:
+        center;
+    }
+
+
+    .rsvp-description {
+      max-width:
+        520px;
+
+      margin:
+        -25px auto 45px;
+
+      font-size:
+        12px;
+
+      line-height:
+        1.9;
+
+      color:
+        #675d55;
+    }
+
+
+    form {
+      text-align:
+        left;
+    }
+
+
+    .form-group {
+      margin-bottom:
+        26px;
+    }
+
+
+    label {
+      display:
+        block;
+
+      margin-bottom:
+        9px;
+
+      font-size:
+        8px;
+
+      letter-spacing:
+        3px;
+
+      text-transform:
+        uppercase;
+
+      color:
+        var(--muted);
+    }
+
+
+    input,
+    select,
+    textarea {
+      width:
+        100%;
+
+      border:
+        none;
+
+      border-bottom:
+        1px solid #b9ada1;
+
+      background:
+        transparent;
+
+      padding:
+        14px 4px;
+
+      outline:
+        none;
+
+      font-family:
+        "Montserrat",
+        sans-serif;
+
+      font-size:
+        13px;
+
+      color:
+        var(--text);
+    }
+
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-bottom-color:
+        var(--text);
+    }
+
+
+    textarea {
+      min-height:
+        90px;
+
+      resize:
+        vertical;
+    }
+
+
+    .submit-button {
+      width:
+        100%;
+
+      margin-top:
+        15px;
+
+      padding:
+        19px;
+
+      border:
+        1px solid var(--text);
+
+      background:
+        var(--text);
+
+      color:
+        white;
+
+      cursor:
+        pointer;
+
+      font-family:
+        "Montserrat",
+        sans-serif;
+
+      font-size:
+        8px;
+
+      letter-spacing:
+        4px;
+
+      text-transform:
+        uppercase;
+
+      transition:
+        .3s ease;
+    }
+
+
+    .submit-button:hover {
+      background:
+        transparent;
+
+      color:
+        var(--text);
+    }
+
+
+    .success {
+      display:
+        none;
+
+      margin-top:
+        35px;
+
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        28px;
+
+      color:
+        var(--muted);
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      padding:
+        80px 20px;
+
+      text-align:
+        center;
+
+      background:
+        #191512;
+
+      color:
+        white;
+    }
+
+
+    .footer-names {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        42px;
+
+      margin-bottom:
+        13px;
+    }
+
+
+    footer p {
+      font-size:
+        8px;
+
+      letter-spacing:
+        4px;
+
+      text-transform:
+        uppercase;
+
+      color:
+        #b7a38f;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 700px) {
+
+      .invitation-scroll {
+        height:
+          380vh;
+      }
+
+
+      .physical-card {
+        width:
+          275px;
+
+        height:
+          390px;
+
+        transform:
+          rotateX(62deg)
+          rotateZ(-7deg)
+          translateY(20px)
+          scale(.70);
+      }
+
+
+      .ambient-shadow {
+        width:
+          300px;
+
+        height:
+          120px;
+
+        transform:
+          translateY(120px);
+
+        filter:
+          blur(35px);
+      }
+
+
+      .table-decoration {
+        width:
+          180px;
+
+        height:
+          180px;
+
+        right:
+          -35px;
+
+        top:
+          60px;
+      }
+
+
+      .invitation-content {
+        padding:
+          24px;
+      }
+
+
+      .invitation-content h1 {
+        font-size:
+          40px;
+      }
+
+
+      .invitation-content h1 span {
+        font-size:
+          27px;
+      }
+
+
+      .invite-small {
+        font-size:
+          7px;
+
+        letter-spacing:
+          3px;
+
+        margin-bottom:
+          17px;
+      }
+
+
+      .invite-line {
+        margin:
+          19px auto;
+      }
+
+
+      .invite-text {
+        font-size:
+          8px;
+      }
+
+
+      .left-inside {
+        padding:
+          25px;
+      }
+
+
+      .left-inside p {
+        font-size:
+          17px;
+      }
+
+
+      .scroll-instruction {
+        width:
+          90%;
+
+        bottom:
+          25px;
+      }
+
+
+      .scroll-instruction span {
+        font-size:
+          16px;
+      }
+
+
+      .content-section,
+      .countdown-section {
+        padding:
+          90px 20px;
+      }
+
+
+      .countdown {
+        grid-template-columns:
+          repeat(2, 1fr);
+
+        gap:
+          35px 0;
+      }
+
+
+      .count-item:nth-child(2) {
+        border-right:
+          none;
+      }
+
+
+      .details-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .detail {
+        border-right:
+          none;
+
+        border-bottom:
+          1px solid var(--line);
+      }
+
+
+      .detail:last-child {
+        border-bottom:
+          none;
+      }
+
+
+      .timeline-item {
+        grid-template-columns:
+          75px 1fr;
+
+        gap:
+          18px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================================
+       EINLADUNG AUF DEM TISCH
+  ========================================================== -->
+
+  <section
+    class="invitation-scroll"
+    id="invitationScroll"
+  >
+
+    <div class="invitation-sticky">
+
+      <div class="table-scene">
+
+
+        <!-- DEZENTE PFLANZE / DEKO -->
+
+        <div class="table-decoration">
+
+          <div class="branch"></div>
+
+          <div class="leaf leaf-1"></div>
+          <div class="leaf leaf-2"></div>
+          <div class="leaf leaf-3"></div>
+          <div class="leaf leaf-4"></div>
+          <div class="leaf leaf-5"></div>
+
+        </div>
+
+
+        <!-- SCHATTEN -->
+
+        <div
+          class="ambient-shadow"
+          id="ambientShadow"
+        ></div>
+
+
+        <!-- KARTE -->
+
+        <div
+          class="physical-card"
+          id="physicalCard"
+        >
+
+
+          <!-- RECHTE INNENSEITE -->
+
+          <div class="card-right-inside">
+
+            <div
+              class="invitation-content"
+              id="invitationContent"
+            >
+
+              <p class="invite-small">
+                Einladung zu unserer Verlobung
+              </p>
+
+
+              <h1>
+
+                Münevver
+
+                <span>&</span>
+
+                Kubilay
+
+              </h1>
+
+
+              <div class="invite-line"></div>
+
+
+              <p class="invite-date">
+                14 · 11 · 2026
+              </p>
+
+
+              <p class="invite-location">
+                Neresheim
+              </p>
+
+
+              <div class="invite-line"></div>
+
+
+              <p class="invite-text">
+
+                Ein besonderer Tag,
+                ein neues Kapitel und Menschen,
+                die diesen Moment mit uns teilen.
+
+                <br><br>
+
+                Wir freuen uns darauf,
+                unsere Verlobung gemeinsam
+                mit euch zu feiern.
+
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- AUFKLAPPENDER DECKEL -->
+
+          <div
+            class="card-cover"
+            id="cardCover"
+          >
+
+
+            <!-- AUSSENSEITE -->
+
+            <div
+              class="cover-face cover-front"
+            >
+
+              <div class="cover-minimal">
+
+                <div class="cover-circle">
+                  ♡
+                </div>
+
+                <div class="cover-small-line"></div>
+
+              </div>
+
+            </div>
+
+
+            <!-- LINKE INNENSEITE -->
+
+            <div
+              class="cover-face cover-back"
+            >
+
+              <div class="left-inside">
+
+                <div class="left-heart">
+                  ♡
+                </div>
+
+
+                <div class="left-line"></div>
+
+
+                <p>
+
+                  Ein besonderer Moment
+                  beginnt mit besonderen
+                  Menschen.
+
+                </p>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+        <!-- SCROLL HINWEIS -->
+
+        <div
+          class="scroll-instruction"
+          id="scrollInstruction"
+        >
+
+          <span>
+            Um die Einladungskarte zu öffnen
+          </span>
+
+          <strong>
+            bitte scrollen
+          </strong>
+
+          <div class="scroll-line"></div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       INTRO
+  ========================================================== -->
+
+  <section class="content-section intro">
+
+    <div class="container">
+
+      <div class="section-eyebrow">
+        Münevver & Kubilay
+      </div>
+
+
+      <h2 class="section-title">
+        Wir verloben uns
+      </h2>
+
+
+      <div class="intro-divider"></div>
+
+
+      <p class="intro-text">
+
+        Ein neuer Abschnitt beginnt.
+
+        <br><br>
+
+        Diesen besonderen Moment
+        möchten wir gemeinsam mit
+        unseren Familien und Freunden feiern.
+
+        <br><br>
+
+        Wir freuen uns von Herzen,
+        euch bei unserer Verlobung
+        begrüßen zu dürfen.
+
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       COUNTDOWN
+  ========================================================== -->
+
+  <section class="countdown-section">
+
+    <div class="container">
+
+      <div class="section-eyebrow">
+        Bis wir gemeinsam feiern
+      </div>
+
+
+      <h2 class="section-title">
+        Der Countdown läuft
+      </h2>
+
+
+      <div class="countdown">
+
+
+        <div class="count-item">
+
+          <span
+            class="count-number"
+            id="days"
+          >
+            00
+          </span>
+
+          <span class="count-label">
+            Tage
+          </span>
+
+        </div>
+
+
+        <div class="count-item">
+
+          <span
+            class="count-number"
+            id="hours"
+          >
+            00
+          </span>
+
+          <span class="count-label">
+            Stunden
+          </span>
+
+        </div>
+
+
+        <div class="count-item">
+
+          <span
+            class="count-number"
+            id="minutes"
+          >
+            00
+          </span>
+
+          <span class="count-label">
+            Minuten
+          </span>
+
+        </div>
+
+
+        <div class="count-item">
+
+          <span
+            class="count-number"
+            id="seconds"
+          >
+            00
+          </span>
+
+          <span class="count-label">
+            Sekunden
+          </span>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       DETAILS
+  ========================================================== -->
+
+  <section class="content-section">
+
+    <div class="container">
+
+      <div class="section-eyebrow">
+        Die wichtigsten Details
+      </div>
+
+
+      <h2 class="section-title">
+        Unsere Verlobung
+      </h2>
+
+
+      <div class="details-grid">
+
+
+        <div class="detail">
+
+          <div class="detail-number">
+            01
+          </div>
+
+          <h3>
+            Datum
+          </h3>
+
+          <p>
+
+            Samstag
+
+            <br>
+
+            14. November 2026
+
+          </p>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-number">
+            02
+          </div>
+
+          <h3>
+            Ort
+          </h3>
+
+          <p>
+
+            Neresheim
+
+            <br>
+
+            Baden-Württemberg
+
+          </p>
+
+        </div>
+
+
+        <div class="detail">
+
+          <div class="detail-number">
+            03
+          </div>
+
+          <h3>
+            Beginn
+          </h3>
+
+          <p>
+
+            Uhrzeit folgt
+
+            <br>
+
+            Wir freuen uns auf euch
+
+          </p>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       PROGRAMM
+  ========================================================== -->
+
+  <section class="content-section program">
+
+    <div class="container">
+
+      <div class="section-eyebrow">
+        Unser gemeinsamer Abend
+      </div>
+
+
+      <h2 class="section-title">
+        Programm
+      </h2>
+
+
+      <div class="timeline">
+
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            17:30
+          </div>
+
+          <div>
+
+            <h3>
+              Empfang
+            </h3>
+
+            <p>
+              Ankommen, begrüßen und
+              gemeinsam auf den Abend einstimmen.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            18:00
+          </div>
+
+          <div>
+
+            <h3>
+              Verlobung
+            </h3>
+
+            <p>
+              Gemeinsam feiern wir
+              diesen ganz besonderen Moment.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            19:00
+          </div>
+
+          <div>
+
+            <h3>
+              Dinner
+            </h3>
+
+            <p>
+              Zeit zum Essen,
+              Genießen und Zusammensein.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            21:00
+          </div>
+
+          <div>
+
+            <h3>
+              Gemeinsam feiern
+            </h3>
+
+            <p>
+              Musik, Tanz und
+              Erinnerungen, die bleiben.
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       LOCATION
+  ========================================================== -->
+
+  <section class="content-section location">
+
+    <div class="container">
+
+      <div class="section-eyebrow">
+        Wo wir feiern
+      </div>
+
+
+      <h2 class="section-title">
+        Neresheim
+      </h2>
+
+
+      <div class="location-name">
+        Location folgt
+      </div>
+
+
+      <div class="location-address">
+
+        Neresheim
+
+        <br>
+
+        Baden-Württemberg
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       RSVP
+  ========================================================== -->
+
+  <section class="content-section rsvp">
+
+    <div class="rsvp-box">
+
+      <div class="section-eyebrow">
+        Wir freuen uns auf euch
+      </div>
+
+
+      <h2 class="section-title">
+        RSVP
+      </h2>
+
+
+      <p class="rsvp-description">
+
+        Bitte gebt uns Bescheid,
+        ob ihr diesen besonderen Tag
+        gemeinsam mit uns feiern könnt.
+
+      </p>
+
+
+      <form id="rsvpForm">
+
+
+        <div class="form-group">
+
+          <label for="name">
+            Vor- & Nachname
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Dein Name"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="attendance">
+            Kommst du?
+          </label>
+
+          <select
+            id="attendance"
+            required
+          >
+
+            <option value="">
+              Bitte auswählen
+            </option>
+
+            <option value="yes">
+              Ja, ich bin dabei 🤍
+            </option>
+
+            <option value="no">
+              Leider kann ich nicht kommen
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="guests">
+            Anzahl der Personen
+          </label>
+
+          <select id="guests">
+
+            <option value="1">
+              1 Person
+            </option>
+
+            <option value="2">
+              2 Personen
+            </option>
+
+            <option value="3">
+              3 Personen
+            </option>
+
+            <option value="4">
+              4 Personen
+            </option>
+
+            <option value="5">
+              5 Personen
+            </option>
+
+            <option value="6">
+              6 Personen
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="message">
+            Nachricht / Hinweis
+          </label>
+
+          <textarea
+            id="message"
+            placeholder="Nachricht, Allergien oder Hinweise ..."
+          ></textarea>
+
+        </div>
+
+
+        <button
+          class="submit-button"
+          type="submit"
+        >
+          Antwort senden
+        </button>
+
+
+      </form>
+
+
+      <div
+        class="success"
+        id="success"
+      >
+
+        Vielen Dank für eure Rückmeldung. ♡
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer>
+
+    <div class="footer-names">
+      Münevver & Kubilay
+    </div>
+
+    <p>
+      14 · 11 · 2026 · Neresheim
+    </p>
+
+  </footer>
+
+
+
+  <script>
+
+    /* =========================================================
+       HILFSFUNKTIONEN
+    ========================================================== */
+
+    function clamp(
+      value,
+      min = 0,
+      max = 1
+    ) {
+
+      return Math.min(
+        max,
+        Math.max(
+          min,
+          value
+        )
+      );
+
+    }
+
+
+    function mapProgress(
+      progress,
+      start,
+      end
+    ) {
+
+      return clamp(
+        (progress - start)
+        /
+        (end - start)
+      );
+
+    }
+
+
+
+    /* =========================================================
+       EINLADUNGSANIMATION
+    ========================================================== */
+
+    const invitationSection =
+      document.getElementById(
+        "invitationScroll"
+      );
+
+
+    const physicalCard =
+      document.getElementById(
+        "physicalCard"
+      );
+
+
+    const cardCover =
+      document.getElementById(
+        "cardCover"
+      );
+
+
+    const invitationContent =
+      document.getElementById(
+        "invitationContent"
+      );
+
+
+    const scrollInstruction =
+      document.getElementById(
+        "scrollInstruction"
+      );
+
+
+    const ambientShadow =
+      document.getElementById(
+        "ambientShadow"
+      );
+
+
+
+    function updateInvitationAnimation() {
+
+
+      const rect =
+        invitationSection
+        .getBoundingClientRect();
+
+
+      const totalScroll =
+        invitationSection.offsetHeight
+        -
+        window.innerHeight;
+
+
+      let progress =
+        -rect.top
+        /
+        totalScroll;
+
+
+      progress =
+        clamp(progress);
+
+
+
+      /* =====================================================
+         PHASE 1
+
+         0% - 30%
+
+         Wir nähern uns langsam der
+         geschlossenen Karte auf dem Tisch.
+      ====================================================== */
+
+
+      const approach =
+        mapProgress(
+          progress,
+          0,
+          0.30
+        );
+
+
+      const startRotateX =
+        62;
+
+
+      const endRotateX =
+        14;
+
+
+      const rotateX =
+        startRotateX
+        -
+        (
+          approach
+          *
+          (
+            startRotateX
+            -
+            endRotateX
+          )
+        );
+
+
+      const rotateZ =
+        -8
+        +
+        (
+          approach
+          *
+          8
+        );
+
+
+      const approachScale =
+        .70
+        +
+        (
+          approach
+          *
+          .30
+        );
+
+
+      const translateY =
+        40
+        -
+        (
+          approach
+          *
+          40
+        );
+
+
+      physicalCard.style.transform =
+        `
+          rotateX(${rotateX}deg)
+          rotateZ(${rotateZ}deg)
+          translateY(${translateY}px)
+          scale(${approachScale})
+        `;
+
+
+
+      /* =====================================================
+         SCROLL TEXT VERSCHWINDET
+      ====================================================== */
+
+
+      const instructionFade =
+        mapProgress(
+          progress,
+          .03,
+          .17
+        );
+
+
+      scrollInstruction.style.opacity =
+        1
+        -
+        instructionFade;
+
+
+
+      /* =====================================================
+         SCHATTEN
+
+         Je näher wir kommen,
+         desto dezenter wird er.
+      ====================================================== */
+
+
+      ambientShadow.style.opacity =
+        .5
+        -
+        (
+          approach
+          *
+          .20
+        );
+
+
+      ambientShadow.style.transform =
+        `
+          translateY(
+            ${170 - approach * 30}px
+          )
+
+          scaleX(
+            ${1.15 - approach * .10}
+          )
+        `;
+
+
+
+      /* =====================================================
+         PHASE 2
+
+         28% - 67%
+
+         Die Karte klappt jetzt
+         wie eine echte Klappkarte auf.
+      ====================================================== */
+
+
+      const opening =
+        mapProgress(
+          progress,
+          .28,
+          .67
+        );
+
+
+      /*
+        Kleine Ease-Funktion.
+
+        Dadurch wirkt die Öffnung
+        weniger mechanisch.
+      */
+
+
+      const easedOpening =
+        1
+        -
+        Math.pow(
+          1 - opening,
+          3
+        );
+
+
+      const openAngle =
+        easedOpening
+        *
+        -178;
+
+
+      cardCover.style.transform =
+        `
+          rotateY(
+            ${openAngle}deg
+          )
+        `;
+
+
+
+      /* =====================================================
+         PHASE 3
+
+         Ab ca. 30%
+
+         Perspektive richtet sich
+         immer weiter frontal aus.
+      ====================================================== */
+
+
+      if (
+        progress
+        >
+        .30
+      ) {
+
+
+        const flatten =
+          mapProgress(
+            progress,
+            .30,
+            .64
+          );
+
+
+        const flattenRotateX =
+          14
+          -
+          (
+            flatten
+            *
+            14
+          );
+
+
+        const flattenScale =
+          1
+          +
+          (
+            flatten
+            *
+            .08
+          );
+
+
+        physicalCard.style.transform =
+          `
+            rotateX(
+              ${flattenRotateX}deg
+            )
+
+            rotateZ(0deg)
+
+            translateY(0px)
+
+            scale(
+              ${flattenScale}
+            )
+          `;
+
+      }
+
+
+
+      /* =====================================================
+         PHASE 4
+
+         65% - 100%
+
+         Die Karte ist geöffnet.
+
+         Jetzt zoomt die Kamera
+         langsam in die rechte Innenseite.
+      ====================================================== */
+
+
+      const zoom =
+        mapProgress(
+          progress,
+          .65,
+          1
+        );
+
+
+      if (
+        progress
+        >=
+        .65
+      ) {
+
+
+        const zoomScale =
+          1.08
+          +
+          (
+            zoom
+            *
+            .72
+          );
+
+
+        /*
+          Etwas nach links verschieben,
+          weil wir in die rechte
+          Kartenseite hineinzoomen.
+        */
+
+
+        const zoomX =
+          -55
+          *
+          zoom;
+
+
+        physicalCard.style.transform =
+          `
+            translateX(
+              ${zoomX}px
+            )
+
+            rotateX(0deg)
+
+            rotateZ(0deg)
+
+            scale(
+              ${zoomScale}
+            )
+          `;
+
+      }
+
+
+
+      /* =====================================================
+         EINLADUNGSTEXT
+
+         Wirklich erst sichtbar,
+         wenn die Karte geöffnet ist.
+      ====================================================== */
+
+
+      const textReveal =
+        mapProgress(
+          progress,
+          .70,
+          .87
+        );
+
+
+      invitationContent.style.opacity =
+        textReveal;
+
+
+      const textY =
+        20
+        -
+        (
+          textReveal
+          *
+          20
+        );
+
+
+      const textScale =
+        .94
+        +
+        (
+          textReveal
+          *
+          .06
+        );
+
+
+      invitationContent.style.transform =
+        `
+          translateY(
+            ${textY}px
+          )
+
+          scale(
+            ${textScale}
+          )
+        `;
+
+    }
+
+
+
+    window.addEventListener(
+      "scroll",
+      updateInvitationAnimation,
+      {
+        passive: true
+      }
+    );
+
+
+    window.addEventListener(
+      "resize",
+      updateInvitationAnimation
+    );
+
+
+    updateInvitationAnimation();
+
+
+
+    /* =========================================================
+       COUNTDOWN
+       14. NOVEMBER 2026
+    ========================================================== */
+
+
+    const engagementDate =
+      new Date(
+        "2026-11-14T18:00:00"
+      ).getTime();
+
+
+
+    function updateCountdown() {
+
+
+      const now =
+        new Date().getTime();
+
+
+      const distance =
+        engagementDate
+        -
+        now;
+
+
+
+      if (
+        distance
+        <=
+        0
+      ) {
+
+
+        document
+          .getElementById("days")
+          .textContent =
+          "00";
+
+
+        document
+          .getElementById("hours")
+          .textContent =
+          "00";
+
+
+        document
+          .getElementById("minutes")
+          .textContent =
+          "00";
+
+
+        document
+          .getElementById("seconds")
+          .textContent =
+          "00";
+
+
+        return;
+
+      }
+
+
+
+      const days =
+        Math.floor(
+          distance
+          /
+          (
+            1000
+            *
+            60
+            *
+            60
+            *
+            24
+          )
+        );
+
+
+
+      const hours =
+        Math.floor(
+
+          (
+            distance
+            %
+            (
+              1000
+              *
+              60
+              *
+              60
+              *
+              24
+            )
+          )
+
+          /
+
+          (
+            1000
+            *
+            60
+            *
+            60
+          )
+
+        );
+
+
+
+      const minutes =
+        Math.floor(
+
+          (
+            distance
+            %
+            (
+              1000
+              *
+              60
+              *
+              60
+            )
+          )
+
+          /
+
+          (
+            1000
+            *
+            60
+          )
+
+        );
+
+
+
+      const seconds =
+        Math.floor(
+
+          (
+            distance
+            %
+            (
+              1000
+              *
+              60
+            )
+          )
+
+          /
+
+          1000
+
+        );
+
+
+
+      document
+        .getElementById("days")
+        .textContent =
+
+        String(days)
+        .padStart(
+          2,
+          "0"
+        );
+
+
+
+      document
+        .getElementById("hours")
+        .textContent =
+
+        String(hours)
+        .padStart(
+          2,
+          "0"
+        );
+
+
+
+      document
+        .getElementById("minutes")
+        .textContent =
+
+        String(minutes)
+        .padStart(
+          2,
+          "0"
+        );
+
+
+
+      document
+        .getElementById("seconds")
+        .textContent =
+
+        String(seconds)
+        .padStart(
+          2,
+          "0"
+        );
+
+    }
+
+
+
+    updateCountdown();
+
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
+
+
+    /* =========================================================
+       RSVP
+
+       ACHTUNG:
+       Momentan nur Demo.
+
+       Die Daten werden noch
+       NICHT gespeichert.
+    ========================================================== */
+
+
+    const rsvpForm =
+      document.getElementById(
+        "rsvpForm"
+      );
+
+
+    const success =
+      document.getElementById(
+        "success"
+      );
+
+
+
+    rsvpForm.addEventListener(
+      "submit",
+      function(event) {
+
+
+        event.preventDefault();
+
+
+        rsvpForm.style.display =
+          "none";
+
+
+        success.style.display =
+          "block";
+
+
+      }
+    );
+
+  </script>
+
+
+</body>
+</html>
