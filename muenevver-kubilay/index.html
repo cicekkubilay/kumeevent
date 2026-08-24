@@ -14,14 +14,9 @@
     content="#ebe3da"
   >
 
-  <title>
-    Münevver & Kubilay | Verlobung
-  </title>
+  <title>Münevver & Kubilay | Verlobung</title>
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
   <link
     rel="preconnect"
@@ -64,8 +59,10 @@
 
     body {
       overflow-x: hidden;
+
       background: var(--website);
       color: var(--text);
+
       font-family: "Montserrat", sans-serif;
     }
 
@@ -92,6 +89,7 @@
       font: inherit;
     }
 
+
     /* ======================================================
        SPRACHAUSWAHL
     ====================================================== */
@@ -99,6 +97,7 @@
     .language-gate {
       position: fixed;
       inset: 0;
+
       z-index: 9999;
 
       display: grid;
@@ -136,8 +135,7 @@
 
       text-align: center;
 
-      background:
-        rgba(250,246,240,.91);
+      background: rgba(250,246,240,.91);
 
       border:
         1px solid rgba(110,85,65,.11);
@@ -159,7 +157,7 @@
     }
 
     .language-card h1 {
-      font-size: clamp(49px, 8vw, 78px);
+      font-size: clamp(49px,8vw,78px);
       line-height: .92;
     }
 
@@ -181,7 +179,10 @@
 
       color: #695f56;
 
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
       font-size: 21px;
       line-height: 1.55;
     }
@@ -223,6 +224,7 @@
 
       transform: translateY(-2px);
     }
+
 
     /* ======================================================
        KARTE
@@ -319,6 +321,7 @@
       pointer-events: none;
     }
 
+
     /* ======================================================
        DEKO
     ====================================================== */
@@ -359,7 +362,8 @@
       width: 38px;
       height: 15px;
 
-      border-radius: 100% 0 100% 0;
+      border-radius:
+        100% 0 100% 0;
 
       background: #66574b;
     }
@@ -372,23 +376,27 @@
     .leaf-2 {
       left: 145px;
       top: 80px;
+
       transform: rotate(80deg);
     }
 
     .leaf-3 {
       left: 95px;
       top: 115px;
+
       transform: rotate(-15deg);
     }
 
     .leaf-4 {
       left: 151px;
       top: 150px;
+
       transform: rotate(75deg);
     }
 
+
     /* ======================================================
-       SCHATTEN
+       KARTENSCHATTEN
     ====================================================== */
 
     .card-shadow {
@@ -399,7 +407,8 @@
 
       border-radius: 50%;
 
-      background: rgba(47,34,24,.25);
+      background:
+        rgba(47,34,24,.25);
 
       filter: blur(45px);
 
@@ -409,6 +418,7 @@
 
       opacity: .52;
     }
+
 
     /* ======================================================
        PHYSISCHE KARTE
@@ -575,6 +585,7 @@
         );
     }
 
+
     /* ======================================================
        SCROLL HINWEIS
     ====================================================== */
@@ -629,6 +640,7 @@
         rgba(110,90,70,.5);
     }
 
+
     /* ======================================================
        WEBSITE-EINSTIEG
     ====================================================== */
@@ -658,7 +670,8 @@
     }
 
     .website-entry-content {
-      width: min(920px, 88%);
+      width:
+        min(920px,88%);
 
       text-align: center;
 
@@ -712,6 +725,7 @@
 
     .hero-date {
       font-size: 11px;
+
       letter-spacing: 5px;
       text-transform: uppercase;
     }
@@ -737,29 +751,117 @@
       color: #62574e;
     }
 
+
+    /* ======================================================
+       FAMILIEN
+    ====================================================== */
+
+    .family-section {
+      padding:
+        75px 24px 95px;
+
+      background:
+        var(--website);
+
+      text-align: center;
+    }
+
+    .family-small {
+      margin-bottom: 22px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+    }
+
+    .family-line {
+      width: 45px;
+      height: 1px;
+
+      margin:
+        0 auto 30px;
+
+      background:
+        rgba(150,126,105,.45);
+    }
+
+    .family-names {
+      font-family:
+        "Cormorant Garamond",
+        serif;
+
+      font-size:
+        clamp(
+          44px,
+          7vw,
+          68px
+        );
+
+      line-height: .96;
+    }
+
+    .family-names .ampersand {
+      display: block;
+
+      margin:
+        12px 0;
+
+      color:
+        var(--muted);
+
+      font-size: .65em;
+
+      font-style: italic;
+    }
+
+    .family-decoration {
+      width: 45px;
+      height: 1px;
+
+      margin:
+        33px auto 0;
+
+      background:
+        rgba(150,126,105,.45);
+    }
+
+
     /* ======================================================
        WEBSITE
     ====================================================== */
 
     .site-content {
       position: relative;
+
       z-index: 20;
 
       margin-top: -1px;
 
-      background: var(--website);
+      background:
+        var(--website);
     }
 
     .content-section {
-      padding: 120px 24px;
+      padding:
+        120px 24px;
 
-      background: var(--website);
+      background:
+        var(--website);
     }
 
     .container {
-      width: min(1050px, 100%);
+      width:
+        min(
+          1050px,
+          100%
+        );
 
-      margin: 0 auto;
+      margin:
+        0 auto;
     }
 
     .section-eyebrow {
@@ -789,22 +891,28 @@
       line-height: 1;
     }
 
+
     /* ======================================================
        COUNTDOWN
     ====================================================== */
 
     .countdown-section {
-      padding: 120px 24px;
+      padding:
+        120px 24px;
 
       text-align: center;
 
-      background: #191512;
-      color: #fffaf4;
+      background:
+        #191512;
+
+      color:
+        #fffaf4;
     }
 
     .countdown-section
     .section-eyebrow {
-      color: #b9a692;
+      color:
+        #b9a692;
     }
 
     .countdown-section
@@ -861,6 +969,7 @@
       color: #bba895;
     }
 
+
     /* ======================================================
        DETAILS
     ====================================================== */
@@ -881,11 +990,15 @@
     .detail {
       min-height: 245px;
 
-      padding: 55px 25px;
+      padding:
+        55px 25px;
 
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
+
       justify-content: center;
 
       text-align: center;
@@ -906,10 +1019,12 @@
 
     .detail p {
       font-size: 11px;
+
       line-height: 1.9;
 
       color: #655b53;
     }
+
 
     /* ======================================================
        PROGRAMM
@@ -934,7 +1049,8 @@
 
       gap: 30px;
 
-      padding: 31px 0;
+      padding:
+        31px 0;
 
       border-bottom:
         1px solid var(--line);
@@ -947,7 +1063,8 @@
 
       font-size: 32px;
 
-      color: var(--muted);
+      color:
+        var(--muted);
     }
 
     .timeline-item h3 {
@@ -958,10 +1075,12 @@
 
     .timeline-item p {
       font-size: 11px;
+
       line-height: 1.8;
 
       color: #655b53;
     }
+
 
     /* ======================================================
        LOCATION
@@ -990,16 +1109,23 @@
       margin-top: 15px;
 
       font-size: 12px;
+
       line-height: 1.9;
 
       color: #655b53;
     }
 
     .map-wrapper {
-      width: min(900px,100%);
+      width:
+        min(
+          900px,
+          100%
+        );
+
       height: 430px;
 
-      margin: 50px auto 0;
+      margin:
+        50px auto 0;
 
       overflow: hidden;
 
@@ -1028,11 +1154,13 @@
       display: inline-flex;
 
       align-items: center;
+
       justify-content: center;
 
       margin-top: 32px;
 
-      padding: 17px 30px;
+      padding:
+        17px 30px;
 
       border:
         1px solid var(--text);
@@ -1047,9 +1175,12 @@
     }
 
     .maps-button:hover {
-      background: var(--text);
+      background:
+        var(--text);
+
       color: white;
     }
+
 
     /* ======================================================
        RÜCKMELDUNG
@@ -1060,7 +1191,11 @@
     }
 
     .rsvp-box {
-      width: min(650px,100%);
+      width:
+        min(
+          650px,
+          100%
+        );
 
       margin: auto;
 
@@ -1070,9 +1205,11 @@
     .rsvp-description {
       max-width: 520px;
 
-      margin: -25px auto 45px;
+      margin:
+        -25px auto 45px;
 
       font-size: 12px;
+
       line-height: 1.9;
 
       color: #675d55;
@@ -1103,7 +1240,8 @@
     textarea {
       width: 100%;
 
-      padding: 14px 4px;
+      padding:
+        14px 4px;
 
       border: none;
 
@@ -1120,7 +1258,8 @@
 
       font-size: 13px;
 
-      color: var(--text);
+      color:
+        var(--text);
     }
 
     input:focus,
@@ -1132,6 +1271,7 @@
 
     textarea {
       min-height: 110px;
+
       resize: vertical;
     }
 
@@ -1145,13 +1285,17 @@
       border:
         1px solid var(--text);
 
-      background: var(--text);
+      background:
+        var(--text);
+
       color: white;
 
       cursor: pointer;
 
       font-size: 8px;
+
       letter-spacing: 4px;
+
       text-transform: uppercase;
 
       transition:
@@ -1161,11 +1305,13 @@
 
     .submit-button:hover {
       background: transparent;
+
       color: var(--text);
     }
 
     .submit-button:disabled {
       opacity: .55;
+
       cursor: wait;
     }
 
@@ -1192,28 +1338,34 @@
 
       font-size: 30px;
 
-      color: var(--muted);
+      color:
+        var(--muted);
     }
 
     .form-status-text {
       margin-top: 7px;
 
       font-size: 10px;
+
       line-height: 1.8;
 
       color: #685c52;
     }
+
 
     /* ======================================================
        FOOTER
     ====================================================== */
 
     footer {
-      padding: 80px 20px;
+      padding:
+        80px 20px;
 
       text-align: center;
 
-      background: #191512;
+      background:
+        #191512;
+
       color: white;
     }
 
@@ -1229,11 +1381,14 @@
 
     footer p {
       font-size: 8px;
+
       letter-spacing: 4px;
+
       text-transform: uppercase;
 
       color: #b7a38f;
     }
+
 
     /* ======================================================
        MOBILE
@@ -1246,7 +1401,8 @@
       }
 
       .language-card {
-        padding: 42px 20px;
+        padding:
+          42px 20px;
       }
 
       .language-card h1 {
@@ -1267,9 +1423,11 @@
       .language-button {
         min-height: 54px;
 
-        padding: 0 8px;
+        padding:
+          0 8px;
 
         font-size: 7px;
+
         letter-spacing: 2px;
       }
 
@@ -1294,6 +1452,7 @@
 
       .cover-kicker {
         font-size: 6px;
+
         letter-spacing: 4px;
       }
 
@@ -1320,6 +1479,7 @@
         height: 180px;
 
         top: 60px;
+
         right: -35px;
       }
 
@@ -1337,6 +1497,7 @@
 
       .website-eyebrow {
         font-size: 7px;
+
         letter-spacing: 4px;
       }
 
@@ -1344,16 +1505,30 @@
         font-size: 20px;
       }
 
+      .family-section {
+        padding:
+          60px 20px 80px;
+      }
+
+      .family-names {
+        font-size: 46px;
+      }
+
       .countdown-section,
       .content-section {
-        padding: 90px 20px;
+        padding:
+          90px 20px;
       }
 
       .countdown {
         grid-template-columns:
-          repeat(2,1fr);
+          repeat(
+            2,
+            1fr
+          );
 
-        gap: 35px 0;
+        gap:
+          35px 0;
       }
 
       .count-item:nth-child(2) {
@@ -1395,7 +1570,8 @@
       .maps-button {
         width: 100%;
 
-        padding: 17px 15px;
+        padding:
+          17px 15px;
 
         font-size: 7px;
       }
@@ -1411,7 +1587,7 @@
 
 
   <!-- ======================================================
-       SPRACHE
+       SPRACHAUSWAHL
   ====================================================== -->
 
   <div
@@ -1436,9 +1612,13 @@
       </h1>
 
       <p>
+
         Bitte wählt eure Sprache.
+
         <br>
+
         Lütfen dilinizi seçin.
+
       </p>
 
       <div class="language-buttons">
@@ -1501,7 +1681,9 @@
 
             Münevver
 
-            <span>&</span>
+            <span>
+              &
+            </span>
 
             Kubilay
 
@@ -1598,6 +1780,7 @@
 
             </div>
 
+
             <div
               class="cover-face cover-back"
             ></div>
@@ -1636,13 +1819,44 @@
 
 
   <!-- ======================================================
-       INHALT
+       WEBSITE
   ====================================================== -->
 
   <main class="site-content">
 
 
-    <!-- COUNTDOWN -->
+    <!-- ==================================================
+         FAMILIEN
+    =================================================== -->
+
+    <section class="family-section">
+
+      <div class="family-small">
+        ♡
+      </div>
+
+      <div class="family-line"></div>
+
+      <div class="family-names">
+
+        Akbulut
+
+        <span class="ampersand">
+          &
+        </span>
+
+        Çiçek Ailesi
+
+      </div>
+
+      <div class="family-decoration"></div>
+
+    </section>
+
+
+    <!-- ==================================================
+         COUNTDOWN
+    =================================================== -->
 
     <section class="countdown-section">
 
@@ -1746,7 +1960,9 @@
     </section>
 
 
-    <!-- DETAILS -->
+    <!-- ==================================================
+         DETAILS
+    =================================================== -->
 
     <section class="content-section">
 
@@ -1772,11 +1988,15 @@
 
           <div class="detail">
 
-            <h3 data-i18n="dateTitle">
+            <h3
+              data-i18n="dateTitle"
+            >
               Datum
             </h3>
 
-            <p data-i18n="dateText">
+            <p
+              data-i18n="dateText"
+            >
               Samstag
               <br>
               14. November 2026
@@ -1787,7 +2007,9 @@
 
           <div class="detail">
 
-            <h3 data-i18n="placeTitle">
+            <h3
+              data-i18n="placeTitle"
+            >
               Ort
             </h3>
 
@@ -1800,11 +2022,15 @@
 
           <div class="detail">
 
-            <h3 data-i18n="startTitle">
+            <h3
+              data-i18n="startTitle"
+            >
               Beginn
             </h3>
 
-            <p data-i18n="startText">
+            <p
+              data-i18n="startText"
+            >
               17:00 Uhr
               <br>
               Einlass
@@ -1820,7 +2046,9 @@
     </section>
 
 
-    <!-- PROGRAMM -->
+    <!-- ==================================================
+         PROGRAMM
+    =================================================== -->
 
     <section
       class="content-section program"
@@ -1846,8 +2074,6 @@
         <div class="timeline">
 
 
-          <!-- 17:00 -->
-
           <div class="timeline-item">
 
             <div class="timeline-time">
@@ -1856,11 +2082,15 @@
 
             <div>
 
-              <h3 data-i18n="entryTitle">
+              <h3
+                data-i18n="entryTitle"
+              >
                 Einlass
               </h3>
 
-              <p data-i18n="entryText">
+              <p
+                data-i18n="entryText"
+              >
                 Ab 17:00 Uhr ist der Einlass geöffnet.
               </p>
 
@@ -1868,8 +2098,6 @@
 
           </div>
 
-
-          <!-- 18:00 -->
 
           <div class="timeline-item">
 
@@ -1879,11 +2107,15 @@
 
             <div>
 
-              <h3 data-i18n="engagementTitle">
+              <h3
+                data-i18n="engagementTitle"
+              >
                 Verlobung
               </h3>
 
-              <p data-i18n="engagementText">
+              <p
+                data-i18n="engagementText"
+              >
                 Gemeinsam feiern wir
                 diesen besonderen Moment.
               </p>
@@ -1893,8 +2125,6 @@
           </div>
 
 
-          <!-- 19:00 -->
-
           <div class="timeline-item">
 
             <div class="timeline-time">
@@ -1903,11 +2133,15 @@
 
             <div>
 
-              <h3 data-i18n="dinnerTitle">
+              <h3
+                data-i18n="dinnerTitle"
+              >
                 Dinner
               </h3>
 
-              <p data-i18n="dinnerText">
+              <p
+                data-i18n="dinnerText"
+              >
                 Zeit zum Essen,
                 Genießen und Zusammensein.
               </p>
@@ -1917,8 +2151,6 @@
           </div>
 
 
-          <!-- 20:00 -->
-
           <div class="timeline-item">
 
             <div class="timeline-time">
@@ -1927,11 +2159,15 @@
 
             <div>
 
-              <h3 data-i18n="partyTitle">
+              <h3
+                data-i18n="partyTitle"
+              >
                 Gemeinsam feiern
               </h3>
 
-              <p data-i18n="partyText">
+              <p
+                data-i18n="partyText"
+              >
                 Musik, Tanz und Erinnerungen,
                 die bleiben.
               </p>
@@ -1947,7 +2183,9 @@
     </section>
 
 
-    <!-- LOCATION -->
+    <!-- ==================================================
+         LOCATION
+    =================================================== -->
 
     <section
       class="content-section location"
@@ -2008,16 +2246,15 @@
     </section>
 
 
-    <!-- ======================================================
+    <!-- ==================================================
          RÜCKMELDUNG
-    ====================================================== -->
+    =================================================== -->
 
     <section
       class="content-section rsvp"
     >
 
       <div class="rsvp-box">
-
 
         <div
           class="section-eyebrow"
@@ -2026,14 +2263,12 @@
           Seid ihr dabei?
         </div>
 
-
         <h2
           class="section-title"
           data-i18n="responseTitle"
         >
           Rückmeldung
         </h2>
-
 
         <p
           class="rsvp-description"
@@ -2045,18 +2280,11 @@
         </p>
 
 
-        <!-- ==================================================
-             FORMULAR WIRD AN DEINE EMAIL GESCHICKT
-        =================================================== -->
-
         <form
           id="rsvpForm"
           action="https://formsubmit.co/cicek.kubilay@icloud.com"
           method="POST"
         >
-
-
-          <!-- FORM SUBMIT EINSTELLUNGEN -->
 
           <input
             type="hidden"
@@ -2090,8 +2318,6 @@
           >
 
 
-          <!-- NAME -->
-
           <div class="form-group">
 
             <label
@@ -2105,15 +2331,13 @@
               id="name"
               name="Name"
               type="text"
-              placeholder="Dein Name"
+              placeholder="Euer Name"
               data-placeholder-i18n="namePlaceholder"
               required
             >
 
           </div>
 
-
-          <!-- TEILNAHME -->
 
           <div class="form-group">
 
@@ -2156,8 +2380,6 @@
           </div>
 
 
-          <!-- PERSONEN -->
-
           <div class="form-group">
 
             <label
@@ -2170,38 +2392,69 @@
             <select
               id="guests"
               name="Personenanzahl"
+              required
             >
 
-              <option value="1" data-i18n="guest1">
+              <option
+                value="1"
+                data-i18n="guest1"
+              >
                 1 Person
               </option>
 
-              <option value="2" data-i18n="guest2">
+              <option
+                value="2"
+                data-i18n="guest2"
+              >
                 2 Personen
               </option>
 
-              <option value="3" data-i18n="guest3">
+              <option
+                value="3"
+                data-i18n="guest3"
+              >
                 3 Personen
               </option>
 
-              <option value="4" data-i18n="guest4">
+              <option
+                value="4"
+                data-i18n="guest4"
+              >
                 4 Personen
               </option>
 
-              <option value="5" data-i18n="guest5">
+              <option
+                value="5"
+                data-i18n="guest5"
+              >
                 5 Personen
               </option>
 
-              <option value="6" data-i18n="guest6">
+              <option
+                value="6"
+                data-i18n="guest6"
+              >
                 6 Personen
+              </option>
+
+              <option
+                value="7"
+                data-i18n="guest7"
+              >
+                7 Personen
+              </option>
+
+              <option
+                value="8"
+                data-i18n="guest8"
+              >
+                8 Personen
               </option>
 
             </select>
 
           </div>
 
-
-          <!-- NACHRICHT -->
 
           <div class="form-group">
 
@@ -2222,8 +2475,6 @@
           </div>
 
 
-          <!-- ABSENDEN -->
-
           <button
             class="submit-button"
             id="submitButton"
@@ -2235,8 +2486,6 @@
 
         </form>
 
-
-        <!-- ERFOLG -->
 
         <div
           class="form-status"
@@ -2260,8 +2509,6 @@
         </div>
 
 
-        <!-- FEHLER -->
-
         <div
           class="form-status"
           id="errorMessage"
@@ -2283,7 +2530,6 @@
 
         </div>
 
-
       </div>
 
     </section>
@@ -2291,7 +2537,9 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- ======================================================
+       FOOTER
+  ====================================================== -->
 
   <footer>
 
@@ -2309,7 +2557,7 @@
   <script>
 
     /* ======================================================
-       IMMER OBEN STARTEN
+       STARTPOSITION
     ====================================================== */
 
     if ("scrollRestoration" in history) {
@@ -2480,23 +2728,14 @@
         guestsLabel:
           "Anzahl der Personen",
 
-        guest1:
-          "1 Person",
-
-        guest2:
-          "2 Personen",
-
-        guest3:
-          "3 Personen",
-
-        guest4:
-          "4 Personen",
-
-        guest5:
-          "5 Personen",
-
-        guest6:
-          "6 Personen",
+        guest1: "1 Person",
+        guest2: "2 Personen",
+        guest3: "3 Personen",
+        guest4: "4 Personen",
+        guest5: "5 Personen",
+        guest6: "6 Personen",
+        guest7: "7 Personen",
+        guest8: "8 Personen",
 
         messageLabel:
           "Hinterlasst eine Nachricht an Münevver & Kubilay",
@@ -2583,13 +2822,11 @@
           "Mekan",
 
         startTitle:
-          "Başlangıç",
+          "Başlangıç Saati",
 
         startText:
           `
             17:00
-            <br>
-            Giriş
           `,
 
         programEyebrow:
@@ -2599,10 +2836,10 @@
           "Program",
 
         entryTitle:
-          "Giriş",
+          "Başlangıç Saati",
 
         entryText:
-          "Misafir girişimiz saat 17:00'de başlayacaktır.",
+          "Başlangıç saatimiz 17:00'dir.",
 
         engagementTitle:
           "Nişan",
@@ -2674,23 +2911,14 @@
         guestsLabel:
           "Kişi sayısı",
 
-        guest1:
-          "1 Kişi",
-
-        guest2:
-          "2 Kişi",
-
-        guest3:
-          "3 Kişi",
-
-        guest4:
-          "4 Kişi",
-
-        guest5:
-          "5 Kişi",
-
-        guest6:
-          "6 Kişi",
+        guest1: "1 Kişi",
+        guest2: "2 Kişi",
+        guest3: "3 Kişi",
+        guest4: "4 Kişi",
+        guest5: "5 Kişi",
+        guest6: "6 Kişi",
+        guest7: "7 Kişi",
+        guest8: "8 Kişi",
 
         messageLabel:
           "Münevver & Kubilay'a bir mesaj bırakın",
@@ -2719,7 +2947,7 @@
 
 
     /* ======================================================
-       SPRACHE ANWENDEN
+       SPRACHE
     ====================================================== */
 
     const languageGate =
@@ -2734,8 +2962,7 @@
       currentLanguage = language;
 
       const dictionary =
-        translations[language]
-        ||
+        translations[language] ||
         translations.de;
 
 
@@ -2745,8 +2972,8 @@
 
       languageField.value =
         language === "tr"
-        ? "Türkçe"
-        : "Deutsch";
+          ? "Türkçe"
+          : "Deutsch";
 
 
       document
@@ -2758,8 +2985,7 @@
 
           if (
             dictionary[key]
-            !==
-            undefined
+            !== undefined
           ) {
 
             element.innerHTML =
@@ -2779,8 +3005,7 @@
 
           if (
             dictionary[key]
-            !==
-            undefined
+            !== undefined
           ) {
 
             element.placeholder =
@@ -2826,7 +3051,7 @@
 
 
     /* ======================================================
-       SCROLL-ANIMATION
+       SCROLL ANIMATION
     ====================================================== */
 
     function clamp(
@@ -2837,10 +3062,7 @@
 
       return Math.min(
         max,
-        Math.max(
-          min,
-          value
-        )
+        Math.max(min,value)
       );
 
     }
@@ -2867,13 +3089,7 @@
         *
         value
         *
-        (
-          3
-          -
-          2
-          *
-          value
-        );
+        (3 - 2 * value);
 
     }
 
@@ -2907,7 +3123,7 @@
 
       const rect =
         invitationScroll
-        .getBoundingClientRect();
+          .getBoundingClientRect();
 
 
       const scrollDistance =
@@ -2926,8 +3142,6 @@
         clamp(progress);
 
 
-      /* KARTE AUFRICHTEN */
-
       const approach =
         smooth(
           mapProgress(
@@ -2939,35 +3153,23 @@
 
 
       const rotateX =
-        63
-        -
-        approach
-        *
-        63;
+        63 -
+        approach * 63;
 
 
       const rotateZ =
-        -8
-        +
-        approach
-        *
-        8;
+        -8 +
+        approach * 8;
 
 
       const scale =
-        .72
-        +
-        approach
-        *
-        .30;
+        .72 +
+        approach * .30;
 
 
       const moveY =
-        40
-        -
-        approach
-        *
-        40;
+        40 -
+        approach * 40;
 
 
       physicalCard.style.transform =
@@ -2978,8 +3180,6 @@
           scale(${scale})
         `;
 
-
-      /* HINWEIS */
 
       const instructionProgress =
         smooth(
@@ -2992,12 +3192,9 @@
 
 
       scrollInstruction.style.opacity =
-        1
-        -
+        1 -
         instructionProgress;
 
-
-      /* KARTE ÖFFNEN */
 
       const opening =
         smooth(
@@ -3017,9 +3214,9 @@
         `;
 
 
-      /* LEICHT NÄHER */
-
-      if (progress > .28) {
+      if (
+        progress > .28
+      ) {
 
         const settle =
           smooth(
@@ -3042,8 +3239,6 @@
       }
 
 
-      /* WEBSITE ÜBERNIMMT */
-
       const transition =
         smooth(
           mapProgress(
@@ -3055,8 +3250,7 @@
 
 
       tableScene.style.opacity =
-        1
-        -
+        1 -
         transition;
 
 
@@ -3081,8 +3275,7 @@
 
 
       cardShadow.style.opacity =
-        .52
-        *
+        .52 *
         (1 - transition);
 
 
@@ -3108,13 +3301,13 @@
         `;
 
 
-      if (progress >= .94) {
+      if (
+        progress >= .94
+      ) {
 
-        tableScene.style.opacity =
-          0;
+        tableScene.style.opacity = 0;
 
-        websiteEntry.style.opacity =
-          1;
+        websiteEntry.style.opacity = 1;
 
         websiteEntry.style.transform =
           "scale(1)";
@@ -3150,14 +3343,12 @@
 
     /* ======================================================
        COUNTDOWN
-       BEGINN = 17:00 UHR
     ====================================================== */
 
     const engagementDate =
       new Date(
         "2026-11-14T17:00:00"
-      )
-      .getTime();
+      ).getTime();
 
 
     function updateCountdown() {
@@ -3167,12 +3358,13 @@
 
 
       const distance =
-        engagementDate
-        -
+        engagementDate -
         now;
 
 
-      if (distance <= 0) {
+      if (
+        distance <= 0
+      ) {
 
         document.getElementById("days").textContent =
           "00";
@@ -3258,11 +3450,14 @@
       document.getElementById("days").textContent =
         String(days).padStart(2,"0");
 
+
       document.getElementById("hours").textContent =
         String(hours).padStart(2,"0");
 
+
       document.getElementById("minutes").textContent =
         String(minutes).padStart(2,"0");
+
 
       document.getElementById("seconds").textContent =
         String(seconds).padStart(2,"0");
@@ -3272,6 +3467,7 @@
 
     updateCountdown();
 
+
     setInterval(
       updateCountdown,
       1000
@@ -3279,17 +3475,20 @@
 
 
     /* ======================================================
-       RÜCKMELDUNG PER EMAIL
+       RÜCKMELDUNG PER MAIL
     ====================================================== */
 
     const rsvpForm =
       document.getElementById("rsvpForm");
 
+
     const submitButton =
       document.getElementById("submitButton");
 
+
     const successMessage =
       document.getElementById("successMessage");
+
 
     const errorMessage =
       document.getElementById("errorMessage");
@@ -3305,6 +3504,7 @@
         successMessage.style.display =
           "none";
 
+
         errorMessage.style.display =
           "none";
 
@@ -3315,18 +3515,20 @@
 
         const normalText =
           currentLanguage === "tr"
-          ? "Katılım bildirimini gönder"
-          : "Rückmeldung senden";
+            ? "Katılım bildirimini gönder"
+            : "Rückmeldung senden";
 
 
         submitButton.textContent =
           currentLanguage === "tr"
-          ? "Gönderiliyor ..."
-          : "Wird gesendet ...";
+            ? "Gönderiliyor ..."
+            : "Wird gesendet ...";
 
 
         const formData =
-          new FormData(rsvpForm);
+          new FormData(
+            rsvpForm
+          );
 
 
         try {
@@ -3335,6 +3537,7 @@
             await fetch(
               "https://formsubmit.co/ajax/cicek.kubilay@icloud.com",
               {
+
                 method: "POST",
 
                 headers: {
@@ -3344,14 +3547,19 @@
 
                 body:
                   formData
+
               }
             );
 
 
-          if (!response.ok) {
+          if (
+            !response.ok
+          ) {
+
             throw new Error(
               "Formular konnte nicht gesendet werden."
             );
+
           }
 
 
@@ -3364,8 +3572,8 @@
 
           languageField.value =
             currentLanguage === "tr"
-            ? "Türkçe"
-            : "Deutsch";
+              ? "Türkçe"
+              : "Deutsch";
 
 
           applyLanguage(
@@ -3374,22 +3582,31 @@
 
 
           successMessage.scrollIntoView({
+
             behavior: "smooth",
+
             block: "center"
+
           });
 
 
-        } catch (error) {
+        }
+
+        catch(error) {
 
           console.error(error);
+
 
           errorMessage.style.display =
             "block";
 
-        } finally {
+        }
+
+        finally {
 
           submitButton.disabled =
             false;
+
 
           submitButton.textContent =
             normalText;
