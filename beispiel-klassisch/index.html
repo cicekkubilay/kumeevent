@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Klassisch – KUMÉ EVENT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --green: #314438;
+      --green-dark: #223128;
+      --cream: #f2eadc;
+      --cream-2: #e7dcc8;
+      --rust: #9b5f47;
+      --gold: #b38b54;
+      --text: #2b2621;
+      --soft: #6d6259;
+      --white: #fffdf9;
+      --line: rgba(43, 38, 33, 0.18);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Libre Baskerville", serif;
+      font-weight: 400;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 95px 0;
+    }
+
+    /* =========================
+       BACK BUTTON
+    ========================== */
+
+    .back-link {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 1000;
+
+      padding: 10px 14px;
+
+      background: var(--cream);
+      border: 1px solid var(--green);
+
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       NAV
+    ========================== */
+
+    .nav {
+      background: var(--green);
+      color: white;
+
+      padding: 18px 0;
+
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav a {
+      opacity: .82;
+    }
+
+    .nav a:hover {
+      opacity: 1;
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero {
+      min-height: 88vh;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      background: var(--cream);
+    }
+
+    .hero-left {
+      background: var(--green);
+
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 70px;
+    }
+
+    .hero-left-inner {
+      max-width: 520px;
+    }
+
+    .hero-small {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #d6c3a7;
+
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(58px, 8vw, 105px);
+      line-height: .95;
+    }
+
+    .hero h1 span {
+      display: block;
+
+      margin: 12px 0;
+
+      color: var(--gold);
+
+      font-size: .48em;
+    }
+
+    .hero-date {
+      margin-top: 30px;
+
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .hero-place {
+      margin-top: 10px;
+
+      font-family: "Libre Baskerville", serif;
+      font-size: 23px;
+
+      color: #d6c3a7;
+    }
+
+    .hero-right {
+      padding: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--cream),
+          var(--cream-2)
+        );
+    }
+
+    .hero-message {
+      max-width: 470px;
+    }
+
+    .hero-message h2 {
+      font-size: 38px;
+      line-height: 1.3;
+
+      color: var(--rust);
+    }
+
+    .hero-message p {
+      margin-top: 25px;
+
+      font-size: 13px;
+      line-height: 2;
+
+      color: var(--soft);
+    }
+
+    .hero-seal {
+      width: 86px;
+      height: 86px;
+
+      margin-top: 35px;
+
+      border-radius: 50%;
+      border: 2px solid var(--rust);
+
+      display: grid;
+      place-items: center;
+
+      font-family: "Libre Baskerville", serif;
+      font-size: 24px;
+
+      color: var(--rust);
+    }
+
+    /* =========================
+       FACT BAR
+    ========================== */
+
+    .fact-bar {
+      background: var(--rust);
+      color: white;
+    }
+
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .fact {
+      padding: 34px 20px;
+      text-align: center;
+
+      border-right: 1px solid rgba(255,255,255,.2);
+    }
+
+    .fact:last-child {
+      border-right: none;
+    }
+
+    .fact strong {
+      display: block;
+
+      font-family: "Libre Baskerville", serif;
+      font-size: 26px;
+
+      margin-bottom: 8px;
+    }
+
+    .fact span {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       INTRO
+    ========================== */
+
+    .intro {
+      background: var(--cream);
+      text-align: center;
+    }
+
+    .intro h2 {
+      font-size: clamp(42px, 6vw, 68px);
+    }
+
+    .intro p {
+      max-width: 720px;
+
+      margin: 28px auto 0;
+
+      font-family: "Libre Baskerville", serif;
+      font-size: 18px;
+      line-height: 1.9;
+
+      color: var(--soft);
+    }
+
+    /* =========================
+       PROGRAMM
+    ========================== */
+
+    .program {
+      background: var(--green);
+      color: white;
+    }
+
+    .program h2 {
+      font-size: clamp(42px, 6vw, 68px);
+      text-align: center;
+    }
+
+    .program-list {
+      margin-top: 55px;
+
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 20px;
+    }
+
+    .program-item {
+      background: rgba(255,255,255,.04);
+
+      border: 1px solid rgba(255,255,255,.16);
+
+      padding: 30px;
+    }
+
+    .program-time {
+      font-family: "Libre Baskerville", serif;
+      font-size: 28px;
+
+      color: var(--gold);
+    }
+
+    .program-item h3 {
+      margin-top: 14px;
+
+      font-size: 22px;
+    }
+
+    .program-item p {
+      margin-top: 10px;
+
+      font-size: 11px;
+      line-height: 1.8;
+
+      color: rgba(255,255,255,.68);
+    }
+
+    /* =========================
+       LOCATION
+    ========================== */
+
+    .location {
+      background: var(--cream-2);
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+
+      gap: 50px;
+
+      align-items: center;
+    }
+
+    .location h2 {
+      font-size: clamp(45px, 6vw, 70px);
+    }
+
+    .location-name {
+      margin-top: 24px;
+
+      font-family: "Libre Baskerville", serif;
+      font-size: 26px;
+
+      color: var(--rust);
+    }
+
+    .location-address {
+      margin-top: 12px;
+
+      font-size: 12px;
+      line-height: 1.9;
+
+      color: var(--soft);
+    }
+
+    .map-box {
+      height: 380px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #c7b29d,
+          #e7dcc8
+        );
+
+      border: 4px solid var(--green);
+
+      display: grid;
+      place-items: center;
+
+      color: var(--green-dark);
+
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       DRESSCODE
+    ========================== */
+
+    .dresscode {
+      background: var(--white);
+    }
+
+    .dresscode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 60px;
+      align-items: center;
+    }
+
+    .dresscode h2 {
+      font-size: clamp(42px, 6vw, 68px);
+    }
+
+    .dresscode p {
+      margin-top: 24px;
+
+      font-size: 13px;
+      line-height: 1.9;
+
+      color: var(--soft);
+    }
+
+    .color-palette {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .color-dot {
+      width: 82px;
+      height: 82px;
+
+      border-radius: 50%;
+
+      border: 4px solid var(--cream);
+      box-shadow: 0 0 0 1px var(--line);
+    }
+
+    .color-1 {
+      background: #314438;
+    }
+
+    .color-2 {
+      background: #9b5f47;
+    }
+
+    .color-3 {
+      background: #c3a57d;
+    }
+
+    .color-4 {
+      background: #efe3d0;
+    }
+
+    /* =========================
+       RSVP
+    ========================== */
+
+    .rsvp {
+      background: var(--rust);
+      color: white;
+    }
+
+    .rsvp-box {
+      width: min(680px, calc(100% - 40px));
+      margin: 0 auto;
+
+      text-align: center;
+    }
+
+    .rsvp h2 {
+      font-size: clamp(42px, 6vw, 68px);
+    }
+
+    .rsvp-description {
+      max-width: 520px;
+
+      margin: 25px auto 40px;
+
+      font-size: 12px;
+      line-height: 1.8;
+
+      color: rgba(255,255,255,.72);
+    }
+
+    form {
+      background: var(--cream);
+      color: var(--text);
+
+      padding: 35px;
+
+      text-align: left;
+
+      border: 4px solid var(--green);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+
+      color: var(--rust);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+
+      padding: 12px 4px;
+
+      border: none;
+      border-bottom: 1px solid #9f8f81;
+
+      background: transparent;
+
+      outline: none;
+
+      font-family: "Montserrat", sans-serif;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .submit-button {
+      width: 100%;
+
+      padding: 16px;
+
+      margin-top: 10px;
+
+      background: var(--green);
+      color: white;
+
+      border: none;
+
+      cursor: pointer;
+
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .success {
+      display: none;
+
+      margin-top: 30px;
+
+      font-family: "Libre Baskerville", serif;
+      font-size: 24px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer {
+      background: var(--green-dark);
+      color: white;
+
+      padding: 60px 20px;
+
+      text-align: center;
+    }
+
+    .footer-names {
+      font-family: "Libre Baskerville", serif;
+      font-size: 34px;
+    }
+
+    footer p {
+      margin-top: 12px;
+
+      color: #c7b49f;
+
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 800px) {
+
+      .nav-inner {
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left,
+      .hero-right {
+        min-height: 60vh;
+        padding: 60px 28px;
+      }
+
+      .fact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fact {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,.2);
+      }
+
+      .program-list {
+        grid-template-columns: 1fr;
+      }
+
+      .location-grid,
+      .dresscode-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .map-box {
+        height: 300px;
+      }
+
+      .section {
+        padding: 75px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="../" class="back-link">
+    ← KUMÉ EVENT
+  </a>
+
+  <!-- NAV -->
+
+  <nav class="nav">
+
+    <div class="container nav-inner">
+
+      <a href="#start">Start</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#location">Location</a>
+      <a href="#dresscode">Dresscode</a>
+      <a href="#rsvp">Rückmeldung</a>
+
+    </div>
+
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero" id="start">
+
+    <div class="hero-left">
+
+      <div class="hero-left-inner">
+
+        <div class="hero-small">
+          Einladung zu unserem Fest
+        </div>
+
+        <h1>
+          Name
+          <span>&</span>
+          Name
+        </h1>
+
+        <div class="hero-date">
+          00 · 00 · 2026
+        </div>
+
+        <div class="hero-place">
+          Ort
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="hero-right">
+
+      <div class="hero-message">
+
+        <h2>
+          Gemeinsam feiern.
+          Gemeinsam erinnern.
+        </h2>
+
+        <p>
+          Wir laden euch herzlich ein,
+          diesen besonderen Tag gemeinsam
+          mit uns zu verbringen.
+        </p>
+
+        <div class="hero-seal">
+          N & N
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FACT BAR -->
+
+  <section class="fact-bar">
+
+    <div class="fact-grid">
+
+      <div class="fact">
+        <strong>00.00.2026</strong>
+        <span>Datum</span>
+      </div>
+
+      <div class="fact">
+        <strong>17:30 Uhr</strong>
+        <span>Beginn</span>
+      </div>
+
+      <div class="fact">
+        <strong>Ort</strong>
+        <span>Location</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- INTRO -->
+
+  <section class="section intro">
+
+    <div class="container">
+
+      <h2>
+        Schön, dass ihr dabei seid.
+      </h2>
+
+      <p>
+        Dieser Tag bedeutet uns viel.
+        Umso schöner ist es,
+        ihn mit unseren Familien und Freunden
+        gemeinsam zu feiern.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- PROGRAM -->
+
+  <section class="section program" id="ablauf">
+
+    <div class="container">
+
+      <h2>
+        Ablauf des Tages
+      </h2>
+
+      <div class="program-list">
+
+        <div class="program-item">
+
+          <div class="program-time">
+            17:30
+          </div>
+
+          <h3>Empfang</h3>
+
+          <p>
+            Ankommen, begrüßen und gemeinsam
+            auf den Abend einstimmen.
+          </p>
+
+        </div>
+
+        <div class="program-item">
+
+          <div class="program-time">
+            18:00
+          </div>
+
+          <h3>Zeremonie</h3>
+
+          <p>
+            Der besondere Moment des Tages.
+          </p>
+
+        </div>
+
+        <div class="program-item">
+
+          <div class="program-time">
+            19:00
+          </div>
+
+          <h3>Dinner</h3>
+
+          <p>
+            Gemeinsames Essen und Zeit
+            mit Familie und Freunden.
+          </p>
+
+        </div>
+
+        <div class="program-item">
+
+          <div class="program-time">
+            21:00
+          </div>
+
+          <h3>Feier</h3>
+
+          <p>
+            Musik, Tanz und ein schöner Abend.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- LOCATION -->
+
+  <section class="section location" id="location">
+
+    <div class="container location-grid">
+
+      <div>
+
+        <h2>
+          Unsere Location
+        </h2>
+
+        <div class="location-name">
+          Eventlocation
+        </div>
+
+        <div class="location-address">
+          Straße 123
+          <br>
+          12345 Ort
+        </div>
+
+      </div>
+
+      <div class="map-box">
+        Google Maps Vorschau
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- DRESSCODE -->
+
+  <section class="section dresscode" id="dresscode">
+
+    <div class="container dresscode-grid">
+
+      <div>
+
+        <h2>
+          Dresscode
+        </h2>
+
+        <p>
+          Wir wünschen uns einen festlichen,
+          aber natürlichen Look.
+          Warme und gedeckte Farben passen
+          besonders schön zum Stil des Tages.
+        </p>
+
+      </div>
+
+      <div class="color-palette">
+
+        <div class="color-dot color-1"></div>
+        <div class="color-dot color-2"></div>
+        <div class="color-dot color-3"></div>
+        <div class="color-dot color-4"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- RSVP -->
+
+  <section class="section rsvp" id="rsvp">
+
+    <div class="rsvp-box">
+
+      <h2>
+        Seid ihr dabei?
+      </h2>
+
+      <p class="rsvp-description">
+        Bitte gebt uns kurz Bescheid,
+        ob ihr diesen Tag gemeinsam
+        mit uns feiern könnt.
+      </p>
+
+      <form id="demoForm">
+
+        <div class="form-group">
+
+          <label for="name">
+            Vor- & Nachname
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Name"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="attendance">
+            Teilnahme
+          </label>
+
+          <select id="attendance" required>
+
+            <option value="">
+              Bitte auswählen
+            </option>
+
+            <option value="yes">
+              Ja, wir sind dabei
+            </option>
+
+            <option value="no">
+              Leider nicht
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="guests">
+            Anzahl der Personen
+          </label>
+
+          <select id="guests">
+
+            <option>1 Person</option>
+            <option>2 Personen</option>
+            <option>3 Personen</option>
+            <option>4 Personen</option>
+            <option>5 Personen</option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="message">
+            Nachricht
+          </label>
+
+          <textarea
+            id="message"
+            placeholder="Nachricht oder Hinweis ..."
+          ></textarea>
+
+        </div>
+
+        <button
+          type="submit"
+          class="submit-button"
+        >
+          Antwort senden
+        </button>
+
+      </form>
+
+      <div class="success" id="success">
+        Vielen Dank für eure Rückmeldung.
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+
+    <div class="footer-names">
+      Name & Name
+    </div>
+
+    <p>
+      Beispiel-Design · Klassisch · KUMÉ EVENT
+    </p>
+
+  </footer>
+
+  <script>
+    document
+      .getElementById("demoForm")
+      .addEventListener(
+        "submit",
+        function(event) {
+
+          event.preventDefault();
+
+          this.style.display = "none";
+
+          document
+            .getElementById("success")
+            .style.display = "block";
+        }
+      );
+  </script>
+
+</body>
+</html>
