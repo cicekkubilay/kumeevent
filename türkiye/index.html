@@ -35,8 +35,8 @@
     .service-feature h3{font-size:clamp(54px,7vw,86px);line-height:.9}.service-feature h3 span{display:block;margin-top:16px;color:var(--beige);font-size:.42em;font-style:italic}.feature-list{border-top:1px solid var(--line)}
     .feature-row{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);font-size:9px;letter-spacing:2px;text-transform:uppercase}.feature-row span:last-child{color:var(--beige)}
     .pricing{background:var(--black);color:white}.pricing .eyebrow{color:#c2aa95}.pricing .section-copy{color:rgba(255,255,255,.65)}
-    .price-grid{margin-top:65px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18)}
-    .price-card{padding:48px 34px;border-right:1px solid rgba(255,255,255,.18)}.price-card:last-child{border-right:none}.price-name{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#c2aa95}
+    .price-grid{margin-top:65px;border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18)}
+    .price-card{padding:55px 0;max-width:760px}.price-name{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#c2aa95}
     .price{margin-top:25px;font-family:"Cormorant Garamond",serif;font-size:54px;line-height:1}.price small{display:block;margin-top:8px;font-family:"Montserrat",sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.55)}
     .price-card p{margin-top:28px;color:rgba(255,255,255,.68);font-size:11px;line-height:1.9}.price-list{margin-top:30px;border-top:1px solid rgba(255,255,255,.14)}.price-list div{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:9px;letter-spacing:1px;text-transform:uppercase}
     .price-note{margin-top:30px;color:rgba(255,255,255,.55);font-size:10px;line-height:1.8}
@@ -107,30 +107,18 @@
 
   <section class="section pricing" id="fiyatlar">
     <div class="container">
-      <div class="eyebrow">BAŞLANGIÇ FİYATLARI</div>
-      <h2 class="section-title">Size uygun<br>bir paket seçin.</h2>
-      <p class="section-copy">Her davetiye kişiye özel hazırlandığı için nihai fiyat, tasarım ve istediğiniz özelliklere göre değişebilir.</p>
+      <div class="eyebrow">BAŞLANGIÇ FİYATI</div>
+      <h2 class="section-title">Her davetiye<br>size özel.</h2>
+      <p class="section-copy">Tasarım, içerik ve detaylar tamamen isteklerinize göre hazırlanır.</p>
       <div class="price-grid">
         <article class="price-card">
-          <div class="price-name">Başlangıç</div>
+          <div class="price-name">KİŞİYE ÖZEL DİJİTAL DAVETİYE</div>
           <div class="price">12.000 ₺<small>'den başlayan fiyatlarla</small></div>
-          <p>Sade, şık ve mobil uyumlu dijital davetiye.</p>
-          <div class="price-list"><div>Kişiye özel tasarım</div><div>Etkinlik bilgileri</div><div>Google Maps</div><div>Mobil uyumlu</div></div>
-        </article>
-        <article class="price-card">
-          <div class="price-name">Plus</div>
-          <div class="price">16.500 ₺<small>'den başlayan fiyatlarla</small></div>
-          <p>Daha fazla fonksiyon ve kişiselleştirme isteyenler için.</p>
-          <div class="price-list"><div>Başlangıç paketindeki her şey</div><div>Katılım formu</div><div>Geri sayım</div><div>Program / akış</div></div>
-        </article>
-        <article class="price-card">
-          <div class="price-name">Özel</div>
-          <div class="price">22.500 ₺<small>'den başlayan fiyatlarla</small></div>
-          <p>Özel animasyonlar ve tamamen size göre hazırlanan premium deneyim.</p>
-          <div class="price-list"><div>Plus paketindeki her şey</div><div>Özel giriş animasyonu</div><div>Çift dil seçeneği</div><div>Özel fonksiyonlar</div></div>
+          <p>Her proje kişiye özel hazırlanır. İstediğiniz tasarım, renkler, içerikler ve özellikler birlikte planlanır.</p>
+          <div style="margin-top:32px"><a href="#iletisim" class="button" style="border-color:rgba(255,255,255,.75);color:white">TEKLİF AL →</a></div>
         </article>
       </div>
-      <p class="price-note">* Fiyatlar başlangıç fiyatlarıdır. Projenin kapsamına göre değişiklik gösterebilir.</p>
+      <p class="price-note">* 12.000 ₺ başlangıç fiyatıdır. Nihai fiyat projenin kapsamına ve istediğiniz özelliklere göre değişebilir.</p>
     </div>
   </section>
 
@@ -197,8 +185,7 @@
             <div class="form-group"><label for="email">E-posta *</label><input id="email" name="E-posta" type="email" placeholder="ornek@mail.com" required></div>
             <div class="form-group"><label for="telefon">Telefon</label><input id="telefon" name="Telefon" type="tel" placeholder="+90 ..."></div>
             <div class="form-group"><label for="tarih">Etkinlik tarihi *</label><input id="tarih" name="Etkinlik tarihi" type="date" required></div>
-            <div class="form-group"><label for="tur">Etkinlik türü</label><select id="tur" name="Etkinlik türü"><option value="">Lütfen seçin</option><option>Nişan</option><option>Düğün</option><option>Kına</option><option>Doğum günü</option><option>Diğer</option></select></div>
-            <div class="form-group"><label for="paket">İlgilendiğiniz paket</label><select id="paket" name="Paket"><option value="">Lütfen seçin</option><option>Başlangıç – 12.000 ₺'den</option><option>Plus – 16.500 ₺'den</option><option>Özel – 22.500 ₺'den</option><option>Henüz karar vermedim</option></select></div>
+            <div class="form-group full"><label for="tur">Etkinlik türü</label><select id="tur" name="Etkinlik türü"><option value="">Lütfen seçin</option><option>Nişan</option><option>Düğün</option><option>Kına</option><option>Doğum günü</option><option>Diğer</option></select></div>
             <div class="form-group full"><label for="mesaj">İstekleriniz & detaylar *</label><textarea id="mesaj" name="Mesaj" placeholder="Etkinliğinizi ve nasıl bir davetiye hayal ettiğinizi kısaca anlatın..." required></textarea></div>
           </div>
           <button class="submit" type="submit">Talep gönder</button>
