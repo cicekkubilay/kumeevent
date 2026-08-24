@@ -787,32 +787,67 @@
     }
 
     .family-names {
+      width: min(560px, 92%);
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      align-items: center;
+      gap: 34px;
+
       font-family:
         "Cormorant Garamond",
         serif;
 
-      font-size:
-        clamp(
-          44px,
-          7vw,
-          68px
-        );
-
-      line-height: .96;
+      color: var(--text);
     }
 
-    .family-names .ampersand {
-      display: block;
+    .family-name-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      margin:
-        12px 0;
+      font-size:
+        clamp(
+          23px,
+          3.2vw,
+          34px
+        );
 
-      color:
-        var(--muted);
+      line-height: 1.05;
+      letter-spacing: .03em;
+    }
 
-      font-size: .65em;
+    .family-name-item strong {
+      font-weight: 400;
+    }
 
-      font-style: italic;
+    .family-name-item span {
+      margin-top: 5px;
+
+      font-family:
+        "Montserrat",
+        sans-serif;
+
+      font-size:
+        clamp(
+          8px,
+          1vw,
+          10px
+        );
+
+      letter-spacing: .28em;
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    .family-divider {
+      width: 1px;
+      height: 58px;
+
+      background:
+        rgba(150,126,105,.42);
     }
 
     .family-decoration {
@@ -1510,7 +1545,22 @@
       }
 
       .family-names {
-        font-size: 46px;
+        width: min(330px, 94%);
+        gap: 18px;
+      }
+
+      .family-name-item {
+        font-size: 24px;
+      }
+
+      .family-name-item span {
+        margin-top: 4px;
+        font-size: 8px;
+        letter-spacing: .22em;
+      }
+
+      .family-divider {
+        height: 48px;
       }
 
       .countdown-section,
@@ -1768,9 +1818,17 @@
             <div class="family-line"></div>
 
             <div class="family-names">
-              AKBULUT AİLESİ
-              <span class="ampersand">&</span>
-              ÇİÇEK AİLESİ
+              <div class="family-name-item">
+                <strong>AKBULUT</strong>
+                <span>AİLESİ</span>
+              </div>
+
+              <div class="family-divider" aria-hidden="true"></div>
+
+              <div class="family-name-item">
+                <strong>ÇİÇEK</strong>
+                <span>AİLESİ</span>
+              </div>
             </div>
 
             <div class="family-decoration"></div>
