@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Şık – KUMÉ EVENT Türkiye</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #f6f0e9;
+      --bg-soft: #eee4da;
+      --paper: #fffaf5;
+      --text: #1b1714;
+      --muted: #9b836f;
+      --line: rgba(50, 40, 32, 0.14);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 400;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(980px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .section {
+      padding: 110px 24px;
+    }
+
+    .section-title {
+      font-size: clamp(52px, 8vw, 88px);
+      line-height: .95;
+      text-align: center;
+    }
+
+    .section-copy {
+      max-width: 620px;
+      margin: 30px auto 0;
+      text-align: center;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(21px, 3vw, 28px);
+      line-height: 1.6;
+      color: #665b53;
+    }
+
+    .divider {
+      width: 55px;
+      height: 1px;
+      background: var(--muted);
+      opacity: .5;
+      margin: 32px auto;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 70px 24px;
+      position: relative;
+
+      background:
+        radial-gradient(
+          circle at 50% 15%,
+          rgba(255,255,255,.9),
+          transparent 38%
+        ),
+        var(--bg);
+    }
+
+    .hero-inner {
+      max-width: 850px;
+      animation: fadeUp 1.2s ease forwards;
+    }
+
+    .hero-small {
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 34px;
+    }
+
+    .hero h1 {
+      font-size: clamp(72px, 12vw, 138px);
+      line-height: .78;
+    }
+
+    .hero h1 span {
+      display: block;
+      font-size: .50em;
+      margin: 12px 0;
+      color: var(--muted);
+    }
+
+    .hero-date {
+      margin-top: 38px;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+    }
+
+    .hero-place {
+      margin-top: 12px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 29px;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .hero-copy {
+      max-width: 600px;
+      margin: 38px auto 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 24px;
+      line-height: 1.55;
+      color: #665b53;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scroll-hint::after {
+      content: "";
+      display: block;
+      width: 1px;
+      height: 38px;
+      background: var(--muted);
+      margin: 12px auto 0;
+      opacity: .4;
+    }
+
+    /* COUNTDOWN */
+
+    .countdown-section {
+      background: #1a1613;
+      color: white;
+      text-align: center;
+      padding: 110px 24px;
+    }
+
+    .countdown-section .eyebrow {
+      color: #bca48e;
+    }
+
+    .countdown-section .section-title {
+      margin-bottom: 55px;
+    }
+
+    .countdown {
+      max-width: 780px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .count-item {
+      padding: 10px;
+      border-right: 1px solid rgba(255,255,255,.15);
+    }
+
+    .count-item:last-child {
+      border-right: none;
+    }
+
+    .count-number {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(48px, 7vw, 80px);
+    }
+
+    .count-label {
+      display: block;
+      margin-top: 8px;
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #bba895;
+    }
+
+    /* DETAILS */
+
+    .details-grid {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .detail {
+      padding: 48px 24px;
+      text-align: center;
+      border-right: 1px solid var(--line);
+    }
+
+    .detail:last-child {
+      border-right: none;
+    }
+
+    .detail-number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 50px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .detail h3 {
+      font-size: 29px;
+      margin-bottom: 10px;
+    }
+
+    .detail p {
+      font-size: 11px;
+      line-height: 1.9;
+      color: #655b53;
+    }
+
+    /* PROGRAM */
+
+    .program {
+      background: var(--bg-soft);
+    }
+
+    .timeline {
+      max-width: 700px;
+      margin: 55px auto 0;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 105px 1fr;
+      gap: 30px;
+      padding: 30px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .timeline-time {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 32px;
+      color: var(--muted);
+    }
+
+    .timeline-item h3 {
+      font-size: 27px;
+      margin-bottom: 7px;
+    }
+
+    .timeline-item p {
+      font-size: 11px;
+      line-height: 1.8;
+      color: #655b53;
+    }
+
+    /* LOCATION */
+
+    .location {
+      text-align: center;
+    }
+
+    .location-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 36px;
+      margin-top: 25px;
+    }
+
+    .location-address {
+      margin-top: 12px;
+      font-size: 12px;
+      line-height: 1.9;
+      color: #655b53;
+    }
+
+    .map-placeholder {
+      margin: 50px auto 0;
+      width: min(860px, 100%);
+      height: 390px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(
+          145deg,
+          #eee4da,
+          #d8c8b9
+        );
+      border: 1px solid var(--line);
+      color: rgba(30,25,20,.45);
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* RSVP */
+
+    .rsvp {
+      background: var(--paper);
+    }
+
+    .rsvp-box {
+      width: min(650px, 100%);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .rsvp-description {
+      max-width: 520px;
+      margin: -20px auto 45px;
+      font-size: 12px;
+      line-height: 1.9;
+      color: #675d55;
+    }
+
+    form {
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 4px;
+      border: none;
+      border-bottom: 1px solid #b9ada1;
+      background: transparent;
+      outline: none;
+      font-family: "Montserrat", sans-serif;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .submit-button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 18px;
+      border: 1px solid var(--text);
+      background: var(--text);
+      color: white;
+      cursor: pointer;
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .success {
+      display: none;
+      margin-top: 30px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 28px;
+      color: var(--muted);
+    }
+
+    /* BACK BUTTON */
+
+    .back-link {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      padding: 10px 14px;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(50,40,30,.10);
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #1a1613;
+      color: white;
+      text-align: center;
+      padding: 70px 20px;
+    }
+
+    .footer-names {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    footer p {
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #b7a38f;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .countdown {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 35px 0;
+      }
+
+      .count-item:nth-child(2) {
+        border-right: none;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .detail:last-child {
+        border-bottom: none;
+      }
+
+      .timeline-item {
+        grid-template-columns: 75px 1fr;
+        gap: 18px;
+      }
+
+      .section {
+        padding: 85px 20px;
+      }
+
+      .map-placeholder {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="../" class="back-link">
+    ← KUMÉ EVENT
+  </a>
+
+  <!-- GİRİŞ -->
+
+  <section class="hero">
+
+    <div class="hero-inner">
+
+      <div class="hero-small">
+        Özel günümüze davetlisiniz
+      </div>
+
+      <h1>
+        AYLİN
+        <span>&</span>
+        EMRE
+      </h1>
+
+      <div class="divider"></div>
+
+      <div class="hero-date">
+        00 · 00 · 2026
+      </div>
+
+      <div class="hero-place">
+        Mekan
+      </div>
+
+      <p class="hero-copy">
+        Özel bir gün, yeni bir başlangıç
+        ve bu anı bizimle paylaşan sevdiklerimiz.
+      </p>
+
+    </div>
+
+    <div class="scroll-hint">
+      Davetiyeyi keşfet
+    </div>
+
+  </section>
+
+  <!-- GERİ SAYIM -->
+
+  <section class="countdown-section">
+
+    <div class="container">
+
+      <div class="eyebrow">
+        Birlikte kutlayacağımız güne
+      </div>
+
+      <h2 class="section-title">
+        Geri sayım başladı
+      </h2>
+
+      <div class="countdown">
+
+        <div class="count-item">
+          <span class="count-number" id="days">00</span>
+          <span class="count-label">Gün</span>
+        </div>
+
+        <div class="count-item">
+          <span class="count-number" id="hours">00</span>
+          <span class="count-label">Saat</span>
+        </div>
+
+        <div class="count-item">
+          <span class="count-number" id="minutes">00</span>
+          <span class="count-label">Dakika</span>
+        </div>
+
+        <div class="count-item">
+          <span class="count-number" id="seconds">00</span>
+          <span class="count-label">Saniye</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- DETAYLAR -->
+
+  <section class="section">
+
+    <div class="container">
+
+      <div class="eyebrow" style="text-align:center;">
+        Önemli bilgiler
+      </div>
+
+      <h2 class="section-title">
+        Etkinliğimiz
+      </h2>
+
+      <div class="details-grid">
+
+        <div class="detail">
+
+          <div class="detail-number">
+            01
+          </div>
+
+          <h3>Tarih</h3>
+
+          <p>
+            Cumartesi
+            <br>
+            00. Ay 2026
+          </p>
+
+        </div>
+
+        <div class="detail">
+
+          <div class="detail-number">
+            02
+          </div>
+
+          <h3>Mekan</h3>
+
+          <p>
+            Etkinlik Mekanı
+            <br>
+            Adres, Şehir
+          </p>
+
+        </div>
+
+        <div class="detail">
+
+          <div class="detail-number">
+            03
+          </div>
+
+          <h3>Kıyafet</h3>
+
+          <p>
+            Şık
+            <br>
+            Şık ve özel gün kıyafeti
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- PROGRAM -->
+
+  <section class="section program">
+
+    <div class="container">
+
+      <div class="eyebrow" style="text-align:center;">
+        Birlikte geçireceğimiz akşam
+      </div>
+
+      <h2 class="section-title">
+        Program
+      </h2>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            17:30
+          </div>
+
+          <div>
+            <h3>Karşılama</h3>
+            <p>
+              Misafirlerimizin gelişi ve akşama birlikte başlangıç.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            18:00
+          </div>
+
+          <div>
+            <h3>Tören</h3>
+            <p>
+              Akşamın en özel anı.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            19:00
+          </div>
+
+          <div>
+            <h3>Yemek</h3>
+            <p>
+              Birlikte yemek, sohbet ve kutlama.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+          <div class="timeline-time">
+            21:00
+          </div>
+
+          <div>
+            <h3>Eğlence</h3>
+            <p>
+              Müzik, dans ve unutulmayacak anılar.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- MEKAN -->
+
+  <section class="section location">
+
+    <div class="container">
+
+      <div class="eyebrow">
+        Kutlama yeri
+      </div>
+
+      <h2 class="section-title">
+        Mekan
+      </h2>
+
+      <div class="location-name">
+        Etkinlik Mekanı
+      </div>
+
+      <div class="location-address">
+        Adres 123
+        <br>
+        12345 Şehir
+      </div>
+
+      <div class="map-placeholder">
+        Google Maps Önizleme
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- KATILIM BİLDİRİMİ -->
+
+  <section class="section rsvp">
+
+    <div class="rsvp-box">
+
+      <div class="eyebrow">
+        Sizleri aramızda görmekten mutluluk duyarız
+      </div>
+
+      <h2 class="section-title">
+        Katılım Bildirimi
+      </h2>
+
+      <p class="rsvp-description">
+        Bu özel günü bizimle kutlayıp kutlayamayacağınızı
+        lütfen bize bildirin.
+      </p>
+
+      <form id="demoForm">
+
+        <div class="form-group">
+          <label for="name">
+            Ad & Soyad
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Adınız Soyadınız"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="attendance">
+            Katılım
+          </label>
+
+          <select id="attendance" required>
+
+            <option value="">
+              Lütfen seçin
+            </option>
+
+            <option value="yes">
+              Evet, katılıyorum
+            </option>
+
+            <option value="no">
+              Maalesef katılamıyorum
+            </option>
+
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="guests">
+            Kişi sayısı
+          </label>
+
+          <select id="guests">
+            <option>1 Kişi</option>
+            <option>2 Kişi</option>
+            <option>3 Kişi</option>
+            <option>4 Kişi</option>
+            <option>5 Kişi</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            Mesaj
+          </label>
+
+          <textarea
+            id="message"
+            placeholder="Mesajınızı veya notunuzu buraya yazabilirsiniz..."
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-button"
+        >
+          Yanıtı gönder
+        </button>
+
+      </form>
+
+      <div
+        class="success"
+        id="success"
+      >
+        Katılım bildiriminiz için teşekkür ederiz.
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+
+    <div class="footer-names">
+      AYLİN &amp; EMRE
+    </div>
+
+    <p>
+      Örnek Tasarım · Şık · KUMÉ EVENT Türkiye
+    </p>
+
+  </footer>
+
+  <script>
+    const eventDate =
+      new Date("2026-12-31T18:00:00").getTime();
+
+    function updateCountdown() {
+
+      const now =
+        new Date().getTime();
+
+      const distance =
+        eventDate - now;
+
+      if (distance <= 0) {
+        return;
+      }
+
+      const days =
+        Math.floor(
+          distance /
+          (1000 * 60 * 60 * 24)
+        );
+
+      const hours =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60 * 24)
+          )
+          /
+          (1000 * 60 * 60)
+        );
+
+      const minutes =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60)
+          )
+          /
+          (1000 * 60)
+        );
+
+      const seconds =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60)
+          )
+          /
+          1000
+        );
+
+      document
+        .getElementById("days")
+        .textContent =
+        String(days).padStart(2, "0");
+
+      document
+        .getElementById("hours")
+        .textContent =
+        String(hours).padStart(2, "0");
+
+      document
+        .getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2, "0");
+
+      document
+        .getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
+    document
+      .getElementById("demoForm")
+      .addEventListener(
+        "submit",
+        function(event) {
+
+          event.preventDefault();
+
+          this.style.display =
+            "none";
+
+          document
+            .getElementById("success")
+            .style.display =
+            "block";
+        }
+      );
+  </script>
+
+</body>
+</html>
