@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ebe3da">
 
-  <title>Münevver & Kubilay | Verlobung</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta
+    name="theme-color"
+    content="#ebe3da"
+  >
+
+  <title>
+    Münevver & Kubilay | Verlobung
+  </title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
@@ -16,6 +35,7 @@
   >
 
   <style>
+
     :root {
       --table-1: #eee7df;
       --table-2: #dbd0c5;
@@ -26,6 +46,7 @@
 
       --text: #181411;
       --muted: #967e69;
+
       --line: rgba(50, 38, 29, 0.14);
 
       --website: #f7f2ec;
@@ -49,6 +70,10 @@
       font-family: "Montserrat", sans-serif;
     }
 
+    body.language-open {
+      overflow: hidden;
+    }
+
     h1,
     h2,
     h3 {
@@ -61,17 +86,151 @@
       text-decoration: none;
     }
 
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
     /* ======================================================
-       KARTE / INTRO
+       SPRACHAUSWAHL
+    ====================================================== */
+
+    .language-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+
+      display: grid;
+      place-items: center;
+
+      padding: 24px;
+
+      background:
+        radial-gradient(
+          circle at 50% 20%,
+          rgba(255,255,255,.95),
+          transparent 34%
+        ),
+        linear-gradient(
+          135deg,
+          #eee7df,
+          #d8cbbf
+        );
+
+      transition:
+        opacity .45s ease,
+        visibility .45s ease;
+    }
+
+    .language-gate.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .language-card {
+      width: min(620px, 100%);
+
+      padding: 58px 45px;
+
+      text-align: center;
+
+      background: rgba(250,246,240,.91);
+
+      border: 1px solid rgba(110,85,65,.11);
+
+      box-shadow:
+        0 30px 90px rgba(55,40,30,.13);
+
+      backdrop-filter: blur(14px);
+    }
+
+    .language-small {
+      margin-bottom: 22px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+    }
+
+    .language-card h1 {
+      font-size: clamp(49px, 8vw, 78px);
+      line-height: .92;
+    }
+
+    .language-card h1 span {
+      display: block;
+
+      margin-top: 9px;
+
+      color: var(--muted);
+
+      font-style: italic;
+      font-size: .58em;
+    }
+
+    .language-card p {
+      max-width: 440px;
+
+      margin: 25px auto 0;
+
+      color: #695f56;
+
+      font-family: "Cormorant Garamond", serif;
+      font-size: 21px;
+      line-height: 1.55;
+    }
+
+    .language-buttons {
+      margin-top: 38px;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 12px;
+    }
+
+    .language-button {
+      min-height: 58px;
+
+      padding: 0 15px;
+
+      border: 1px solid var(--text);
+
+      background: transparent;
+      color: var(--text);
+
+      cursor: pointer;
+
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+
+      transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+    }
+
+    .language-button:hover {
+      background: var(--text);
+      color: white;
+
+      transform: translateY(-2px);
+    }
+
+    /* ======================================================
+       INTRO / KARTE
     ====================================================== */
 
     .invitation-scroll {
       position: relative;
 
-      /*
-        Bewusst deutlich kürzer als vorher.
-      */
-      height: 230vh;
+      height: 160vh;
 
       background: var(--table-2);
     }
@@ -90,6 +249,8 @@
       position: absolute;
       inset: 0;
 
+      z-index: 10;
+
       display: flex;
       align-items: center;
       justify-content: center;
@@ -99,7 +260,7 @@
       background:
         radial-gradient(
           circle at 35% 20%,
-          rgba(255,255,255,.8),
+          rgba(255,255,255,.82),
           transparent 35%
         ),
         linear-gradient(
@@ -110,18 +271,22 @@
         );
 
       transform-origin: center;
-      will-change: transform, opacity;
+
+      will-change:
+        transform,
+        opacity;
     }
 
     .table-scene::before {
       content: "";
+
       position: absolute;
       inset: 0;
 
       background:
         repeating-linear-gradient(
           92deg,
-          rgba(80,55,35,.018) 0px,
+          rgba(80,55,35,.018) 0,
           rgba(80,55,35,.018) 1px,
           transparent 1px,
           transparent 120px
@@ -132,6 +297,7 @@
 
     .table-scene::after {
       content: "";
+
       position: absolute;
 
       width: 80vw;
@@ -148,6 +314,7 @@
         );
 
       filter: blur(30px);
+
       pointer-events: none;
     }
 
@@ -204,23 +371,26 @@
     .leaf-2 {
       left: 145px;
       top: 80px;
+
       transform: rotate(80deg);
     }
 
     .leaf-3 {
       left: 95px;
       top: 115px;
+
       transform: rotate(-15deg);
     }
 
     .leaf-4 {
       left: 151px;
       top: 150px;
+
       transform: rotate(75deg);
     }
 
     /* ======================================================
-       SCHATTEN
+       KARTENSCHATTEN
     ====================================================== */
 
     .card-shadow {
@@ -231,7 +401,7 @@
 
       border-radius: 50%;
 
-      background: rgba(47, 34, 24, .27);
+      background: rgba(47,34,24,.25);
 
       filter: blur(45px);
 
@@ -239,7 +409,11 @@
         translateY(170px)
         scaleX(1.15);
 
-      opacity: .55;
+      opacity: .52;
+
+      will-change:
+        opacity,
+        transform;
     }
 
     /* ======================================================
@@ -252,7 +426,7 @@
       width: 390px;
       height: 540px;
 
-      z-index: 5;
+      z-index: 15;
 
       transform-style: preserve-3d;
 
@@ -262,10 +436,10 @@
         translateY(40px)
         scale(.72);
 
-      will-change: transform, opacity;
+      will-change:
+        transform,
+        opacity;
     }
-
-    /* rechte Innenseite – komplett leer */
 
     .card-base {
       position: absolute;
@@ -284,15 +458,12 @@
         ),
         var(--paper);
 
-      border: 1px solid rgba(90,70,55,.06);
+      border:
+        1px solid rgba(90,70,55,.06);
 
       box-shadow:
         0 25px 60px rgba(50,37,27,.18);
     }
-
-    /* ======================================================
-       DECKEL
-    ====================================================== */
 
     .card-cover {
       position: absolute;
@@ -315,7 +486,8 @@
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
 
-      border: 1px solid rgba(90,70,55,.06);
+      border:
+        1px solid rgba(90,70,55,.06);
 
       overflow: hidden;
     }
@@ -341,10 +513,6 @@
         20px 25px 55px rgba(55,40,30,.2);
     }
 
-    /* ======================================================
-       TEXT AUF GESCHLOSSENER KARTE
-    ====================================================== */
-
     .cover-content {
       position: relative;
       z-index: 2;
@@ -360,9 +528,7 @@
       margin-bottom: 28px;
 
       font-size: 8px;
-
       letter-spacing: 5px;
-
       text-transform: uppercase;
 
       color: var(--muted);
@@ -370,7 +536,6 @@
 
     .cover-content h2 {
       font-size: 56px;
-
       line-height: .9;
     }
 
@@ -390,21 +555,23 @@
 
       margin: 29px auto;
 
-      background: rgba(140,115,95,.5);
+      background:
+        rgba(140,115,95,.5);
     }
 
     .cover-heart {
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
       font-size: 33px;
 
       color: var(--muted);
     }
 
-    /* linke Innenseite ebenfalls leer */
-
     .cover-back {
-      transform: rotateY(180deg);
+      transform:
+        rotateY(180deg);
 
       background:
         radial-gradient(
@@ -429,9 +596,10 @@
       left: 50%;
       bottom: 32px;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
-      z-index: 30;
+      z-index: 40;
 
       width: 90%;
 
@@ -445,7 +613,9 @@
     .scroll-instruction span {
       display: block;
 
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
       font-size: 19px;
     }
@@ -459,7 +629,6 @@
       font-weight: 400;
 
       letter-spacing: 4px;
-
       text-transform: uppercase;
     }
 
@@ -469,20 +638,19 @@
 
       margin: 14px auto 0;
 
-      background: rgba(110,90,70,.5);
+      background:
+        rgba(110,90,70,.5);
     }
 
     /* ======================================================
-       WEBSITE-EINSTIEG
-
-       Erst sichtbar, nachdem die Karte sich geöffnet hat.
+       WEBSITE HINTER DER KARTE
     ====================================================== */
 
     .website-entry {
       position: absolute;
       inset: 0;
 
-      z-index: 2;
+      z-index: 5;
 
       display: flex;
       align-items: center;
@@ -491,44 +659,54 @@
       background:
         radial-gradient(
           circle at 50% 15%,
-          rgba(255,255,255,.85),
+          rgba(255,255,255,.88),
           transparent 36%
         ),
         var(--website);
 
       opacity: 0;
 
-      transform: scale(.91);
+      transform:
+        scale(.99);
 
-      will-change: opacity, transform;
+      will-change:
+        opacity,
+        transform;
     }
 
     .website-entry-content {
-      width: min(920px, 88%);
+      width:
+        min(920px, 88%);
 
       text-align: center;
 
       opacity: 0;
 
-      transform: translateY(28px);
+      transform:
+        translateY(14px);
 
-      will-change: opacity, transform;
+      will-change:
+        opacity,
+        transform;
     }
 
     .website-eyebrow {
       margin-bottom: 27px;
 
       font-size: 9px;
-
       letter-spacing: 5px;
-
       text-transform: uppercase;
 
       color: var(--muted);
     }
 
     .website-entry h1 {
-      font-size: clamp(65px, 10vw, 125px);
+      font-size:
+        clamp(
+          65px,
+          10vw,
+          125px
+        );
 
       line-height: .82;
     }
@@ -558,20 +736,7 @@
       font-size: 11px;
 
       letter-spacing: 5px;
-
       text-transform: uppercase;
-    }
-
-    .hero-place {
-      margin-top: 13px;
-
-      font-family: "Cormorant Garamond", serif;
-
-      font-size: 29px;
-
-      font-style: italic;
-
-      color: var(--muted);
     }
 
     .hero-copy {
@@ -579,9 +744,16 @@
 
       margin: 42px auto 0;
 
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
-      font-size: clamp(21px, 3vw, 28px);
+      font-size:
+        clamp(
+          21px,
+          3vw,
+          28px
+        );
 
       line-height: 1.55;
 
@@ -597,6 +769,8 @@
 
       z-index: 20;
 
+      margin-top: -1px;
+
       background: var(--website);
     }
 
@@ -607,7 +781,11 @@
     }
 
     .container {
-      width: min(1050px, 100%);
+      width:
+        min(
+          1050px,
+          100%
+        );
 
       margin: 0 auto;
     }
@@ -618,9 +796,7 @@
       text-align: center;
 
       font-size: 9px;
-
       letter-spacing: 5px;
-
       text-transform: uppercase;
 
       color: var(--muted);
@@ -631,7 +807,12 @@
 
       text-align: center;
 
-      font-size: clamp(52px, 8vw, 85px);
+      font-size:
+        clamp(
+          52px,
+          8vw,
+          85px
+        );
 
       line-height: 1;
     }
@@ -646,15 +827,16 @@
       text-align: center;
 
       background: #191512;
-
       color: #fffaf4;
     }
 
-    .countdown-section .section-eyebrow {
+    .countdown-section
+    .section-eyebrow {
       color: #b9a692;
     }
 
-    .countdown-section .section-title {
+    .countdown-section
+    .section-title {
       margin-bottom: 55px;
     }
 
@@ -665,13 +847,15 @@
 
       display: grid;
 
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns:
+        repeat(4,1fr);
     }
 
     .count-item {
       padding: 10px;
 
-      border-right: 1px solid rgba(255,255,255,.15);
+      border-right:
+        1px solid rgba(255,255,255,.15);
     }
 
     .count-item:last-child {
@@ -681,9 +865,16 @@
     .count-number {
       display: block;
 
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
-      font-size: clamp(47px, 7vw, 80px);
+      font-size:
+        clamp(
+          47px,
+          7vw,
+          80px
+        );
     }
 
     .count-label {
@@ -692,9 +883,7 @@
       margin-top: 8px;
 
       font-size: 8px;
-
       letter-spacing: 3px;
-
       text-transform: uppercase;
 
       color: #bba895;
@@ -707,39 +896,40 @@
     .details-grid {
       display: grid;
 
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3,1fr);
 
-      border-top: 1px solid var(--line);
+      border-top:
+        1px solid var(--line);
 
-      border-bottom: 1px solid var(--line);
+      border-bottom:
+        1px solid var(--line);
     }
 
     .detail {
+      min-height: 245px;
+
       padding: 55px 25px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
       text-align: center;
 
-      border-right: 1px solid var(--line);
+      border-right:
+        1px solid var(--line);
     }
 
     .detail:last-child {
       border-right: none;
     }
 
-    .detail-number {
-      margin-bottom: 20px;
-
-      font-family: "Cormorant Garamond", serif;
-
-      font-size: 53px;
-
-      color: var(--muted);
-    }
-
     .detail h3 {
-      margin-bottom: 10px;
+      margin-bottom: 17px;
 
-      font-size: 29px;
+      font-size: 32px;
     }
 
     .detail p {
@@ -755,7 +945,8 @@
     ====================================================== */
 
     .program {
-      background: var(--website-alt);
+      background:
+        var(--website-alt);
     }
 
     .timeline {
@@ -767,17 +958,21 @@
     .timeline-item {
       display: grid;
 
-      grid-template-columns: 105px 1fr;
+      grid-template-columns:
+        105px 1fr;
 
       gap: 30px;
 
       padding: 31px 0;
 
-      border-bottom: 1px solid var(--line);
+      border-bottom:
+        1px solid var(--line);
     }
 
     .timeline-time {
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
       font-size: 32px;
 
@@ -807,9 +1002,16 @@
     }
 
     .location-name {
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
-      font-size: clamp(31px, 5vw, 43px);
+      font-size:
+        clamp(
+          31px,
+          5vw,
+          43px
+        );
 
       line-height: 1.2;
     }
@@ -824,10 +1026,12 @@
       color: #655b53;
     }
 
-    /* GOOGLE MAPS */
-
     .map-wrapper {
-      width: min(900px, 100%);
+      width:
+        min(
+          900px,
+          100%
+        );
 
       height: 430px;
 
@@ -869,17 +1073,16 @@
       border: 1px solid var(--text);
 
       font-size: 9px;
-
       letter-spacing: 3px;
-
       text-transform: uppercase;
 
-      transition: .3s ease;
+      transition:
+        background .3s ease,
+        color .3s ease;
     }
 
     .maps-button:hover {
       background: var(--text);
-
       color: white;
     }
 
@@ -892,7 +1095,11 @@
     }
 
     .rsvp-box {
-      width: min(650px, 100%);
+      width:
+        min(
+          650px,
+          100%
+        );
 
       margin: auto;
 
@@ -925,9 +1132,7 @@
       margin-bottom: 9px;
 
       font-size: 8px;
-
       letter-spacing: 3px;
-
       text-transform: uppercase;
 
       color: var(--muted);
@@ -942,13 +1147,16 @@
 
       border: none;
 
-      border-bottom: 1px solid #b9ada1;
+      border-bottom:
+        1px solid #b9ada1;
 
       outline: none;
 
       background: transparent;
 
-      font-family: "Montserrat", sans-serif;
+      font-family:
+        "Montserrat",
+        sans-serif;
 
       font-size: 13px;
 
@@ -958,11 +1166,12 @@
     input:focus,
     select:focus,
     textarea:focus {
-      border-bottom-color: var(--text);
+      border-bottom-color:
+        var(--text);
     }
 
     textarea {
-      min-height: 90px;
+      min-height: 110px;
 
       resize: vertical;
     }
@@ -974,28 +1183,25 @@
 
       padding: 19px;
 
-      border: 1px solid var(--text);
+      border:
+        1px solid var(--text);
 
       background: var(--text);
-
       color: white;
 
       cursor: pointer;
 
-      font-family: "Montserrat", sans-serif;
-
       font-size: 8px;
-
       letter-spacing: 4px;
-
       text-transform: uppercase;
 
-      transition: .3s ease;
+      transition:
+        background .3s ease,
+        color .3s ease;
     }
 
     .submit-button:hover {
       background: transparent;
-
       color: var(--text);
     }
 
@@ -1004,7 +1210,9 @@
 
       margin-top: 35px;
 
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
       font-size: 28px;
 
@@ -1021,14 +1229,15 @@
       text-align: center;
 
       background: #191512;
-
       color: white;
     }
 
     .footer-names {
       margin-bottom: 13px;
 
-      font-family: "Cormorant Garamond", serif;
+      font-family:
+        "Cormorant Garamond",
+        serif;
 
       font-size: 42px;
     }
@@ -1037,7 +1246,6 @@
       font-size: 8px;
 
       letter-spacing: 4px;
-
       text-transform: uppercase;
 
       color: #b7a38f;
@@ -1049,11 +1257,41 @@
 
     @media (max-width: 700px) {
 
+      .language-gate {
+        padding: 18px;
+      }
+
+      .language-card {
+        padding: 42px 20px;
+      }
+
+      .language-card h1 {
+        font-size: 50px;
+      }
+
+      .language-card p {
+        font-size: 18px;
+      }
+
+      .language-buttons {
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 8px;
+      }
+
+      .language-button {
+        min-height: 54px;
+
+        padding: 0 8px;
+
+        font-size: 7px;
+
+        letter-spacing: 2px;
+      }
+
       .invitation-scroll {
-        /*
-          Auch auf Handy nicht unnötig lang.
-        */
-        height: 220vh;
+        height: 150vh;
       }
 
       .physical-card {
@@ -1071,6 +1309,11 @@
         padding: 25px;
       }
 
+      .cover-kicker {
+        font-size: 6px;
+        letter-spacing: 4px;
+      }
+
       .cover-content h2 {
         font-size: 41px;
       }
@@ -1083,7 +1326,8 @@
         width: 300px;
         height: 120px;
 
-        transform: translateY(120px);
+        transform:
+          translateY(120px);
 
         filter: blur(35px);
       }
@@ -1108,6 +1352,11 @@
         font-size: 58px;
       }
 
+      .website-eyebrow {
+        font-size: 7px;
+        letter-spacing: 4px;
+      }
+
       .hero-copy {
         font-size: 20px;
       }
@@ -1118,7 +1367,8 @@
       }
 
       .countdown {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(2,1fr);
 
         gap: 35px 0;
       }
@@ -1132,9 +1382,12 @@
       }
 
       .detail {
+        min-height: 190px;
+
         border-right: none;
 
-        border-bottom: 1px solid var(--line);
+        border-bottom:
+          1px solid var(--line);
       }
 
       .detail:last-child {
@@ -1142,21 +1395,97 @@
       }
 
       .timeline-item {
-        grid-template-columns: 75px 1fr;
+        grid-template-columns:
+          72px 1fr;
 
         gap: 18px;
+      }
+
+      .timeline-time {
+        font-size: 29px;
       }
 
       .map-wrapper {
         height: 340px;
       }
 
+      .maps-button {
+        width: 100%;
+
+        padding: 17px 15px;
+
+        font-size: 7px;
+      }
+
     }
 
   </style>
+
 </head>
 
-<body>
+
+<body class="language-open">
+
+
+  <!-- ======================================================
+       SPRACHAUSWAHL
+  ====================================================== -->
+
+  <div
+    class="language-gate"
+    id="languageGate"
+  >
+
+    <div class="language-card">
+
+      <div class="language-small">
+        Münevver & Kubilay
+      </div>
+
+      <h1>
+
+        Willkommen
+
+        <span>
+          Hoş geldiniz
+        </span>
+
+      </h1>
+
+      <p>
+
+        Bitte wählt eure Sprache.
+
+        <br>
+
+        Lütfen dilinizi seçin.
+
+      </p>
+
+      <div class="language-buttons">
+
+        <button
+          class="language-button"
+          type="button"
+          data-language="de"
+        >
+          Deutsch
+        </button>
+
+        <button
+          class="language-button"
+          type="button"
+          data-language="tr"
+        >
+          Türkçe
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
 
   <!-- ======================================================
        KARTE
@@ -1168,6 +1497,7 @@
   >
 
     <div class="invitation-sticky">
+
 
       <!-- WEBSITE HINTER DER KARTE -->
 
@@ -1181,16 +1511,23 @@
           id="websiteEntryContent"
         >
 
-          <div class="website-eyebrow">
+          <div
+            class="website-eyebrow"
+            data-i18n="heroEyebrow"
+          >
             Einladung zu unserer Verlobung
           </div>
 
           <h1>
+
             Münevver
 
-            <span>&</span>
+            <span>
+              &
+            </span>
 
             Kubilay
+
           </h1>
 
           <div class="hero-line"></div>
@@ -1199,11 +1536,11 @@
             14 · 11 · 2026
           </div>
 
-          <div class="hero-place">
-            Neresheim
-          </div>
+          <p
+            class="hero-copy"
+            data-i18n="heroCopy"
+          >
 
-          <p class="hero-copy">
             Ein neuer Abschnitt beginnt.
 
             <br><br>
@@ -1211,6 +1548,7 @@
             Diesen besonderen Moment möchten wir
             gemeinsam mit unseren Familien und
             Freunden feiern.
+
           </p>
 
         </div>
@@ -1226,11 +1564,14 @@
       >
 
         <div class="table-decoration">
+
           <div class="branch"></div>
+
           <div class="leaf leaf-1"></div>
           <div class="leaf leaf-2"></div>
           <div class="leaf leaf-3"></div>
           <div class="leaf leaf-4"></div>
+
         </div>
 
 
@@ -1240,41 +1581,39 @@
         ></div>
 
 
-        <!-- EINLADUNGSKARTE -->
-
         <div
           class="physical-card"
           id="physicalCard"
         >
 
-          <!-- INNEN RECHTS = LEER -->
-
           <div class="card-base"></div>
-
-
-          <!-- AUFKLAPPENDE SEITE -->
 
           <div
             class="card-cover"
             id="cardCover"
           >
 
-            <!-- VORDERSEITE -->
-
             <div class="cover-face cover-front">
 
               <div class="cover-content">
 
-                <div class="cover-kicker">
+                <div
+                  class="cover-kicker"
+                  data-i18n="coverKicker"
+                >
                   Einladung zur Verlobung
                 </div>
 
                 <h2>
+
                   Münevver
 
-                  <span>&</span>
+                  <span>
+                    &
+                  </span>
 
                   Kubilay
+
                 </h2>
 
                 <div class="cover-line"></div>
@@ -1287,28 +1626,29 @@
 
             </div>
 
-
-            <!-- INNEN LINKS = LEER -->
-
-            <div class="cover-face cover-back"></div>
+            <div
+              class="cover-face cover-back"
+            ></div>
 
           </div>
 
         </div>
 
 
-        <!-- SCROLL TEXT -->
-
         <div
           class="scroll-instruction"
           id="scrollInstruction"
         >
 
-          <span>
+          <span
+            data-i18n="scrollTitle"
+          >
             Um die Einladungskarte zu öffnen
           </span>
 
-          <strong>
+          <strong
+            data-i18n="scrollAction"
+          >
             bitte scrollen
           </strong>
 
@@ -1336,34 +1676,92 @@
 
       <div class="container">
 
-        <div class="section-eyebrow">
+        <div
+          class="section-eyebrow"
+          data-i18n="countdownEyebrow"
+        >
           Bis wir gemeinsam feiern
         </div>
 
-        <h2 class="section-title">
+        <h2
+          class="section-title"
+          data-i18n="countdownTitle"
+        >
           Der Countdown läuft
         </h2>
 
         <div class="countdown">
 
           <div class="count-item">
-            <span class="count-number" id="days">00</span>
-            <span class="count-label">Tage</span>
+
+            <span
+              class="count-number"
+              id="days"
+            >
+              00
+            </span>
+
+            <span
+              class="count-label"
+              data-i18n="days"
+            >
+              Tage
+            </span>
+
           </div>
 
           <div class="count-item">
-            <span class="count-number" id="hours">00</span>
-            <span class="count-label">Stunden</span>
+
+            <span
+              class="count-number"
+              id="hours"
+            >
+              00
+            </span>
+
+            <span
+              class="count-label"
+              data-i18n="hours"
+            >
+              Stunden
+            </span>
+
           </div>
 
           <div class="count-item">
-            <span class="count-number" id="minutes">00</span>
-            <span class="count-label">Minuten</span>
+
+            <span
+              class="count-number"
+              id="minutes"
+            >
+              00
+            </span>
+
+            <span
+              class="count-label"
+              data-i18n="minutes"
+            >
+              Minuten
+            </span>
+
           </div>
 
           <div class="count-item">
-            <span class="count-number" id="seconds">00</span>
-            <span class="count-label">Sekunden</span>
+
+            <span
+              class="count-number"
+              id="seconds"
+            >
+              00
+            </span>
+
+            <span
+              class="count-label"
+              data-i18n="seconds"
+            >
+              Sekunden
+            </span>
+
           </div>
 
         </div>
@@ -1379,71 +1777,90 @@
 
       <div class="container">
 
-        <div class="section-eyebrow">
+        <div
+          class="section-eyebrow"
+          data-i18n="detailsEyebrow"
+        >
           Die wichtigsten Details
         </div>
 
-        <h2 class="section-title">
+        <h2
+          class="section-title"
+          data-i18n="detailsTitle"
+        >
           Unsere Verlobung
         </h2>
 
+
         <div class="details-grid">
+
+
+          <!-- DATUM -->
 
           <div class="detail">
 
-            <div class="detail-number">
-              01
-            </div>
-
-            <h3>
+            <h3
+              data-i18n="dateTitle"
+            >
               Datum
             </h3>
 
-            <p>
+            <p
+              data-i18n="dateText"
+            >
+
               Samstag
+
               <br>
+
               14. November 2026
+
             </p>
 
           </div>
 
 
+          <!-- ORT -->
+
           <div class="detail">
 
-            <div class="detail-number">
-              02
-            </div>
-
-            <h3>
+            <h3
+              data-i18n="placeTitle"
+            >
               Ort
             </h3>
 
             <p>
               Härtsfeldhalle / Mensa
-              <br>
-              Neresheim
             </p>
 
           </div>
 
+
+          <!-- BEGINN -->
 
           <div class="detail">
 
-            <div class="detail-number">
-              03
-            </div>
-
-            <h3>
+            <h3
+              data-i18n="startTitle"
+            >
               Beginn
             </h3>
 
-            <p>
-              Uhrzeit folgt
+            <p
+              data-i18n="startText"
+            >
+
+              17:00 Uhr
+
               <br>
+
               Wir freuen uns auf euch
+
             </p>
 
           </div>
+
 
         </div>
 
@@ -1454,35 +1871,51 @@
 
     <!-- PROGRAMM -->
 
-    <section class="content-section program">
+    <section
+      class="content-section program"
+    >
 
       <div class="container">
 
-        <div class="section-eyebrow">
+        <div
+          class="section-eyebrow"
+          data-i18n="programEyebrow"
+        >
           Unser gemeinsamer Abend
         </div>
 
-        <h2 class="section-title">
+        <h2
+          class="section-title"
+          data-i18n="programTitle"
+        >
           Programm
         </h2>
 
+
         <div class="timeline">
+
 
           <div class="timeline-item">
 
             <div class="timeline-time">
-              17:30
+              17:00
             </div>
 
             <div>
-              <h3>
+
+              <h3
+                data-i18n="receptionTitle"
+              >
                 Empfang
               </h3>
 
-              <p>
+              <p
+                data-i18n="receptionText"
+              >
                 Ankommen, begrüßen und gemeinsam
                 auf den Abend einstimmen.
               </p>
+
             </div>
 
           </div>
@@ -1495,14 +1928,20 @@
             </div>
 
             <div>
-              <h3>
+
+              <h3
+                data-i18n="engagementTitle"
+              >
                 Verlobung
               </h3>
 
-              <p>
+              <p
+                data-i18n="engagementText"
+              >
                 Gemeinsam feiern wir
                 diesen besonderen Moment.
               </p>
+
             </div>
 
           </div>
@@ -1515,14 +1954,20 @@
             </div>
 
             <div>
-              <h3>
+
+              <h3
+                data-i18n="dinnerTitle"
+              >
                 Dinner
               </h3>
 
-              <p>
+              <p
+                data-i18n="dinnerText"
+              >
                 Zeit zum Essen,
                 Genießen und Zusammensein.
               </p>
+
             </div>
 
           </div>
@@ -1535,17 +1980,24 @@
             </div>
 
             <div>
-              <h3>
+
+              <h3
+                data-i18n="partyTitle"
+              >
                 Gemeinsam feiern
               </h3>
 
-              <p>
+              <p
+                data-i18n="partyText"
+              >
                 Musik, Tanz und Erinnerungen,
                 die bleiben.
               </p>
+
             </div>
 
           </div>
+
 
         </div>
 
@@ -1554,34 +2006,43 @@
     </section>
 
 
-    <!-- ======================================================
-         LOCATION + GOOGLE MAPS
-    ====================================================== -->
+    <!-- LOCATION -->
 
-    <section class="content-section location">
+    <section
+      class="content-section location"
+    >
 
       <div class="container">
 
-        <div class="section-eyebrow">
+        <div
+          class="section-eyebrow"
+          data-i18n="locationEyebrow"
+        >
           Wo wir feiern
         </div>
 
-        <h2 class="section-title">
+        <h2
+          class="section-title"
+          data-i18n="locationTitle"
+        >
           Location
         </h2>
+
 
         <div class="location-name">
           Härtsfeldhalle / Mensa Neresheim
         </div>
 
         <div class="location-address">
+
           Dossinger Weg 16
+
           <br>
+
           73450 Neresheim
+
         </div>
 
-
-        <!-- GOOGLE MAPS KARTE -->
 
         <div class="map-wrapper">
 
@@ -1600,6 +2061,7 @@
           href="https://www.google.com/maps/search/?api=1&query=Härtsfeldhalle%20Mensa%20Neresheim%20Dossinger%20Weg%2016%2073450%20Neresheim"
           target="_blank"
           rel="noopener noreferrer"
+          data-i18n="mapsButton"
         >
           Route in Google Maps öffnen
         </a>
@@ -1609,15 +2071,18 @@
     </section>
 
 
-    <!-- ======================================================
-         RSVP
-    ====================================================== -->
+    <!-- RSVP -->
 
-    <section class="content-section rsvp">
+    <section
+      class="content-section rsvp"
+    >
 
       <div class="rsvp-box">
 
-        <div class="section-eyebrow">
+        <div
+          class="section-eyebrow"
+          data-i18n="rsvpEyebrow"
+        >
           Wir freuen uns auf euch
         </div>
 
@@ -1625,17 +2090,27 @@
           RSVP
         </h2>
 
-        <p class="rsvp-description">
+        <p
+          class="rsvp-description"
+          data-i18n="rsvpDescription"
+        >
           Bitte gebt uns Bescheid,
           ob ihr diesen besonderen Tag
           gemeinsam mit uns feiern könnt.
         </p>
 
+
         <form id="rsvpForm">
+
+
+          <!-- NAME -->
 
           <div class="form-group">
 
-            <label for="name">
+            <label
+              for="name"
+              data-i18n="nameLabel"
+            >
               Vor- & Nachname
             </label>
 
@@ -1643,15 +2118,21 @@
               id="name"
               type="text"
               placeholder="Dein Name"
+              data-placeholder-i18n="namePlaceholder"
               required
             >
 
           </div>
 
 
+          <!-- TEILNAHME -->
+
           <div class="form-group">
 
-            <label for="attendance">
+            <label
+              for="attendance"
+              data-i18n="attendanceLabel"
+            >
               Kommst du?
             </label>
 
@@ -1660,15 +2141,24 @@
               required
             >
 
-              <option value="">
+              <option
+                value=""
+                data-i18n="selectPlaceholder"
+              >
                 Bitte auswählen
               </option>
 
-              <option value="yes">
+              <option
+                value="yes"
+                data-i18n="attendanceYes"
+              >
                 Ja, ich bin dabei 🤍
               </option>
 
-              <option value="no">
+              <option
+                value="no"
+                data-i18n="attendanceNo"
+              >
                 Leider kann ich nicht kommen
               </option>
 
@@ -1677,35 +2167,58 @@
           </div>
 
 
+          <!-- PERSONEN -->
+
           <div class="form-group">
 
-            <label for="guests">
+            <label
+              for="guests"
+              data-i18n="guestsLabel"
+            >
               Anzahl der Personen
             </label>
 
             <select id="guests">
 
-              <option value="1">
+              <option
+                value="1"
+                data-i18n="guest1"
+              >
                 1 Person
               </option>
 
-              <option value="2">
+              <option
+                value="2"
+                data-i18n="guest2"
+              >
                 2 Personen
               </option>
 
-              <option value="3">
+              <option
+                value="3"
+                data-i18n="guest3"
+              >
                 3 Personen
               </option>
 
-              <option value="4">
+              <option
+                value="4"
+                data-i18n="guest4"
+              >
                 4 Personen
               </option>
 
-              <option value="5">
+              <option
+                value="5"
+                data-i18n="guest5"
+              >
                 5 Personen
               </option>
 
-              <option value="6">
+              <option
+                value="6"
+                data-i18n="guest6"
+              >
                 6 Personen
               </option>
 
@@ -1714,15 +2227,21 @@
           </div>
 
 
+          <!-- NACHRICHT -->
+
           <div class="form-group">
 
-            <label for="message">
-              Nachricht / Hinweis
+            <label
+              for="message"
+              data-i18n="messageLabel"
+            >
+              Hinterlasst eine Nachricht an Münevver & Kubilay
             </label>
 
             <textarea
               id="message"
-              placeholder="Nachricht, Allergien oder Hinweise ..."
+              placeholder="Eure Nachricht ..."
+              data-placeholder-i18n="messagePlaceholder"
             ></textarea>
 
           </div>
@@ -1731,6 +2250,7 @@
           <button
             class="submit-button"
             type="submit"
+            data-i18n="submitButton"
           >
             Antwort senden
           </button>
@@ -1741,6 +2261,7 @@
         <div
           class="success"
           id="success"
+          data-i18n="successText"
         >
           Vielen Dank für eure Rückmeldung. ♡
         </div>
@@ -1761,7 +2282,7 @@
     </div>
 
     <p>
-      14 · 11 · 2026 · Neresheim
+      14 · 11 · 2026
     </p>
 
   </footer>
@@ -1770,14 +2291,558 @@
   <script>
 
     /* ======================================================
+       IMMER OBEN STARTEN
+    ====================================================== */
+
+    if (
+      "scrollRestoration"
+      in history
+    ) {
+      history.scrollRestoration =
+        "manual";
+    }
+
+    window.scrollTo(
+      0,
+      0
+    );
+
+
+    /* ======================================================
+       ÜBERSETZUNGEN
+    ====================================================== */
+
+    const translations = {
+
+      de: {
+
+        heroEyebrow:
+          "Einladung zu unserer Verlobung",
+
+        heroCopy:
+          `
+            Ein neuer Abschnitt beginnt.
+
+            <br><br>
+
+            Diesen besonderen Moment möchten wir
+            gemeinsam mit unseren Familien und
+            Freunden feiern.
+          `,
+
+        coverKicker:
+          "Einladung zur Verlobung",
+
+        scrollTitle:
+          "Um die Einladungskarte zu öffnen",
+
+        scrollAction:
+          "bitte scrollen",
+
+        countdownEyebrow:
+          "Bis wir gemeinsam feiern",
+
+        countdownTitle:
+          "Der Countdown läuft",
+
+        days:
+          "Tage",
+
+        hours:
+          "Stunden",
+
+        minutes:
+          "Minuten",
+
+        seconds:
+          "Sekunden",
+
+        detailsEyebrow:
+          "Die wichtigsten Details",
+
+        detailsTitle:
+          "Unsere Verlobung",
+
+        dateTitle:
+          "Datum",
+
+        dateText:
+          `
+            Samstag
+            <br>
+            14. November 2026
+          `,
+
+        placeTitle:
+          "Ort",
+
+        startTitle:
+          "Beginn",
+
+        startText:
+          `
+            17:00 Uhr
+            <br>
+            Wir freuen uns auf euch
+          `,
+
+        programEyebrow:
+          "Unser gemeinsamer Abend",
+
+        programTitle:
+          "Programm",
+
+        receptionTitle:
+          "Empfang",
+
+        receptionText:
+          `
+            Ankommen, begrüßen und gemeinsam
+            auf den Abend einstimmen.
+          `,
+
+        engagementTitle:
+          "Verlobung",
+
+        engagementText:
+          `
+            Gemeinsam feiern wir
+            diesen besonderen Moment.
+          `,
+
+        dinnerTitle:
+          "Dinner",
+
+        dinnerText:
+          `
+            Zeit zum Essen,
+            Genießen und Zusammensein.
+          `,
+
+        partyTitle:
+          "Gemeinsam feiern",
+
+        partyText:
+          `
+            Musik, Tanz und Erinnerungen,
+            die bleiben.
+          `,
+
+        locationEyebrow:
+          "Wo wir feiern",
+
+        locationTitle:
+          "Location",
+
+        mapsButton:
+          "Route in Google Maps öffnen",
+
+        rsvpEyebrow:
+          "Wir freuen uns auf euch",
+
+        rsvpDescription:
+          `
+            Bitte gebt uns Bescheid,
+            ob ihr diesen besonderen Tag
+            gemeinsam mit uns feiern könnt.
+          `,
+
+        nameLabel:
+          "Vor- & Nachname",
+
+        namePlaceholder:
+          "Dein Name",
+
+        attendanceLabel:
+          "Kommst du?",
+
+        selectPlaceholder:
+          "Bitte auswählen",
+
+        attendanceYes:
+          "Ja, ich bin dabei 🤍",
+
+        attendanceNo:
+          "Leider kann ich nicht kommen",
+
+        guestsLabel:
+          "Anzahl der Personen",
+
+        guest1:
+          "1 Person",
+
+        guest2:
+          "2 Personen",
+
+        guest3:
+          "3 Personen",
+
+        guest4:
+          "4 Personen",
+
+        guest5:
+          "5 Personen",
+
+        guest6:
+          "6 Personen",
+
+        messageLabel:
+          "Hinterlasst eine Nachricht an Münevver & Kubilay",
+
+        messagePlaceholder:
+          "Eure Nachricht ...",
+
+        submitButton:
+          "Antwort senden",
+
+        successText:
+          "Vielen Dank für eure Rückmeldung. ♡"
+
+      },
+
+
+      tr: {
+
+        heroEyebrow:
+          "Nişanımıza davetlisiniz",
+
+        heroCopy:
+          `
+            Hayatımızda yeni bir bölüm başlıyor.
+
+            <br><br>
+
+            Bu özel anı ailemiz,
+            dostlarımız ve sevdiklerimizle
+            birlikte kutlamak istiyoruz.
+          `,
+
+        coverKicker:
+          "Nişan Davetiyesi",
+
+        scrollTitle:
+          "Davetiyeyi açmak için",
+
+        scrollAction:
+          "lütfen kaydırın",
+
+        countdownEyebrow:
+          "Birlikte kutlayacağımız güne",
+
+        countdownTitle:
+          "Geri sayım başladı",
+
+        days:
+          "Gün",
+
+        hours:
+          "Saat",
+
+        minutes:
+          "Dakika",
+
+        seconds:
+          "Saniye",
+
+        detailsEyebrow:
+          "Önemli bilgiler",
+
+        detailsTitle:
+          "Nişanımız",
+
+        dateTitle:
+          "Tarih",
+
+        dateText:
+          `
+            Cumartesi
+            <br>
+            14 Kasım 2026
+          `,
+
+        placeTitle:
+          "Mekan",
+
+        startTitle:
+          "Başlangıç",
+
+        startText:
+          `
+            17:00
+            <br>
+            Sizleri aramızda görmekten mutluluk duyarız
+          `,
+
+        programEyebrow:
+          "Birlikte geçireceğimiz akşam",
+
+        programTitle:
+          "Program",
+
+        receptionTitle:
+          "Karşılama",
+
+        receptionText:
+          `
+            Misafirlerimizi karşılıyor
+            ve akşama birlikte başlıyoruz.
+          `,
+
+        engagementTitle:
+          "Nişan",
+
+        engagementText:
+          `
+            Bu özel anı
+            hep birlikte kutluyoruz.
+          `,
+
+        dinnerTitle:
+          "Yemek",
+
+        dinnerText:
+          `
+            Birlikte yemek,
+            sohbet ve güzel anlar.
+          `,
+
+        partyTitle:
+          "Eğlence",
+
+        partyText:
+          `
+            Müzik, dans ve
+            unutulmayacak anılar.
+          `,
+
+        locationEyebrow:
+          "Kutlama yeri",
+
+        locationTitle:
+          "Mekan",
+
+        mapsButton:
+          "Google Maps'te yol tarifi aç",
+
+        rsvpEyebrow:
+          "Sizleri aramızda görmekten mutluluk duyarız",
+
+        rsvpDescription:
+          `
+            Lütfen bu özel günü
+            bizimle kutlayıp kutlayamayacağınızı
+            bize bildirin.
+          `,
+
+        nameLabel:
+          "Ad & Soyad",
+
+        namePlaceholder:
+          "Adınız Soyadınız",
+
+        attendanceLabel:
+          "Katılacak mısınız?",
+
+        selectPlaceholder:
+          "Lütfen seçin",
+
+        attendanceYes:
+          "Evet, katılıyorum 🤍",
+
+        attendanceNo:
+          "Maalesef katılamıyorum",
+
+        guestsLabel:
+          "Kişi sayısı",
+
+        guest1:
+          "1 Kişi",
+
+        guest2:
+          "2 Kişi",
+
+        guest3:
+          "3 Kişi",
+
+        guest4:
+          "4 Kişi",
+
+        guest5:
+          "5 Kişi",
+
+        guest6:
+          "6 Kişi",
+
+        messageLabel:
+          "Münevver & Kubilay'a bir mesaj bırakın",
+
+        messagePlaceholder:
+          "Mesajınızı buraya yazabilirsiniz ...",
+
+        submitButton:
+          "Yanıtı gönder",
+
+        successText:
+          "Geri bildiriminiz için teşekkür ederiz. ♡"
+
+      }
+
+    };
+
+
+    /* ======================================================
+       SPRACHE ANWENDEN
+    ====================================================== */
+
+    const languageGate =
+      document.getElementById(
+        "languageGate"
+      );
+
+
+    function applyLanguage(
+      language
+    ) {
+
+      const dictionary =
+        translations[language]
+        ||
+        translations.de;
+
+
+      document.documentElement.lang =
+        language;
+
+
+      document
+        .querySelectorAll(
+          "[data-i18n]"
+        )
+        .forEach(
+          function(element) {
+
+            const key =
+              element.dataset.i18n;
+
+            if (
+              dictionary[key]
+              !==
+              undefined
+            ) {
+
+              element.innerHTML =
+                dictionary[key];
+
+            }
+
+          }
+        );
+
+
+      document
+        .querySelectorAll(
+          "[data-placeholder-i18n]"
+        )
+        .forEach(
+          function(element) {
+
+            const key =
+              element.dataset.placeholderI18n;
+
+            if (
+              dictionary[key]
+              !==
+              undefined
+            ) {
+
+              element.placeholder =
+                dictionary[key];
+
+            }
+
+          }
+        );
+
+    }
+
+
+    /* ======================================================
+       SPRACHAUSWAHL
+    ====================================================== */
+
+    document
+      .querySelectorAll(
+        "[data-language]"
+      )
+      .forEach(
+        function(button) {
+
+          button.addEventListener(
+            "click",
+            function() {
+
+              const language =
+                button.dataset.language;
+
+
+              applyLanguage(
+                language
+              );
+
+
+              window.scrollTo(
+                0,
+                0
+              );
+
+
+              languageGate
+                .classList
+                .add(
+                  "is-hidden"
+                );
+
+
+              document.body
+                .classList
+                .remove(
+                  "language-open"
+                );
+
+
+              requestAnimationFrame(
+                function() {
+
+                  updateInvitation();
+
+                }
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    /* ======================================================
        HILFSFUNKTIONEN
     ====================================================== */
 
-    function clamp(value, min = 0, max = 1) {
+    function clamp(
+      value,
+      min = 0,
+      max = 1
+    ) {
+
       return Math.min(
         max,
-        Math.max(min, value)
+        Math.max(
+          min,
+          value
+        )
       );
+
     }
 
 
@@ -1788,10 +2853,37 @@
     ) {
 
       return clamp(
-        (progress - start)
+
+        (
+          progress - start
+        )
+
         /
-        (end - start)
+
+        (
+          end - start
+        )
+
       );
+
+    }
+
+
+    function smooth(
+      value
+    ) {
+
+      return value
+        *
+        value
+        *
+        (
+          3
+          -
+          2
+          *
+          value
+        );
 
     }
 
@@ -1842,287 +2934,268 @@
 
 
     /* ======================================================
-       KARTE / WEBSITE ÜBERGANG
-
-       SCHNELLERE VERSION
+       FLÜSSIGER KARTENÜBERGANG
     ====================================================== */
 
     function updateInvitation() {
 
       const rect =
         invitationScroll
-        .getBoundingClientRect();
+          .getBoundingClientRect();
+
 
       const scrollDistance =
+
         invitationScroll.offsetHeight
+
         -
+
         window.innerHeight;
 
+
       let progress =
+
         -rect.top
+
         /
+
         scrollDistance;
 
+
       progress =
-        clamp(progress);
+        clamp(
+          progress
+        );
 
 
-      /* ==================================================
-         PHASE 1
-         0 - 18 %
-
-         NÄHER AN DIE KARTE
-      ================================================== */
+      /* Karte richtet sich auf */
 
       const approach =
-        mapProgress(
-          progress,
-          0,
-          .18
+        smooth(
+          mapProgress(
+            progress,
+            0,
+            .28
+          )
         );
+
 
       const rotateX =
         63
         -
-        approach * 49;
+        approach
+        *
+        63;
+
 
       const rotateZ =
         -8
         +
-        approach * 8;
+        approach
+        *
+        8;
 
-      const scale =
+
+      const baseScale =
         .72
         +
-        approach * .28;
+        approach
+        *
+        .30;
 
-      const translateY =
+
+      const moveY =
         40
         -
-        approach * 40;
+        approach
+        *
+        40;
 
 
       physicalCard.style.transform =
         `
           rotateX(${rotateX}deg)
           rotateZ(${rotateZ}deg)
-          translateY(${translateY}px)
-          scale(${scale})
+          translateY(${moveY}px)
+          scale(${baseScale})
         `;
 
 
-      /* Hinweis verschwindet schnell */
+      /* Scrollhinweis */
 
-      const instructionFade =
-        mapProgress(
-          progress,
-          .015,
-          .09
+      const instructionProgress =
+        smooth(
+          mapProgress(
+            progress,
+            .02,
+            .15
+          )
         );
+
 
       scrollInstruction.style.opacity =
         1
         -
-        instructionFade;
+        instructionProgress;
 
 
-      /* ==================================================
-         PHASE 2
-         14 - 40 %
-
-         KARTE ÖFFNEN
-      ================================================== */
+      /* Karte öffnet */
 
       const opening =
-        mapProgress(
-          progress,
-          .14,
-          .40
-        );
-
-
-      const easedOpening =
-        1
-        -
-        Math.pow(
-          1 - opening,
-          3
+        smooth(
+          mapProgress(
+            progress,
+            .12,
+            .62
+          )
         );
 
 
       const coverRotation =
-        easedOpening
+        opening
         *
-        -178;
+        -176;
 
 
       cardCover.style.transform =
-        `rotateY(${coverRotation}deg)`;
+        `
+          rotateY(
+            ${coverRotation}deg
+          )
+        `;
 
 
-      /*
-        Währenddessen frontal ausrichten
-      */
+      /* Karte nur leicht größer */
 
       if (
         progress
         >
-        .18
+        .28
       ) {
 
-        const flatten =
-          mapProgress(
-            progress,
-            .18,
-            .38
+        const settle =
+          smooth(
+            mapProgress(
+              progress,
+              .28,
+              .68
+            )
           );
 
 
-        const flattenRotateX =
-          14
-          -
-          flatten * 14;
-
-
-        const flattenScale =
-          1
+        const settleScale =
+          1.02
           +
-          flatten * .06;
-
-
-        physicalCard.style.transform =
-          `
-            rotateX(${flattenRotateX}deg)
-            rotateZ(0deg)
-            translateY(0px)
-            scale(${flattenScale})
-          `;
-
-      }
-
-
-      /* ==================================================
-         PHASE 3
-         38 - 54 %
-
-         KARTE IST OFFEN.
-         SCHNELL HINEINZOOMEN.
-      ================================================== */
-
-      const zoom =
-        mapProgress(
-          progress,
-          .38,
-          .54
-        );
-
-
-      if (
-        progress
-        >=
-        .38
-      ) {
-
-        const zoomScale =
-          1.06
-          +
-          zoom * 2.7;
-
-
-        const zoomX =
-          -110
+          settle
           *
-          zoom;
+          .16;
 
 
         physicalCard.style.transform =
           `
-            translateX(${zoomX}px)
             rotateX(0deg)
             rotateZ(0deg)
-            scale(${zoomScale})
+            translateY(0px)
+            scale(${settleScale})
           `;
-
-
-        tableScene.style.transform =
-          `
-            scale(${1 + zoom * .25})
-          `;
-
-
-        cardShadow.style.opacity =
-          .30
-          *
-          (1 - zoom);
 
       }
 
 
-      /* ==================================================
-         PHASE 4
-         48 - 62 %
+      /* Website übernimmt */
 
-         WEBSITE ÜBERNIMMT SCHON JETZT
-      ================================================== */
-
-      const transition =
-        mapProgress(
-          progress,
-          .48,
-          .62
+      const websiteTransition =
+        smooth(
+          mapProgress(
+            progress,
+            .48,
+            .94
+          )
         );
 
 
       tableScene.style.opacity =
         1
         -
-        transition;
+        websiteTransition;
+
+
+      tableScene.style.transform =
+        `
+          scale(
+            ${
+              1
+              +
+              websiteTransition
+              *
+              .04
+            }
+          )
+        `;
 
 
       websiteEntry.style.opacity =
-        transition;
+        websiteTransition;
 
 
       websiteEntry.style.transform =
         `
           scale(
-            ${.91 + transition * .09}
+            ${
+              .99
+              +
+              websiteTransition
+              *
+              .01
+            }
           )
         `;
 
 
-      /* ==================================================
-         WEBSITE TEXT
-      ================================================== */
+      cardShadow.style.opacity =
+        .52
+        *
+        (
+          1
+          -
+          websiteTransition
+        );
 
-      const contentReveal =
-        mapProgress(
-          progress,
-          .52,
-          .65
+
+      /* Website-Text */
+
+      const textReveal =
+        smooth(
+          mapProgress(
+            progress,
+            .55,
+            .93
+          )
         );
 
 
       websiteEntryContent.style.opacity =
-        contentReveal;
+        textReveal;
 
 
       websiteEntryContent.style.transform =
         `
           translateY(
-            ${28 - contentReveal * 28}px
+            ${
+              14
+              -
+              textReveal
+              *
+              14
+            }px
           )
         `;
 
 
-      /* ==================================================
-         AB 64 % KOMPLETT WEBSITE
-      ================================================== */
-
       if (
         progress
         >=
-        .64
+        .94
       ) {
 
         tableScene.style.opacity =
@@ -2168,20 +3241,26 @@
     ====================================================== */
 
     const engagementDate =
+
       new Date(
-        "2026-11-14T18:00:00"
-      ).getTime();
+        "2026-11-14T17:00:00"
+      )
+
+      .getTime();
 
 
     function updateCountdown() {
 
       const now =
-        new Date().getTime();
+        Date.now();
 
 
       const distance =
+
         engagementDate
+
         -
+
         now;
 
 
@@ -2212,13 +3291,19 @@
           "00";
 
         return;
+
       }
 
 
       const days =
         Math.floor(
           distance /
-          (1000 * 60 * 60 * 24)
+          (
+            1000 *
+            60 *
+            60 *
+            24
+          )
         );
 
 
@@ -2226,10 +3311,19 @@
         Math.floor(
           (
             distance %
-            (1000 * 60 * 60 * 24)
+            (
+              1000 *
+              60 *
+              60 *
+              24
+            )
           )
           /
-          (1000 * 60 * 60)
+          (
+            1000 *
+            60 *
+            60
+          )
         );
 
 
@@ -2237,10 +3331,17 @@
         Math.floor(
           (
             distance %
-            (1000 * 60 * 60)
+            (
+              1000 *
+              60 *
+              60
+            )
           )
           /
-          (1000 * 60)
+          (
+            1000 *
+            60
+          )
         );
 
 
@@ -2248,7 +3349,10 @@
         Math.floor(
           (
             distance %
-            (1000 * 60)
+            (
+              1000 *
+              60
+            )
           )
           /
           1000
@@ -2259,28 +3363,28 @@
         .getElementById("days")
         .textContent =
         String(days)
-        .padStart(2, "0");
+        .padStart(2,"0");
 
 
       document
         .getElementById("hours")
         .textContent =
         String(hours)
-        .padStart(2, "0");
+        .padStart(2,"0");
 
 
       document
         .getElementById("minutes")
         .textContent =
         String(minutes)
-        .padStart(2, "0");
+        .padStart(2,"0");
 
 
       document
         .getElementById("seconds")
         .textContent =
         String(seconds)
-        .padStart(2, "0");
+        .padStart(2,"0");
 
     }
 
@@ -2296,8 +3400,6 @@
 
     /* ======================================================
        RSVP DEMO
-
-       NOCH KEINE ECHTE SPEICHERUNG
     ====================================================== */
 
     const rsvpForm =
@@ -2331,3 +3433,4 @@
 
 </body>
 
+</html>
