@@ -3,36 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#d8cec2">
+  <meta name="theme-color" content="#ebe3da">
 
   <title>Münevver & Kubilay | Verlobung</title>
 
-  <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
     rel="stylesheet"
   >
 
   <style>
-
-    /* =========================================================
-       GRUNDEINSTELLUNGEN
-    ========================================================= */
-
     :root {
-      --bg: #eee7df;
-      --bg-dark: #ded2c6;
+      --table-1: #eee7df;
+      --table-2: #dbd0c5;
+      --table-3: #cbbcaf;
+
       --paper: #f8f4ee;
-      --paper-dark: #eee4d9;
+      --paper-light: #fffaf4;
 
       --text: #181411;
-      --muted: #947d69;
-      --line: rgba(55, 42, 32, 0.14);
+      --muted: #967e69;
+      --line: rgba(50, 38, 29, 0.14);
 
-      --white: #fffdfa;
+      --website: #f7f2ec;
+      --website-alt: #ebe1d7;
     }
 
     * {
@@ -46,10 +43,10 @@
     }
 
     body {
-      font-family: "Montserrat", sans-serif;
-      background: var(--bg);
-      color: var(--text);
       overflow-x: hidden;
+      background: var(--website);
+      color: var(--text);
+      font-family: "Montserrat", sans-serif;
     }
 
     h1,
@@ -60,28 +57,24 @@
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
-
-    /* =========================================================
-       1. EINLADUNGS-ANIMATION
-    ========================================================= */
+    /* ======================================================
+       KARTE / INTRO
+    ====================================================== */
 
     .invitation-scroll {
       position: relative;
 
       /*
-        Dadurch haben wir genug Scrollweg,
-        um die Animation langsam abzuspielen.
+        Bewusst deutlich kürzer als vorher.
       */
+      height: 230vh;
 
-      height: 400vh;
-
-      background: #d9cec2;
+      background: var(--table-2);
     }
-
 
     .invitation-sticky {
       position: sticky;
@@ -93,137 +86,104 @@
       overflow: hidden;
     }
 
-
-    /* =========================================================
-       TISCH
-    ========================================================= */
-
     .table-scene {
-      position: relative;
-
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      inset: 0;
 
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
 
-      perspective: 1900px;
-
-      overflow: hidden;
+      perspective: 1800px;
 
       background:
-
         radial-gradient(
-          circle at 48% 36%,
-          rgba(255,255,255,.58),
-          transparent 36%
-        ),
-
-        radial-gradient(
-          circle at 85% 85%,
-          rgba(117,89,67,.12),
+          circle at 35% 20%,
+          rgba(255,255,255,.8),
           transparent 35%
         ),
-
         linear-gradient(
           120deg,
-          #eee7df 0%,
-          #ddd2c7 48%,
-          #cfc0b3 100%
+          var(--table-1),
+          var(--table-2) 52%,
+          var(--table-3)
         );
+
+      transform-origin: center;
+      will-change: transform, opacity;
     }
-
-
-    /*
-      Dezente Tischstruktur
-    */
 
     .table-scene::before {
       content: "";
-
       position: absolute;
       inset: 0;
 
       background:
-
         repeating-linear-gradient(
           92deg,
           rgba(80,55,35,.018) 0px,
           rgba(80,55,35,.018) 1px,
           transparent 1px,
-          transparent 110px
+          transparent 120px
         );
 
       pointer-events: none;
     }
-
-
-    /*
-      Licht von links oben
-    */
 
     .table-scene::after {
       content: "";
-
       position: absolute;
 
-      width: 75vw;
-      height: 90vh;
+      width: 80vw;
+      height: 95vh;
 
-      left: -25vw;
-      top: -30vh;
+      left: -30vw;
+      top: -32vh;
 
       background:
-
         radial-gradient(
           ellipse,
-          rgba(255,255,255,.75),
-          transparent 67%
+          rgba(255,255,255,.8),
+          transparent 68%
         );
 
       filter: blur(30px);
-
       pointer-events: none;
     }
 
-
-    /* =========================================================
-       DEKORATION AUF DEM TISCH
-    ========================================================= */
+    /* ======================================================
+       DEKO
+    ====================================================== */
 
     .table-decoration {
       position: absolute;
 
-      width: 280px;
-      height: 280px;
+      width: 260px;
+      height: 260px;
 
-      right: 5vw;
+      right: 7vw;
       top: 8vh;
 
-      opacity: .16;
+      opacity: .13;
 
-      transform:
-        rotate(25deg);
+      transform: rotate(25deg);
 
       pointer-events: none;
     }
-
 
     .branch {
       position: absolute;
 
       width: 2px;
-      height: 240px;
-
-      background: #675748;
+      height: 225px;
 
       left: 50%;
       top: 10px;
 
+      background: #665547;
+
       transform: rotate(28deg);
     }
-
 
     .leaf {
       position: absolute;
@@ -233,59 +193,45 @@
 
       border-radius: 100% 0 100% 0;
 
-      background: #716052;
+      background: #66574b;
     }
 
-
     .leaf-1 {
-      left: 125px;
+      left: 115px;
       top: 45px;
-
-      transform: rotate(15deg);
     }
 
     .leaf-2 {
-      left: 153px;
-      top: 78px;
-
+      left: 145px;
+      top: 80px;
       transform: rotate(80deg);
     }
 
     .leaf-3 {
-      left: 102px;
-      top: 112px;
-
-      transform: rotate(-5deg);
-    }
-
-    .leaf-4 {
-      left: 162px;
-      top: 145px;
-
-      transform: rotate(75deg);
-    }
-
-    .leaf-5 {
-      left: 90px;
-      top: 180px;
-
+      left: 95px;
+      top: 115px;
       transform: rotate(-15deg);
     }
 
+    .leaf-4 {
+      left: 151px;
+      top: 150px;
+      transform: rotate(75deg);
+    }
 
-    /* =========================================================
-       SCHATTEN UNTER KARTE
-    ========================================================= */
+    /* ======================================================
+       SCHATTEN
+    ====================================================== */
 
-    .ambient-shadow {
+    .card-shadow {
       position: absolute;
 
-      width: 470px;
-      height: 170px;
+      width: 450px;
+      height: 150px;
 
       border-radius: 50%;
 
-      background: rgba(50,35,25,.25);
+      background: rgba(47, 34, 24, .27);
 
       filter: blur(45px);
 
@@ -293,15 +239,12 @@
         translateY(170px)
         scaleX(1.15);
 
-      opacity: .5;
-
-      will-change: transform, opacity;
+      opacity: .55;
     }
 
-
-    /* =========================================================
-       DIE EIGENTLICHE KARTE
-    ========================================================= */
+    /* ======================================================
+       KARTE
+    ====================================================== */
 
     .physical-card {
       position: relative;
@@ -309,86 +252,47 @@
       width: 390px;
       height: 540px;
 
+      z-index: 5;
+
       transform-style: preserve-3d;
 
-      /*
-        STARTPOSITION:
-        Karte liegt perspektivisch auf dem Tisch.
-      */
-
       transform:
-        rotateX(62deg)
+        rotateX(63deg)
         rotateZ(-8deg)
         translateY(40px)
-        scale(.70);
+        scale(.72);
 
-      will-change: transform;
-
-      z-index: 5;
+      will-change: transform, opacity;
     }
 
+    /* rechte Innenseite – komplett leer */
 
-    /* =========================================================
-       RECHTE INNENSEITE
-    ========================================================= */
-
-    .card-right-inside {
+    .card-base {
       position: absolute;
       inset: 0;
 
       background:
-
+        radial-gradient(
+          circle at 20% 15%,
+          rgba(255,255,255,.55),
+          transparent 30%
+        ),
         linear-gradient(
           145deg,
-          rgba(255,255,255,.60),
-          rgba(216,201,187,.12)
+          rgba(255,255,255,.65),
+          rgba(220,205,190,.12)
         ),
-
         var(--paper);
 
-      border:
-        1px solid rgba(100,80,60,.07);
+      border: 1px solid rgba(90,70,55,.06);
 
       box-shadow:
-        0 25px 60px rgba(55,40,28,.17);
-
-      overflow: hidden;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
+        0 25px 60px rgba(50,37,27,.18);
     }
 
-
-    /*
-      Papiertextur
-    */
-
-    .card-right-inside::after,
-    .cover-face::after {
-      content: "";
-
-      position: absolute;
-      inset: 0;
-
-      opacity: .13;
-
-      pointer-events: none;
-
-      background:
-
-        repeating-radial-gradient(
-          circle at 0 0,
-          rgba(70,50,35,.08) 0px,
-          transparent 1px,
-          transparent 5px
-        );
-    }
-
-
-    /* =========================================================
-       AUFKLAPPENDER DECKEL
-    ========================================================= */
+    /* ======================================================
+       DECKEL
+    ====================================================== */
 
     .card-cover {
       position: absolute;
@@ -399,12 +303,10 @@
       transform-origin: left center;
       transform-style: preserve-3d;
 
-      transform:
-        rotateY(0deg);
+      transform: rotateY(0deg);
 
       will-change: transform;
     }
-
 
     .cover-face {
       position: absolute;
@@ -413,16 +315,10 @@
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
 
+      border: 1px solid rgba(90,70,55,.06);
+
       overflow: hidden;
-
-      border:
-        1px solid rgba(100,80,60,.07);
     }
-
-
-    /* =========================================================
-       VORDERSEITE
-    ========================================================= */
 
     .cover-front {
       display: flex;
@@ -430,284 +326,129 @@
       justify-content: center;
 
       background:
-
         radial-gradient(
           circle at 30% 20%,
-          rgba(255,255,255,.55),
+          rgba(255,255,255,.6),
           transparent 35%
         ),
-
         linear-gradient(
           145deg,
           #f2ebe3,
-          #e5d9cd
+          #e4d8cc
         );
 
       box-shadow:
-        20px 25px 55px rgba(60,45,34,.20);
+        20px 25px 55px rgba(55,40,30,.2);
     }
 
+    /* ======================================================
+       TEXT AUF GESCHLOSSENER KARTE
+    ====================================================== */
 
-    /*
-      Auf der geschlossenen Karte bewusst
-      KEINE Namen / Datum / Informationen.
-    */
+    .cover-content {
+      position: relative;
+      z-index: 2;
 
-    .cover-minimal {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      width: 100%;
 
-      color: #9b826d;
+      padding: 40px;
+
+      text-align: center;
     }
 
+    .cover-kicker {
+      margin-bottom: 28px;
 
-    .cover-circle {
-      width: 68px;
-      height: 68px;
+      font-size: 8px;
 
-      border:
-        1px solid rgba(145,120,100,.48);
+      letter-spacing: 5px;
 
-      border-radius: 50%;
+      text-transform: uppercase;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      font-family:
-        "Cormorant Garamond",
-        serif;
-
-      font-size: 31px;
-
-      font-style: italic;
+      color: var(--muted);
     }
 
+    .cover-content h2 {
+      font-size: 56px;
 
-    .cover-small-line {
-      width: 45px;
+      line-height: .9;
+    }
+
+    .cover-content h2 span {
+      display: block;
+
+      margin: 9px 0;
+
+      font-size: 32px;
+
+      color: var(--muted);
+    }
+
+    .cover-line {
+      width: 48px;
       height: 1px;
 
-      background:
-        rgba(145,120,100,.50);
+      margin: 29px auto;
 
-      margin-top: 22px;
+      background: rgba(140,115,95,.5);
     }
 
+    .cover-heart {
+      font-family: "Cormorant Garamond", serif;
 
-    /* =========================================================
-       LINKE INNENSEITE
-    ========================================================= */
+      font-size: 33px;
+
+      color: var(--muted);
+    }
+
+    /* linke Innenseite ebenfalls leer */
 
     .cover-back {
-      transform:
-        rotateY(180deg);
+      transform: rotateY(180deg);
 
       background:
-
+        radial-gradient(
+          circle at 70% 20%,
+          rgba(255,255,255,.5),
+          transparent 30%
+        ),
         linear-gradient(
           135deg,
           #faf6f0,
           #eee4d9
         );
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
-
-    .left-inside {
-      text-align: center;
-
-      color: #947d69;
-
-      padding: 42px;
-    }
-
-
-    .left-heart {
-      font-family:
-        "Cormorant Garamond",
-        serif;
-
-      font-size: 43px;
-    }
-
-
-    .left-line {
-      width: 45px;
-      height: 1px;
-
-      background: #aa927e;
-
-      margin: 25px auto;
-    }
-
-
-    .left-inside p {
-      font-family:
-        "Cormorant Garamond",
-        serif;
-
-      font-size: 22px;
-
-      font-style: italic;
-
-      line-height: 1.55;
-    }
-
-
-    /* =========================================================
-       EINLADUNGSTEXT
-    ========================================================= */
-
-    .invitation-content {
-      position: relative;
-
-      z-index: 2;
-
-      width: 100%;
-
-      padding: 42px;
-
-      text-align: center;
-
-      opacity: 0;
-
-      transform:
-        translateY(20px)
-        scale(.94);
-
-      will-change:
-        opacity,
-        transform;
-    }
-
-
-    .invite-small {
-      font-size: 9px;
-
-      letter-spacing: 4px;
-
-      text-transform: uppercase;
-
-      color: #947d69;
-
-      margin-bottom: 25px;
-    }
-
-
-    .invitation-content h1 {
-      font-family:
-        "Cormorant Garamond",
-        serif;
-
-      font-size: 57px;
-
-      font-weight: 400;
-
-      line-height: .92;
-    }
-
-
-    .invitation-content h1 span {
-      display: block;
-
-      font-size: 36px;
-
-      color: #a58b76;
-
-      margin:
-        7px 0;
-    }
-
-
-    .invite-line {
-      width: 48px;
-      height: 1px;
-
-      background: #ad9784;
-
-      margin:
-        27px auto;
-    }
-
-
-    .invite-date {
-      font-size: 10px;
-
-      letter-spacing: 4px;
-
-      text-transform: uppercase;
-    }
-
-
-    .invite-location {
-      margin-top: 10px;
-
-      font-family:
-        "Cormorant Garamond",
-        serif;
-
-      font-size: 25px;
-
-      font-style: italic;
-
-      color: #957c68;
-    }
-
-
-    .invite-text {
-      max-width: 280px;
-
-      margin: auto;
-
-      font-size: 10px;
-
-      line-height: 1.9;
-
-      color: #655b53;
-    }
-
-
-    /* =========================================================
+    /* ======================================================
        SCROLL HINWEIS
-    ========================================================= */
+    ====================================================== */
 
     .scroll-instruction {
       position: absolute;
 
       left: 50%;
-      bottom: 35px;
+      bottom: 32px;
 
-      transform:
-        translateX(-50%);
+      transform: translateX(-50%);
 
-      z-index: 20;
+      z-index: 30;
+
+      width: 90%;
 
       text-align: center;
 
-      color: #746252;
-
-      transition:
-        opacity .1s linear;
+      color: #756252;
 
       will-change: opacity;
     }
 
-
     .scroll-instruction span {
       display: block;
 
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      font-family: "Cormorant Garamond", serif;
 
-      font-size: 18px;
+      font-size: 19px;
     }
-
 
     .scroll-instruction strong {
       display: block;
@@ -715,7 +456,6 @@
       margin-top: 7px;
 
       font-size: 8px;
-
       font-weight: 400;
 
       letter-spacing: 4px;
@@ -723,44 +463,158 @@
       text-transform: uppercase;
     }
 
-
-    .scroll-line {
+    .scroll-indicator {
       width: 1px;
       height: 38px;
 
-      margin:
-        14px auto 0;
+      margin: 14px auto 0;
 
-      background:
-        rgba(110,90,70,.5);
+      background: rgba(110,90,70,.5);
     }
 
+    /* ======================================================
+       WEBSITE-EINSTIEG
 
-    /* =========================================================
-       NACH DER KARTE
-    ========================================================= */
+       Erst sichtbar, nachdem die Karte sich geöffnet hat.
+    ====================================================== */
 
-    .content-section {
+    .website-entry {
+      position: absolute;
+      inset: 0;
+
+      z-index: 2;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle at 50% 15%,
+          rgba(255,255,255,.85),
+          transparent 36%
+        ),
+        var(--website);
+
+      opacity: 0;
+
+      transform: scale(.91);
+
+      will-change: opacity, transform;
+    }
+
+    .website-entry-content {
+      width: min(920px, 88%);
+
+      text-align: center;
+
+      opacity: 0;
+
+      transform: translateY(28px);
+
+      will-change: opacity, transform;
+    }
+
+    .website-eyebrow {
+      margin-bottom: 27px;
+
+      font-size: 9px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    .website-entry h1 {
+      font-size: clamp(65px, 10vw, 125px);
+
+      line-height: .82;
+    }
+
+    .website-entry h1 span {
+      display: block;
+
+      margin: 10px 0;
+
+      font-size: .55em;
+
+      color: var(--muted);
+    }
+
+    .hero-line {
+      width: 55px;
+      height: 1px;
+
+      margin: 34px auto;
+
+      background: var(--muted);
+
+      opacity: .55;
+    }
+
+    .hero-date {
+      font-size: 11px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+    }
+
+    .hero-place {
+      margin-top: 13px;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 29px;
+
+      font-style: italic;
+
+      color: var(--muted);
+    }
+
+    .hero-copy {
+      max-width: 600px;
+
+      margin: 42px auto 0;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: clamp(21px, 3vw, 28px);
+
+      line-height: 1.55;
+
+      color: #62574e;
+    }
+
+    /* ======================================================
+       WEBSITE
+    ====================================================== */
+
+    .site-content {
       position: relative;
 
-      padding:
-        120px 24px;
+      z-index: 20;
 
-      background:
-        #f5f0ea;
+      background: var(--website);
     }
 
+    .content-section {
+      padding: 120px 24px;
+
+      background: var(--website);
+    }
 
     .container {
-      width:
-        min(1050px, 100%);
+      width: min(1050px, 100%);
 
-      margin:
-        0 auto;
+      margin: 0 auto;
     }
 
-
     .section-eyebrow {
+      margin-bottom: 22px;
+
       text-align: center;
 
       font-size: 9px;
@@ -770,769 +624,543 @@
       text-transform: uppercase;
 
       color: var(--muted);
-
-      margin-bottom: 22px;
     }
-
 
     .section-title {
+      margin-bottom: 60px;
+
       text-align: center;
 
-      font-size:
-        clamp(52px, 8vw, 85px);
+      font-size: clamp(52px, 8vw, 85px);
 
       line-height: 1;
-
-      margin-bottom: 60px;
     }
 
+    /* ======================================================
+       COUNTDOWN
+    ====================================================== */
 
-    /* =========================================================
-       INTRO
-    ========================================================= */
+    .countdown-section {
+      padding: 120px 24px;
 
-    .intro {
       text-align: center;
+
+      background: #191512;
+
+      color: #fffaf4;
     }
 
+    .countdown-section .section-eyebrow {
+      color: #b9a692;
+    }
 
-    .intro-text {
-      max-width: 620px;
+    .countdown-section .section-title {
+      margin-bottom: 55px;
+    }
+
+    .countdown {
+      max-width: 800px;
 
       margin: auto;
 
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      display: grid;
 
-      font-size:
-        clamp(22px, 3vw, 29px);
-
-      line-height: 1.65;
-
-      color: #62574e;
+      grid-template-columns: repeat(4, 1fr);
     }
-
-
-    .intro-divider {
-      width: 55px;
-      height: 1px;
-
-      background: var(--muted);
-
-      margin:
-        40px auto;
-
-      opacity: .55;
-    }
-
-
-    /* =========================================================
-       COUNTDOWN
-    ========================================================= */
-
-    .countdown-section {
-      padding:
-        120px 24px;
-
-      background:
-        #191512;
-
-      color:
-        #fffaf4;
-
-      text-align:
-        center;
-    }
-
-
-    .countdown-section .section-eyebrow {
-      color:
-        #b9a692;
-    }
-
-
-    .countdown-section .section-title {
-      margin-bottom:
-        55px;
-    }
-
-
-    .countdown {
-      max-width:
-        800px;
-
-      margin:
-        auto;
-
-      display:
-        grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-    }
-
 
     .count-item {
-      padding:
-        10px;
+      padding: 10px;
 
-      border-right:
-        1px solid rgba(255,255,255,.15);
+      border-right: 1px solid rgba(255,255,255,.15);
     }
-
 
     .count-item:last-child {
-      border-right:
-        none;
+      border-right: none;
     }
-
 
     .count-number {
-      display:
-        block;
+      display: block;
 
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      font-family: "Cormorant Garamond", serif;
 
-      font-size:
-        clamp(47px, 7vw, 80px);
-
-      font-weight:
-        300;
+      font-size: clamp(47px, 7vw, 80px);
     }
-
 
     .count-label {
-      display:
-        block;
+      display: block;
 
-      margin-top:
-        7px;
+      margin-top: 8px;
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        3px;
+      letter-spacing: 3px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      color:
-        #bba895;
+      color: #bba895;
     }
 
-
-    /* =========================================================
+    /* ======================================================
        DETAILS
-    ========================================================= */
+    ====================================================== */
 
     .details-grid {
-      display:
-        grid;
+      display: grid;
 
-      grid-template-columns:
-        repeat(3, 1fr);
+      grid-template-columns: repeat(3, 1fr);
 
-      border-top:
-        1px solid var(--line);
+      border-top: 1px solid var(--line);
 
-      border-bottom:
-        1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
-
 
     .detail {
-      padding:
-        55px 25px;
+      padding: 55px 25px;
 
-      text-align:
-        center;
+      text-align: center;
 
-      border-right:
-        1px solid var(--line);
+      border-right: 1px solid var(--line);
     }
-
 
     .detail:last-child {
-      border-right:
-        none;
+      border-right: none;
     }
-
 
     .detail-number {
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      margin-bottom: 20px;
 
-      font-size:
-        53px;
+      font-family: "Cormorant Garamond", serif;
 
-      color:
-        var(--muted);
+      font-size: 53px;
 
-      margin-bottom:
-        20px;
+      color: var(--muted);
     }
-
 
     .detail h3 {
-      font-size:
-        29px;
+      margin-bottom: 10px;
 
-      margin-bottom:
-        10px;
+      font-size: 29px;
     }
-
 
     .detail p {
-      font-size:
-        11px;
+      font-size: 11px;
 
-      line-height:
-        1.9;
+      line-height: 1.9;
 
-      color:
-        #655b53;
+      color: #655b53;
     }
 
-
-    /* =========================================================
+    /* ======================================================
        PROGRAMM
-    ========================================================= */
+    ====================================================== */
 
     .program {
-      background:
-        #e9dfd5;
+      background: var(--website-alt);
     }
-
 
     .timeline {
-      max-width:
-        690px;
+      max-width: 690px;
 
-      margin:
-        auto;
+      margin: auto;
     }
-
 
     .timeline-item {
-      display:
-        grid;
+      display: grid;
 
-      grid-template-columns:
-        105px 1fr;
+      grid-template-columns: 105px 1fr;
 
-      gap:
-        30px;
+      gap: 30px;
 
-      padding:
-        31px 0;
+      padding: 31px 0;
 
-      border-bottom:
-        1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
-
 
     .timeline-time {
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      font-family: "Cormorant Garamond", serif;
 
-      font-size:
-        32px;
+      font-size: 32px;
 
-      color:
-        var(--muted);
+      color: var(--muted);
     }
-
 
     .timeline-item h3 {
-      font-size:
-        27px;
+      margin-bottom: 7px;
 
-      margin-bottom:
-        7px;
+      font-size: 27px;
     }
-
 
     .timeline-item p {
-      font-size:
-        11px;
+      font-size: 11px;
 
-      line-height:
-        1.8;
+      line-height: 1.8;
 
-      color:
-        #655b53;
+      color: #655b53;
     }
 
-
-    /* =========================================================
+    /* ======================================================
        LOCATION
-    ========================================================= */
+    ====================================================== */
 
     .location {
-      text-align:
-        center;
+      text-align: center;
     }
-
 
     .location-name {
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      font-family: "Cormorant Garamond", serif;
 
-      font-size:
-        34px;
+      font-size: clamp(31px, 5vw, 43px);
+
+      line-height: 1.2;
     }
-
 
     .location-address {
-      margin-top:
-        12px;
+      margin-top: 15px;
 
-      font-size:
-        11px;
+      font-size: 12px;
 
-      line-height:
-        1.9;
+      line-height: 1.9;
 
-      color:
-        #655b53;
+      color: #655b53;
     }
 
+    /* GOOGLE MAPS */
 
-    /* =========================================================
+    .map-wrapper {
+      width: min(900px, 100%);
+
+      height: 430px;
+
+      margin: 50px auto 0;
+
+      overflow: hidden;
+
+      border-radius: 3px;
+
+      box-shadow:
+        0 20px 55px rgba(57,42,31,.10);
+
+      border:
+        1px solid rgba(70,55,42,.08);
+    }
+
+    .map-wrapper iframe {
+      width: 100%;
+      height: 100%;
+
+      border: 0;
+
+      filter:
+        saturate(.70)
+        sepia(.10)
+        contrast(.92);
+    }
+
+    .maps-button {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 32px;
+
+      padding: 17px 30px;
+
+      border: 1px solid var(--text);
+
+      font-size: 9px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      transition: .3s ease;
+    }
+
+    .maps-button:hover {
+      background: var(--text);
+
+      color: white;
+    }
+
+    /* ======================================================
        RSVP
-    ========================================================= */
+    ====================================================== */
 
     .rsvp {
-      background:
-        #fffdfa;
+      background: #fffdfa;
     }
-
 
     .rsvp-box {
-      width:
-        min(650px, 100%);
+      width: min(650px, 100%);
 
-      margin:
-        auto;
+      margin: auto;
 
-      text-align:
-        center;
+      text-align: center;
     }
-
 
     .rsvp-description {
-      max-width:
-        520px;
+      max-width: 520px;
 
-      margin:
-        -25px auto 45px;
+      margin: -25px auto 45px;
 
-      font-size:
-        12px;
+      font-size: 12px;
 
-      line-height:
-        1.9;
+      line-height: 1.9;
 
-      color:
-        #675d55;
+      color: #675d55;
     }
-
 
     form {
-      text-align:
-        left;
+      text-align: left;
     }
-
 
     .form-group {
-      margin-bottom:
-        26px;
+      margin-bottom: 26px;
     }
-
 
     label {
-      display:
-        block;
+      display: block;
 
-      margin-bottom:
-        9px;
+      margin-bottom: 9px;
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        3px;
+      letter-spacing: 3px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      color:
-        var(--muted);
+      color: var(--muted);
     }
-
 
     input,
     select,
     textarea {
-      width:
-        100%;
+      width: 100%;
 
-      border:
-        none;
+      padding: 14px 4px;
 
-      border-bottom:
-        1px solid #b9ada1;
+      border: none;
 
-      background:
-        transparent;
+      border-bottom: 1px solid #b9ada1;
 
-      padding:
-        14px 4px;
+      outline: none;
 
-      outline:
-        none;
+      background: transparent;
 
-      font-family:
-        "Montserrat",
-        sans-serif;
+      font-family: "Montserrat", sans-serif;
 
-      font-size:
-        13px;
+      font-size: 13px;
 
-      color:
-        var(--text);
+      color: var(--text);
     }
-
 
     input:focus,
     select:focus,
     textarea:focus {
-      border-bottom-color:
-        var(--text);
+      border-bottom-color: var(--text);
     }
-
 
     textarea {
-      min-height:
-        90px;
+      min-height: 90px;
 
-      resize:
-        vertical;
+      resize: vertical;
     }
-
 
     .submit-button {
-      width:
-        100%;
+      width: 100%;
 
-      margin-top:
-        15px;
+      margin-top: 15px;
 
-      padding:
-        19px;
+      padding: 19px;
 
-      border:
-        1px solid var(--text);
+      border: 1px solid var(--text);
 
-      background:
-        var(--text);
+      background: var(--text);
 
-      color:
-        white;
+      color: white;
 
-      cursor:
-        pointer;
+      cursor: pointer;
 
-      font-family:
-        "Montserrat",
-        sans-serif;
+      font-family: "Montserrat", sans-serif;
 
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        4px;
+      letter-spacing: 4px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      transition:
-        .3s ease;
+      transition: .3s ease;
     }
-
 
     .submit-button:hover {
-      background:
-        transparent;
+      background: transparent;
 
-      color:
-        var(--text);
+      color: var(--text);
     }
-
 
     .success {
-      display:
-        none;
+      display: none;
 
-      margin-top:
-        35px;
+      margin-top: 35px;
 
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      font-family: "Cormorant Garamond", serif;
 
-      font-size:
-        28px;
+      font-size: 28px;
 
-      color:
-        var(--muted);
+      color: var(--muted);
     }
 
-
-    /* =========================================================
+    /* ======================================================
        FOOTER
-    ========================================================= */
+    ====================================================== */
 
     footer {
-      padding:
-        80px 20px;
+      padding: 80px 20px;
 
-      text-align:
-        center;
+      text-align: center;
 
-      background:
-        #191512;
+      background: #191512;
 
-      color:
-        white;
+      color: white;
     }
-
 
     .footer-names {
-      font-family:
-        "Cormorant Garamond",
-        serif;
+      margin-bottom: 13px;
 
-      font-size:
-        42px;
+      font-family: "Cormorant Garamond", serif;
 
-      margin-bottom:
-        13px;
+      font-size: 42px;
     }
-
 
     footer p {
-      font-size:
-        8px;
+      font-size: 8px;
 
-      letter-spacing:
-        4px;
+      letter-spacing: 4px;
 
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
 
-      color:
-        #b7a38f;
+      color: #b7a38f;
     }
 
-
-    /* =========================================================
+    /* ======================================================
        MOBILE
-    ========================================================= */
+    ====================================================== */
 
     @media (max-width: 700px) {
 
       .invitation-scroll {
-        height:
-          380vh;
+        /*
+          Auch auf Handy nicht unnötig lang.
+        */
+        height: 220vh;
       }
-
 
       .physical-card {
-        width:
-          275px;
-
-        height:
-          390px;
+        width: 275px;
+        height: 390px;
 
         transform:
-          rotateX(62deg)
+          rotateX(63deg)
           rotateZ(-7deg)
           translateY(20px)
-          scale(.70);
+          scale(.72);
       }
 
-
-      .ambient-shadow {
-        width:
-          300px;
-
-        height:
-          120px;
-
-        transform:
-          translateY(120px);
-
-        filter:
-          blur(35px);
+      .cover-content {
+        padding: 25px;
       }
 
+      .cover-content h2 {
+        font-size: 41px;
+      }
+
+      .cover-content h2 span {
+        font-size: 25px;
+      }
+
+      .card-shadow {
+        width: 300px;
+        height: 120px;
+
+        transform: translateY(120px);
+
+        filter: blur(35px);
+      }
 
       .table-decoration {
-        width:
-          180px;
+        width: 180px;
+        height: 180px;
 
-        height:
-          180px;
-
-        right:
-          -35px;
-
-        top:
-          60px;
+        top: 60px;
+        right: -35px;
       }
-
-
-      .invitation-content {
-        padding:
-          24px;
-      }
-
-
-      .invitation-content h1 {
-        font-size:
-          40px;
-      }
-
-
-      .invitation-content h1 span {
-        font-size:
-          27px;
-      }
-
-
-      .invite-small {
-        font-size:
-          7px;
-
-        letter-spacing:
-          3px;
-
-        margin-bottom:
-          17px;
-      }
-
-
-      .invite-line {
-        margin:
-          19px auto;
-      }
-
-
-      .invite-text {
-        font-size:
-          8px;
-      }
-
-
-      .left-inside {
-        padding:
-          25px;
-      }
-
-
-      .left-inside p {
-        font-size:
-          17px;
-      }
-
 
       .scroll-instruction {
-        width:
-          90%;
-
-        bottom:
-          25px;
+        bottom: 22px;
       }
-
 
       .scroll-instruction span {
-        font-size:
-          16px;
+        font-size: 16px;
       }
 
-
-      .content-section,
-      .countdown-section {
-        padding:
-          90px 20px;
+      .website-entry h1 {
+        font-size: 58px;
       }
 
+      .hero-copy {
+        font-size: 20px;
+      }
+
+      .countdown-section,
+      .content-section {
+        padding: 90px 20px;
+      }
 
       .countdown {
-        grid-template-columns:
-          repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
 
-        gap:
-          35px 0;
+        gap: 35px 0;
       }
-
 
       .count-item:nth-child(2) {
-        border-right:
-          none;
+        border-right: none;
       }
-
 
       .details-grid {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
-
 
       .detail {
-        border-right:
-          none;
+        border-right: none;
 
-        border-bottom:
-          1px solid var(--line);
+        border-bottom: 1px solid var(--line);
       }
-
 
       .detail:last-child {
-        border-bottom:
-          none;
+        border-bottom: none;
       }
 
-
       .timeline-item {
-        grid-template-columns:
-          75px 1fr;
+        grid-template-columns: 75px 1fr;
 
-        gap:
-          18px;
+        gap: 18px;
+      }
+
+      .map-wrapper {
+        height: 340px;
       }
 
     }
 
   </style>
-
 </head>
-
 
 <body>
 
-
-  <!-- =========================================================
-       EINLADUNG AUF DEM TISCH
-  ========================================================== -->
+  <!-- ======================================================
+       KARTE
+  ====================================================== -->
 
   <section
     class="invitation-scroll"
@@ -1541,162 +1169,135 @@
 
     <div class="invitation-sticky">
 
-      <div class="table-scene">
+      <!-- WEBSITE HINTER DER KARTE -->
+
+      <div
+        class="website-entry"
+        id="websiteEntry"
+      >
+
+        <div
+          class="website-entry-content"
+          id="websiteEntryContent"
+        >
+
+          <div class="website-eyebrow">
+            Einladung zu unserer Verlobung
+          </div>
+
+          <h1>
+            Münevver
+
+            <span>&</span>
+
+            Kubilay
+          </h1>
+
+          <div class="hero-line"></div>
+
+          <div class="hero-date">
+            14 · 11 · 2026
+          </div>
+
+          <div class="hero-place">
+            Neresheim
+          </div>
+
+          <p class="hero-copy">
+            Ein neuer Abschnitt beginnt.
+
+            <br><br>
+
+            Diesen besonderen Moment möchten wir
+            gemeinsam mit unseren Familien und
+            Freunden feiern.
+          </p>
+
+        </div>
+
+      </div>
 
 
-        <!-- DEZENTE PFLANZE / DEKO -->
+      <!-- TISCH -->
+
+      <div
+        class="table-scene"
+        id="tableScene"
+      >
 
         <div class="table-decoration">
-
           <div class="branch"></div>
-
           <div class="leaf leaf-1"></div>
           <div class="leaf leaf-2"></div>
           <div class="leaf leaf-3"></div>
           <div class="leaf leaf-4"></div>
-          <div class="leaf leaf-5"></div>
-
         </div>
 
 
-        <!-- SCHATTEN -->
-
         <div
-          class="ambient-shadow"
-          id="ambientShadow"
+          class="card-shadow"
+          id="cardShadow"
         ></div>
 
 
-        <!-- KARTE -->
+        <!-- EINLADUNGSKARTE -->
 
         <div
           class="physical-card"
           id="physicalCard"
         >
 
+          <!-- INNEN RECHTS = LEER -->
 
-          <!-- RECHTE INNENSEITE -->
-
-          <div class="card-right-inside">
-
-            <div
-              class="invitation-content"
-              id="invitationContent"
-            >
-
-              <p class="invite-small">
-                Einladung zu unserer Verlobung
-              </p>
+          <div class="card-base"></div>
 
 
-              <h1>
-
-                Münevver
-
-                <span>&</span>
-
-                Kubilay
-
-              </h1>
-
-
-              <div class="invite-line"></div>
-
-
-              <p class="invite-date">
-                14 · 11 · 2026
-              </p>
-
-
-              <p class="invite-location">
-                Neresheim
-              </p>
-
-
-              <div class="invite-line"></div>
-
-
-              <p class="invite-text">
-
-                Ein besonderer Tag,
-                ein neues Kapitel und Menschen,
-                die diesen Moment mit uns teilen.
-
-                <br><br>
-
-                Wir freuen uns darauf,
-                unsere Verlobung gemeinsam
-                mit euch zu feiern.
-
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <!-- AUFKLAPPENDER DECKEL -->
+          <!-- AUFKLAPPENDE SEITE -->
 
           <div
             class="card-cover"
             id="cardCover"
           >
 
+            <!-- VORDERSEITE -->
 
-            <!-- AUSSENSEITE -->
+            <div class="cover-face cover-front">
 
-            <div
-              class="cover-face cover-front"
-            >
+              <div class="cover-content">
 
-              <div class="cover-minimal">
-
-                <div class="cover-circle">
-                  ♡
+                <div class="cover-kicker">
+                  Einladung zur Verlobung
                 </div>
 
-                <div class="cover-small-line"></div>
+                <h2>
+                  Münevver
+
+                  <span>&</span>
+
+                  Kubilay
+                </h2>
+
+                <div class="cover-line"></div>
+
+                <div class="cover-heart">
+                  ♡
+                </div>
 
               </div>
 
             </div>
 
 
-            <!-- LINKE INNENSEITE -->
+            <!-- INNEN LINKS = LEER -->
 
-            <div
-              class="cover-face cover-back"
-            >
-
-              <div class="left-inside">
-
-                <div class="left-heart">
-                  ♡
-                </div>
-
-
-                <div class="left-line"></div>
-
-
-                <p>
-
-                  Ein besonderer Moment
-                  beginnt mit besonderen
-                  Menschen.
-
-                </p>
-
-              </div>
-
-            </div>
-
+            <div class="cover-face cover-back"></div>
 
           </div>
 
         </div>
 
 
-        <!-- SCROLL HINWEIS -->
+        <!-- SCROLL TEXT -->
 
         <div
           class="scroll-instruction"
@@ -1711,10 +1312,9 @@
             bitte scrollen
           </strong>
 
-          <div class="scroll-line"></div>
+          <div class="scroll-indicator"></div>
 
         </div>
-
 
       </div>
 
@@ -1723,554 +1323,436 @@
   </section>
 
 
+  <!-- ======================================================
+       WEBSITE
+  ====================================================== -->
 
-  <!-- =========================================================
-       INTRO
-  ========================================================== -->
-
-  <section class="content-section intro">
-
-    <div class="container">
-
-      <div class="section-eyebrow">
-        Münevver & Kubilay
-      </div>
+  <main class="site-content">
 
 
-      <h2 class="section-title">
-        Wir verloben uns
-      </h2>
+    <!-- COUNTDOWN -->
 
+    <section class="countdown-section">
 
-      <div class="intro-divider"></div>
+      <div class="container">
 
-
-      <p class="intro-text">
-
-        Ein neuer Abschnitt beginnt.
-
-        <br><br>
-
-        Diesen besonderen Moment
-        möchten wir gemeinsam mit
-        unseren Familien und Freunden feiern.
-
-        <br><br>
-
-        Wir freuen uns von Herzen,
-        euch bei unserer Verlobung
-        begrüßen zu dürfen.
-
-      </p>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================================================
-       COUNTDOWN
-  ========================================================== -->
-
-  <section class="countdown-section">
-
-    <div class="container">
-
-      <div class="section-eyebrow">
-        Bis wir gemeinsam feiern
-      </div>
-
-
-      <h2 class="section-title">
-        Der Countdown läuft
-      </h2>
-
-
-      <div class="countdown">
-
-
-        <div class="count-item">
-
-          <span
-            class="count-number"
-            id="days"
-          >
-            00
-          </span>
-
-          <span class="count-label">
-            Tage
-          </span>
-
+        <div class="section-eyebrow">
+          Bis wir gemeinsam feiern
         </div>
 
+        <h2 class="section-title">
+          Der Countdown läuft
+        </h2>
 
-        <div class="count-item">
+        <div class="countdown">
 
-          <span
-            class="count-number"
-            id="hours"
-          >
-            00
-          </span>
-
-          <span class="count-label">
-            Stunden
-          </span>
-
-        </div>
-
-
-        <div class="count-item">
-
-          <span
-            class="count-number"
-            id="minutes"
-          >
-            00
-          </span>
-
-          <span class="count-label">
-            Minuten
-          </span>
-
-        </div>
-
-
-        <div class="count-item">
-
-          <span
-            class="count-number"
-            id="seconds"
-          >
-            00
-          </span>
-
-          <span class="count-label">
-            Sekunden
-          </span>
-
-        </div>
-
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =========================================================
-       DETAILS
-  ========================================================== -->
-
-  <section class="content-section">
-
-    <div class="container">
-
-      <div class="section-eyebrow">
-        Die wichtigsten Details
-      </div>
-
-
-      <h2 class="section-title">
-        Unsere Verlobung
-      </h2>
-
-
-      <div class="details-grid">
-
-
-        <div class="detail">
-
-          <div class="detail-number">
-            01
+          <div class="count-item">
+            <span class="count-number" id="days">00</span>
+            <span class="count-label">Tage</span>
           </div>
 
-          <h3>
-            Datum
-          </h3>
-
-          <p>
-
-            Samstag
-
-            <br>
-
-            14. November 2026
-
-          </p>
-
-        </div>
-
-
-        <div class="detail">
-
-          <div class="detail-number">
-            02
+          <div class="count-item">
+            <span class="count-number" id="hours">00</span>
+            <span class="count-label">Stunden</span>
           </div>
 
-          <h3>
-            Ort
-          </h3>
-
-          <p>
-
-            Neresheim
-
-            <br>
-
-            Baden-Württemberg
-
-          </p>
-
-        </div>
-
-
-        <div class="detail">
-
-          <div class="detail-number">
-            03
+          <div class="count-item">
+            <span class="count-number" id="minutes">00</span>
+            <span class="count-label">Minuten</span>
           </div>
 
-          <h3>
-            Beginn
-          </h3>
-
-          <p>
-
-            Uhrzeit folgt
-
-            <br>
-
-            Wir freuen uns auf euch
-
-          </p>
+          <div class="count-item">
+            <span class="count-number" id="seconds">00</span>
+            <span class="count-label">Sekunden</span>
+          </div>
 
         </div>
-
 
       </div>
 
-    </div>
-
-  </section>
+    </section>
 
 
+    <!-- DETAILS -->
 
-  <!-- =========================================================
-       PROGRAMM
-  ========================================================== -->
+    <section class="content-section">
 
-  <section class="content-section program">
+      <div class="container">
 
-    <div class="container">
+        <div class="section-eyebrow">
+          Die wichtigsten Details
+        </div>
 
-      <div class="section-eyebrow">
-        Unser gemeinsamer Abend
-      </div>
+        <h2 class="section-title">
+          Unsere Verlobung
+        </h2>
 
+        <div class="details-grid">
 
-      <h2 class="section-title">
-        Programm
-      </h2>
+          <div class="detail">
 
-
-      <div class="timeline">
-
-
-        <div class="timeline-item">
-
-          <div class="timeline-time">
-            17:30
-          </div>
-
-          <div>
+            <div class="detail-number">
+              01
+            </div>
 
             <h3>
-              Empfang
+              Datum
             </h3>
 
             <p>
-              Ankommen, begrüßen und
-              gemeinsam auf den Abend einstimmen.
+              Samstag
+              <br>
+              14. November 2026
+            </p>
+
+          </div>
+
+
+          <div class="detail">
+
+            <div class="detail-number">
+              02
+            </div>
+
+            <h3>
+              Ort
+            </h3>
+
+            <p>
+              Härtsfeldhalle / Mensa
+              <br>
+              Neresheim
+            </p>
+
+          </div>
+
+
+          <div class="detail">
+
+            <div class="detail-number">
+              03
+            </div>
+
+            <h3>
+              Beginn
+            </h3>
+
+            <p>
+              Uhrzeit folgt
+              <br>
+              Wir freuen uns auf euch
             </p>
 
           </div>
 
         </div>
 
+      </div>
 
-        <div class="timeline-item">
+    </section>
 
-          <div class="timeline-time">
-            18:00
+
+    <!-- PROGRAMM -->
+
+    <section class="content-section program">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Unser gemeinsamer Abend
+        </div>
+
+        <h2 class="section-title">
+          Programm
+        </h2>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+
+            <div class="timeline-time">
+              17:30
+            </div>
+
+            <div>
+              <h3>
+                Empfang
+              </h3>
+
+              <p>
+                Ankommen, begrüßen und gemeinsam
+                auf den Abend einstimmen.
+              </p>
+            </div>
+
           </div>
 
-          <div>
 
-            <h3>
-              Verlobung
-            </h3>
+          <div class="timeline-item">
 
-            <p>
-              Gemeinsam feiern wir
-              diesen ganz besonderen Moment.
-            </p>
+            <div class="timeline-time">
+              18:00
+            </div>
+
+            <div>
+              <h3>
+                Verlobung
+              </h3>
+
+              <p>
+                Gemeinsam feiern wir
+                diesen besonderen Moment.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="timeline-item">
+
+            <div class="timeline-time">
+              19:00
+            </div>
+
+            <div>
+              <h3>
+                Dinner
+              </h3>
+
+              <p>
+                Zeit zum Essen,
+                Genießen und Zusammensein.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="timeline-item">
+
+            <div class="timeline-time">
+              21:00
+            </div>
+
+            <div>
+              <h3>
+                Gemeinsam feiern
+              </h3>
+
+              <p>
+                Musik, Tanz und Erinnerungen,
+                die bleiben.
+              </p>
+            </div>
 
           </div>
 
         </div>
-
-
-        <div class="timeline-item">
-
-          <div class="timeline-time">
-            19:00
-          </div>
-
-          <div>
-
-            <h3>
-              Dinner
-            </h3>
-
-            <p>
-              Zeit zum Essen,
-              Genießen und Zusammensein.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="timeline-item">
-
-          <div class="timeline-time">
-            21:00
-          </div>
-
-          <div>
-
-            <h3>
-              Gemeinsam feiern
-            </h3>
-
-            <p>
-              Musik, Tanz und
-              Erinnerungen, die bleiben.
-            </p>
-
-          </div>
-
-        </div>
-
 
       </div>
 
-    </div>
-
-  </section>
+    </section>
 
 
+    <!-- ======================================================
+         LOCATION + GOOGLE MAPS
+    ====================================================== -->
 
-  <!-- =========================================================
-       LOCATION
-  ========================================================== -->
+    <section class="content-section location">
 
-  <section class="content-section location">
+      <div class="container">
 
-    <div class="container">
+        <div class="section-eyebrow">
+          Wo wir feiern
+        </div>
 
-      <div class="section-eyebrow">
-        Wo wir feiern
-      </div>
+        <h2 class="section-title">
+          Location
+        </h2>
 
+        <div class="location-name">
+          Härtsfeldhalle / Mensa Neresheim
+        </div>
 
-      <h2 class="section-title">
-        Neresheim
-      </h2>
-
-
-      <div class="location-name">
-        Location folgt
-      </div>
-
-
-      <div class="location-address">
-
-        Neresheim
-
-        <br>
-
-        Baden-Württemberg
-
-      </div>
-
-    </div>
-
-  </section>
+        <div class="location-address">
+          Dossinger Weg 16
+          <br>
+          73450 Neresheim
+        </div>
 
 
+        <!-- GOOGLE MAPS KARTE -->
 
-  <!-- =========================================================
-       RSVP
-  ========================================================== -->
+        <div class="map-wrapper">
 
-  <section class="content-section rsvp">
-
-    <div class="rsvp-box">
-
-      <div class="section-eyebrow">
-        Wir freuen uns auf euch
-      </div>
-
-
-      <h2 class="section-title">
-        RSVP
-      </h2>
-
-
-      <p class="rsvp-description">
-
-        Bitte gebt uns Bescheid,
-        ob ihr diesen besonderen Tag
-        gemeinsam mit uns feiern könnt.
-
-      </p>
-
-
-      <form id="rsvpForm">
-
-
-        <div class="form-group">
-
-          <label for="name">
-            Vor- & Nachname
-          </label>
-
-          <input
-            type="text"
-            id="name"
-            placeholder="Dein Name"
-            required
-          >
+          <iframe
+            src="https://www.google.com/maps?q=Härtsfeldhalle%20Mensa%20Neresheim%20Dossinger%20Weg%2016%2073450%20Neresheim&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Härtsfeldhalle / Mensa Neresheim"
+          ></iframe>
 
         </div>
 
 
-        <div class="form-group">
-
-          <label for="attendance">
-            Kommst du?
-          </label>
-
-          <select
-            id="attendance"
-            required
-          >
-
-            <option value="">
-              Bitte auswählen
-            </option>
-
-            <option value="yes">
-              Ja, ich bin dabei 🤍
-            </option>
-
-            <option value="no">
-              Leider kann ich nicht kommen
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="guests">
-            Anzahl der Personen
-          </label>
-
-          <select id="guests">
-
-            <option value="1">
-              1 Person
-            </option>
-
-            <option value="2">
-              2 Personen
-            </option>
-
-            <option value="3">
-              3 Personen
-            </option>
-
-            <option value="4">
-              4 Personen
-            </option>
-
-            <option value="5">
-              5 Personen
-            </option>
-
-            <option value="6">
-              6 Personen
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="message">
-            Nachricht / Hinweis
-          </label>
-
-          <textarea
-            id="message"
-            placeholder="Nachricht, Allergien oder Hinweise ..."
-          ></textarea>
-
-        </div>
-
-
-        <button
-          class="submit-button"
-          type="submit"
+        <a
+          class="maps-button"
+          href="https://www.google.com/maps/search/?api=1&query=Härtsfeldhalle%20Mensa%20Neresheim%20Dossinger%20Weg%2016%2073450%20Neresheim"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Antwort senden
-        </button>
-
-
-      </form>
-
-
-      <div
-        class="success"
-        id="success"
-      >
-
-        Vielen Dank für eure Rückmeldung. ♡
+          Route in Google Maps öffnen
+        </a>
 
       </div>
 
-
-    </div>
-
-  </section>
+    </section>
 
 
+    <!-- ======================================================
+         RSVP
+    ====================================================== -->
 
-  <!-- =========================================================
-       FOOTER
-  ========================================================== -->
+    <section class="content-section rsvp">
+
+      <div class="rsvp-box">
+
+        <div class="section-eyebrow">
+          Wir freuen uns auf euch
+        </div>
+
+        <h2 class="section-title">
+          RSVP
+        </h2>
+
+        <p class="rsvp-description">
+          Bitte gebt uns Bescheid,
+          ob ihr diesen besonderen Tag
+          gemeinsam mit uns feiern könnt.
+        </p>
+
+        <form id="rsvpForm">
+
+          <div class="form-group">
+
+            <label for="name">
+              Vor- & Nachname
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              placeholder="Dein Name"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="attendance">
+              Kommst du?
+            </label>
+
+            <select
+              id="attendance"
+              required
+            >
+
+              <option value="">
+                Bitte auswählen
+              </option>
+
+              <option value="yes">
+                Ja, ich bin dabei 🤍
+              </option>
+
+              <option value="no">
+                Leider kann ich nicht kommen
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="guests">
+              Anzahl der Personen
+            </label>
+
+            <select id="guests">
+
+              <option value="1">
+                1 Person
+              </option>
+
+              <option value="2">
+                2 Personen
+              </option>
+
+              <option value="3">
+                3 Personen
+              </option>
+
+              <option value="4">
+                4 Personen
+              </option>
+
+              <option value="5">
+                5 Personen
+              </option>
+
+              <option value="6">
+                6 Personen
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="message">
+              Nachricht / Hinweis
+            </label>
+
+            <textarea
+              id="message"
+              placeholder="Nachricht, Allergien oder Hinweise ..."
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="submit-button"
+            type="submit"
+          >
+            Antwort senden
+          </button>
+
+        </form>
+
+
+        <div
+          class="success"
+          id="success"
+        >
+          Vielen Dank für eure Rückmeldung. ♡
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
 
   <footer>
 
@@ -2285,27 +1767,17 @@
   </footer>
 
 
-
   <script>
 
-    /* =========================================================
+    /* ======================================================
        HILFSFUNKTIONEN
-    ========================================================== */
+    ====================================================== */
 
-    function clamp(
-      value,
-      min = 0,
-      max = 1
-    ) {
-
+    function clamp(value, min = 0, max = 1) {
       return Math.min(
         max,
-        Math.max(
-          min,
-          value
-        )
+        Math.max(min, value)
       );
-
     }
 
 
@@ -2324,141 +1796,110 @@
     }
 
 
+    /* ======================================================
+       ELEMENTE
+    ====================================================== */
 
-    /* =========================================================
-       EINLADUNGSANIMATION
-    ========================================================== */
-
-    const invitationSection =
+    const invitationScroll =
       document.getElementById(
         "invitationScroll"
       );
 
+    const tableScene =
+      document.getElementById(
+        "tableScene"
+      );
 
     const physicalCard =
       document.getElementById(
         "physicalCard"
       );
 
-
     const cardCover =
       document.getElementById(
         "cardCover"
       );
 
-
-    const invitationContent =
+    const cardShadow =
       document.getElementById(
-        "invitationContent"
+        "cardShadow"
       );
-
 
     const scrollInstruction =
       document.getElementById(
         "scrollInstruction"
       );
 
-
-    const ambientShadow =
+    const websiteEntry =
       document.getElementById(
-        "ambientShadow"
+        "websiteEntry"
+      );
+
+    const websiteEntryContent =
+      document.getElementById(
+        "websiteEntryContent"
       );
 
 
+    /* ======================================================
+       KARTE / WEBSITE ÜBERGANG
 
-    function updateInvitationAnimation() {
+       SCHNELLERE VERSION
+    ====================================================== */
 
+    function updateInvitation() {
 
       const rect =
-        invitationSection
+        invitationScroll
         .getBoundingClientRect();
 
-
-      const totalScroll =
-        invitationSection.offsetHeight
+      const scrollDistance =
+        invitationScroll.offsetHeight
         -
         window.innerHeight;
-
 
       let progress =
         -rect.top
         /
-        totalScroll;
-
+        scrollDistance;
 
       progress =
         clamp(progress);
 
 
-
-      /* =====================================================
+      /* ==================================================
          PHASE 1
+         0 - 18 %
 
-         0% - 30%
-
-         Wir nähern uns langsam der
-         geschlossenen Karte auf dem Tisch.
-      ====================================================== */
-
+         NÄHER AN DIE KARTE
+      ================================================== */
 
       const approach =
         mapProgress(
           progress,
           0,
-          0.30
+          .18
         );
-
-
-      const startRotateX =
-        62;
-
-
-      const endRotateX =
-        14;
-
 
       const rotateX =
-        startRotateX
+        63
         -
-        (
-          approach
-          *
-          (
-            startRotateX
-            -
-            endRotateX
-          )
-        );
-
+        approach * 49;
 
       const rotateZ =
         -8
         +
-        (
-          approach
-          *
-          8
-        );
+        approach * 8;
 
-
-      const approachScale =
-        .70
+      const scale =
+        .72
         +
-        (
-          approach
-          *
-          .30
-        );
-
+        approach * .28;
 
       const translateY =
         40
         -
-        (
-          approach
-          *
-          40
-        );
+        approach * 40;
 
 
       physicalCard.style.transform =
@@ -2466,23 +1907,18 @@
           rotateX(${rotateX}deg)
           rotateZ(${rotateZ}deg)
           translateY(${translateY}px)
-          scale(${approachScale})
+          scale(${scale})
         `;
 
 
-
-      /* =====================================================
-         SCROLL TEXT VERSCHWINDET
-      ====================================================== */
-
+      /* Hinweis verschwindet schnell */
 
       const instructionFade =
         mapProgress(
           progress,
-          .03,
-          .17
+          .015,
+          .09
         );
-
 
       scrollInstruction.style.opacity =
         1
@@ -2490,62 +1926,19 @@
         instructionFade;
 
 
-
-      /* =====================================================
-         SCHATTEN
-
-         Je näher wir kommen,
-         desto dezenter wird er.
-      ====================================================== */
-
-
-      ambientShadow.style.opacity =
-        .5
-        -
-        (
-          approach
-          *
-          .20
-        );
-
-
-      ambientShadow.style.transform =
-        `
-          translateY(
-            ${170 - approach * 30}px
-          )
-
-          scaleX(
-            ${1.15 - approach * .10}
-          )
-        `;
-
-
-
-      /* =====================================================
+      /* ==================================================
          PHASE 2
+         14 - 40 %
 
-         28% - 67%
-
-         Die Karte klappt jetzt
-         wie eine echte Klappkarte auf.
-      ====================================================== */
-
+         KARTE ÖFFNEN
+      ================================================== */
 
       const opening =
         mapProgress(
           progress,
-          .28,
-          .67
+          .14,
+          .40
         );
-
-
-      /*
-        Kleine Ease-Funktion.
-
-        Dadurch wirkt die Öffnung
-        weniger mechanisch.
-      */
 
 
       const easedOpening =
@@ -2557,212 +1950,204 @@
         );
 
 
-      const openAngle =
+      const coverRotation =
         easedOpening
         *
         -178;
 
 
       cardCover.style.transform =
-        `
-          rotateY(
-            ${openAngle}deg
-          )
-        `;
+        `rotateY(${coverRotation}deg)`;
 
 
-
-      /* =====================================================
-         PHASE 3
-
-         Ab ca. 30%
-
-         Perspektive richtet sich
-         immer weiter frontal aus.
-      ====================================================== */
-
+      /*
+        Währenddessen frontal ausrichten
+      */
 
       if (
         progress
         >
-        .30
+        .18
       ) {
-
 
         const flatten =
           mapProgress(
             progress,
-            .30,
-            .64
+            .18,
+            .38
           );
 
 
         const flattenRotateX =
           14
           -
-          (
-            flatten
-            *
-            14
-          );
+          flatten * 14;
 
 
         const flattenScale =
           1
           +
-          (
-            flatten
-            *
-            .08
-          );
+          flatten * .06;
 
 
         physicalCard.style.transform =
           `
-            rotateX(
-              ${flattenRotateX}deg
-            )
-
+            rotateX(${flattenRotateX}deg)
             rotateZ(0deg)
-
             translateY(0px)
-
-            scale(
-              ${flattenScale}
-            )
+            scale(${flattenScale})
           `;
 
       }
 
 
+      /* ==================================================
+         PHASE 3
+         38 - 54 %
 
-      /* =====================================================
-         PHASE 4
-
-         65% - 100%
-
-         Die Karte ist geöffnet.
-
-         Jetzt zoomt die Kamera
-         langsam in die rechte Innenseite.
-      ====================================================== */
-
+         KARTE IST OFFEN.
+         SCHNELL HINEINZOOMEN.
+      ================================================== */
 
       const zoom =
         mapProgress(
           progress,
-          .65,
-          1
+          .38,
+          .54
         );
 
 
       if (
         progress
         >=
-        .65
+        .38
       ) {
 
-
         const zoomScale =
-          1.08
+          1.06
           +
-          (
-            zoom
-            *
-            .72
-          );
-
-
-        /*
-          Etwas nach links verschieben,
-          weil wir in die rechte
-          Kartenseite hineinzoomen.
-        */
+          zoom * 2.7;
 
 
         const zoomX =
-          -55
+          -110
           *
           zoom;
 
 
         physicalCard.style.transform =
           `
-            translateX(
-              ${zoomX}px
-            )
-
+            translateX(${zoomX}px)
             rotateX(0deg)
-
             rotateZ(0deg)
-
-            scale(
-              ${zoomScale}
-            )
+            scale(${zoomScale})
           `;
+
+
+        tableScene.style.transform =
+          `
+            scale(${1 + zoom * .25})
+          `;
+
+
+        cardShadow.style.opacity =
+          .30
+          *
+          (1 - zoom);
 
       }
 
 
+      /* ==================================================
+         PHASE 4
+         48 - 62 %
 
-      /* =====================================================
-         EINLADUNGSTEXT
+         WEBSITE ÜBERNIMMT SCHON JETZT
+      ================================================== */
 
-         Wirklich erst sichtbar,
-         wenn die Karte geöffnet ist.
-      ====================================================== */
-
-
-      const textReveal =
+      const transition =
         mapProgress(
           progress,
-          .70,
-          .87
+          .48,
+          .62
         );
 
 
-      invitationContent.style.opacity =
-        textReveal;
-
-
-      const textY =
-        20
+      tableScene.style.opacity =
+        1
         -
-        (
-          textReveal
-          *
-          20
-        );
+        transition;
 
 
-      const textScale =
-        .94
-        +
-        (
-          textReveal
-          *
-          .06
-        );
+      websiteEntry.style.opacity =
+        transition;
 
 
-      invitationContent.style.transform =
+      websiteEntry.style.transform =
         `
-          translateY(
-            ${textY}px
-          )
-
           scale(
-            ${textScale}
+            ${.91 + transition * .09}
           )
         `;
+
+
+      /* ==================================================
+         WEBSITE TEXT
+      ================================================== */
+
+      const contentReveal =
+        mapProgress(
+          progress,
+          .52,
+          .65
+        );
+
+
+      websiteEntryContent.style.opacity =
+        contentReveal;
+
+
+      websiteEntryContent.style.transform =
+        `
+          translateY(
+            ${28 - contentReveal * 28}px
+          )
+        `;
+
+
+      /* ==================================================
+         AB 64 % KOMPLETT WEBSITE
+      ================================================== */
+
+      if (
+        progress
+        >=
+        .64
+      ) {
+
+        tableScene.style.opacity =
+          0;
+
+        websiteEntry.style.opacity =
+          1;
+
+        websiteEntry.style.transform =
+          "scale(1)";
+
+        websiteEntryContent.style.opacity =
+          1;
+
+        websiteEntryContent.style.transform =
+          "translateY(0)";
+
+      }
 
     }
 
 
-
     window.addEventListener(
       "scroll",
-      updateInvitationAnimation,
+      updateInvitation,
       {
         passive: true
       }
@@ -2771,19 +2156,16 @@
 
     window.addEventListener(
       "resize",
-      updateInvitationAnimation
+      updateInvitation
     );
 
 
-    updateInvitationAnimation();
+    updateInvitation();
 
 
-
-    /* =========================================================
+    /* ======================================================
        COUNTDOWN
-       14. NOVEMBER 2026
-    ========================================================== */
-
+    ====================================================== */
 
     const engagementDate =
       new Date(
@@ -2791,9 +2173,7 @@
       ).getTime();
 
 
-
     function updateCountdown() {
-
 
       const now =
         new Date().getTime();
@@ -2805,188 +2185,104 @@
         now;
 
 
-
       if (
         distance
         <=
         0
       ) {
 
-
         document
           .getElementById("days")
           .textContent =
           "00";
-
 
         document
           .getElementById("hours")
           .textContent =
           "00";
 
-
         document
           .getElementById("minutes")
           .textContent =
           "00";
-
 
         document
           .getElementById("seconds")
           .textContent =
           "00";
 
-
         return;
-
       }
-
 
 
       const days =
         Math.floor(
-          distance
-          /
-          (
-            1000
-            *
-            60
-            *
-            60
-            *
-            24
-          )
+          distance /
+          (1000 * 60 * 60 * 24)
         );
-
 
 
       const hours =
         Math.floor(
-
           (
-            distance
-            %
-            (
-              1000
-              *
-              60
-              *
-              60
-              *
-              24
-            )
+            distance %
+            (1000 * 60 * 60 * 24)
           )
-
           /
-
-          (
-            1000
-            *
-            60
-            *
-            60
-          )
-
+          (1000 * 60 * 60)
         );
-
 
 
       const minutes =
         Math.floor(
-
           (
-            distance
-            %
-            (
-              1000
-              *
-              60
-              *
-              60
-            )
+            distance %
+            (1000 * 60 * 60)
           )
-
           /
-
-          (
-            1000
-            *
-            60
-          )
-
+          (1000 * 60)
         );
-
 
 
       const seconds =
         Math.floor(
-
           (
-            distance
-            %
-            (
-              1000
-              *
-              60
-            )
+            distance %
+            (1000 * 60)
           )
-
           /
-
           1000
-
         );
-
 
 
       document
         .getElementById("days")
         .textContent =
-
         String(days)
-        .padStart(
-          2,
-          "0"
-        );
-
+        .padStart(2, "0");
 
 
       document
         .getElementById("hours")
         .textContent =
-
         String(hours)
-        .padStart(
-          2,
-          "0"
-        );
-
+        .padStart(2, "0");
 
 
       document
         .getElementById("minutes")
         .textContent =
-
         String(minutes)
-        .padStart(
-          2,
-          "0"
-        );
-
+        .padStart(2, "0");
 
 
       document
         .getElementById("seconds")
         .textContent =
-
         String(seconds)
-        .padStart(
-          2,
-          "0"
-        );
+        .padStart(2, "0");
 
     }
-
 
 
     updateCountdown();
@@ -2998,17 +2294,11 @@
     );
 
 
+    /* ======================================================
+       RSVP DEMO
 
-    /* =========================================================
-       RSVP
-
-       ACHTUNG:
-       Momentan nur Demo.
-
-       Die Daten werden noch
-       NICHT gespeichert.
-    ========================================================== */
-
+       NOCH KEINE ECHTE SPEICHERUNG
+    ====================================================== */
 
     const rsvpForm =
       document.getElementById(
@@ -3022,28 +2312,22 @@
       );
 
 
-
     rsvpForm.addEventListener(
       "submit",
       function(event) {
 
-
         event.preventDefault();
-
 
         rsvpForm.style.display =
           "none";
 
-
         success.style.display =
           "block";
-
 
       }
     );
 
   </script>
-
 
 </body>
 </html>
