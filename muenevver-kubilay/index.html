@@ -1,0 +1,2333 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ebe3da">
+
+  <title>Münevver & Kubilay | Verlobung</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --table-1: #eee7df;
+      --table-2: #dbd0c5;
+      --table-3: #cbbcaf;
+
+      --paper: #f8f4ee;
+      --paper-light: #fffaf4;
+
+      --text: #181411;
+      --muted: #967e69;
+      --line: rgba(50, 38, 29, 0.14);
+
+      --website: #f7f2ec;
+      --website-alt: #ebe1d7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+      background: var(--website);
+      color: var(--text);
+      font-family: "Montserrat", sans-serif;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 400;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ======================================================
+       KARTE / INTRO
+    ====================================================== */
+
+    .invitation-scroll {
+      position: relative;
+
+      /*
+        Bewusst deutlich kürzer als vorher.
+      */
+      height: 230vh;
+
+      background: var(--table-2);
+    }
+
+    .invitation-sticky {
+      position: sticky;
+      top: 0;
+
+      width: 100%;
+      height: 100vh;
+
+      overflow: hidden;
+    }
+
+    .table-scene {
+      position: absolute;
+      inset: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      perspective: 1800px;
+
+      background:
+        radial-gradient(
+          circle at 35% 20%,
+          rgba(255,255,255,.8),
+          transparent 35%
+        ),
+        linear-gradient(
+          120deg,
+          var(--table-1),
+          var(--table-2) 52%,
+          var(--table-3)
+        );
+
+      transform-origin: center;
+      will-change: transform, opacity;
+    }
+
+    .table-scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background:
+        repeating-linear-gradient(
+          92deg,
+          rgba(80,55,35,.018) 0px,
+          rgba(80,55,35,.018) 1px,
+          transparent 1px,
+          transparent 120px
+        );
+
+      pointer-events: none;
+    }
+
+    .table-scene::after {
+      content: "";
+      position: absolute;
+
+      width: 80vw;
+      height: 95vh;
+
+      left: -30vw;
+      top: -32vh;
+
+      background:
+        radial-gradient(
+          ellipse,
+          rgba(255,255,255,.8),
+          transparent 68%
+        );
+
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    /* ======================================================
+       DEKO
+    ====================================================== */
+
+    .table-decoration {
+      position: absolute;
+
+      width: 260px;
+      height: 260px;
+
+      right: 7vw;
+      top: 8vh;
+
+      opacity: .13;
+
+      transform: rotate(25deg);
+
+      pointer-events: none;
+    }
+
+    .branch {
+      position: absolute;
+
+      width: 2px;
+      height: 225px;
+
+      left: 50%;
+      top: 10px;
+
+      background: #665547;
+
+      transform: rotate(28deg);
+    }
+
+    .leaf {
+      position: absolute;
+
+      width: 38px;
+      height: 15px;
+
+      border-radius: 100% 0 100% 0;
+
+      background: #66574b;
+    }
+
+    .leaf-1 {
+      left: 115px;
+      top: 45px;
+    }
+
+    .leaf-2 {
+      left: 145px;
+      top: 80px;
+      transform: rotate(80deg);
+    }
+
+    .leaf-3 {
+      left: 95px;
+      top: 115px;
+      transform: rotate(-15deg);
+    }
+
+    .leaf-4 {
+      left: 151px;
+      top: 150px;
+      transform: rotate(75deg);
+    }
+
+    /* ======================================================
+       SCHATTEN
+    ====================================================== */
+
+    .card-shadow {
+      position: absolute;
+
+      width: 450px;
+      height: 150px;
+
+      border-radius: 50%;
+
+      background: rgba(47, 34, 24, .27);
+
+      filter: blur(45px);
+
+      transform:
+        translateY(170px)
+        scaleX(1.15);
+
+      opacity: .55;
+    }
+
+    /* ======================================================
+       KARTE
+    ====================================================== */
+
+    .physical-card {
+      position: relative;
+
+      width: 390px;
+      height: 540px;
+
+      z-index: 5;
+
+      transform-style: preserve-3d;
+
+      transform:
+        rotateX(63deg)
+        rotateZ(-8deg)
+        translateY(40px)
+        scale(.72);
+
+      will-change: transform, opacity;
+    }
+
+    /* rechte Innenseite – komplett leer */
+
+    .card-base {
+      position: absolute;
+      inset: 0;
+
+      background:
+        radial-gradient(
+          circle at 20% 15%,
+          rgba(255,255,255,.55),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.65),
+          rgba(220,205,190,.12)
+        ),
+        var(--paper);
+
+      border: 1px solid rgba(90,70,55,.06);
+
+      box-shadow:
+        0 25px 60px rgba(50,37,27,.18);
+    }
+
+    /* ======================================================
+       DECKEL
+    ====================================================== */
+
+    .card-cover {
+      position: absolute;
+      inset: 0;
+
+      z-index: 10;
+
+      transform-origin: left center;
+      transform-style: preserve-3d;
+
+      transform: rotateY(0deg);
+
+      will-change: transform;
+    }
+
+    .cover-face {
+      position: absolute;
+      inset: 0;
+
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+
+      border: 1px solid rgba(90,70,55,.06);
+
+      overflow: hidden;
+    }
+
+    .cover-front {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle at 30% 20%,
+          rgba(255,255,255,.6),
+          transparent 35%
+        ),
+        linear-gradient(
+          145deg,
+          #f2ebe3,
+          #e4d8cc
+        );
+
+      box-shadow:
+        20px 25px 55px rgba(55,40,30,.2);
+    }
+
+    /* ======================================================
+       TEXT AUF GESCHLOSSENER KARTE
+    ====================================================== */
+
+    .cover-content {
+      position: relative;
+      z-index: 2;
+
+      width: 100%;
+
+      padding: 40px;
+
+      text-align: center;
+    }
+
+    .cover-kicker {
+      margin-bottom: 28px;
+
+      font-size: 8px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    .cover-content h2 {
+      font-size: 56px;
+
+      line-height: .9;
+    }
+
+    .cover-content h2 span {
+      display: block;
+
+      margin: 9px 0;
+
+      font-size: 32px;
+
+      color: var(--muted);
+    }
+
+    .cover-line {
+      width: 48px;
+      height: 1px;
+
+      margin: 29px auto;
+
+      background: rgba(140,115,95,.5);
+    }
+
+    .cover-heart {
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 33px;
+
+      color: var(--muted);
+    }
+
+    /* linke Innenseite ebenfalls leer */
+
+    .cover-back {
+      transform: rotateY(180deg);
+
+      background:
+        radial-gradient(
+          circle at 70% 20%,
+          rgba(255,255,255,.5),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #faf6f0,
+          #eee4d9
+        );
+    }
+
+    /* ======================================================
+       SCROLL HINWEIS
+    ====================================================== */
+
+    .scroll-instruction {
+      position: absolute;
+
+      left: 50%;
+      bottom: 32px;
+
+      transform: translateX(-50%);
+
+      z-index: 30;
+
+      width: 90%;
+
+      text-align: center;
+
+      color: #756252;
+
+      will-change: opacity;
+    }
+
+    .scroll-instruction span {
+      display: block;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 19px;
+    }
+
+    .scroll-instruction strong {
+      display: block;
+
+      margin-top: 7px;
+
+      font-size: 8px;
+      font-weight: 400;
+
+      letter-spacing: 4px;
+
+      text-transform: uppercase;
+    }
+
+    .scroll-indicator {
+      width: 1px;
+      height: 38px;
+
+      margin: 14px auto 0;
+
+      background: rgba(110,90,70,.5);
+    }
+
+    /* ======================================================
+       WEBSITE-EINSTIEG
+
+       Erst sichtbar, nachdem die Karte sich geöffnet hat.
+    ====================================================== */
+
+    .website-entry {
+      position: absolute;
+      inset: 0;
+
+      z-index: 2;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle at 50% 15%,
+          rgba(255,255,255,.85),
+          transparent 36%
+        ),
+        var(--website);
+
+      opacity: 0;
+
+      transform: scale(.91);
+
+      will-change: opacity, transform;
+    }
+
+    .website-entry-content {
+      width: min(920px, 88%);
+
+      text-align: center;
+
+      opacity: 0;
+
+      transform: translateY(28px);
+
+      will-change: opacity, transform;
+    }
+
+    .website-eyebrow {
+      margin-bottom: 27px;
+
+      font-size: 9px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    .website-entry h1 {
+      font-size: clamp(65px, 10vw, 125px);
+
+      line-height: .82;
+    }
+
+    .website-entry h1 span {
+      display: block;
+
+      margin: 10px 0;
+
+      font-size: .55em;
+
+      color: var(--muted);
+    }
+
+    .hero-line {
+      width: 55px;
+      height: 1px;
+
+      margin: 34px auto;
+
+      background: var(--muted);
+
+      opacity: .55;
+    }
+
+    .hero-date {
+      font-size: 11px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+    }
+
+    .hero-place {
+      margin-top: 13px;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 29px;
+
+      font-style: italic;
+
+      color: var(--muted);
+    }
+
+    .hero-copy {
+      max-width: 600px;
+
+      margin: 42px auto 0;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: clamp(21px, 3vw, 28px);
+
+      line-height: 1.55;
+
+      color: #62574e;
+    }
+
+    /* ======================================================
+       WEBSITE
+    ====================================================== */
+
+    .site-content {
+      position: relative;
+
+      z-index: 20;
+
+      background: var(--website);
+    }
+
+    .content-section {
+      padding: 120px 24px;
+
+      background: var(--website);
+    }
+
+    .container {
+      width: min(1050px, 100%);
+
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      margin-bottom: 22px;
+
+      text-align: center;
+
+      font-size: 9px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    .section-title {
+      margin-bottom: 60px;
+
+      text-align: center;
+
+      font-size: clamp(52px, 8vw, 85px);
+
+      line-height: 1;
+    }
+
+    /* ======================================================
+       COUNTDOWN
+    ====================================================== */
+
+    .countdown-section {
+      padding: 120px 24px;
+
+      text-align: center;
+
+      background: #191512;
+
+      color: #fffaf4;
+    }
+
+    .countdown-section .section-eyebrow {
+      color: #b9a692;
+    }
+
+    .countdown-section .section-title {
+      margin-bottom: 55px;
+    }
+
+    .countdown {
+      max-width: 800px;
+
+      margin: auto;
+
+      display: grid;
+
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .count-item {
+      padding: 10px;
+
+      border-right: 1px solid rgba(255,255,255,.15);
+    }
+
+    .count-item:last-child {
+      border-right: none;
+    }
+
+    .count-number {
+      display: block;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: clamp(47px, 7vw, 80px);
+    }
+
+    .count-label {
+      display: block;
+
+      margin-top: 8px;
+
+      font-size: 8px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      color: #bba895;
+    }
+
+    /* ======================================================
+       DETAILS
+    ====================================================== */
+
+    .details-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      border-top: 1px solid var(--line);
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .detail {
+      padding: 55px 25px;
+
+      text-align: center;
+
+      border-right: 1px solid var(--line);
+    }
+
+    .detail:last-child {
+      border-right: none;
+    }
+
+    .detail-number {
+      margin-bottom: 20px;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 53px;
+
+      color: var(--muted);
+    }
+
+    .detail h3 {
+      margin-bottom: 10px;
+
+      font-size: 29px;
+    }
+
+    .detail p {
+      font-size: 11px;
+
+      line-height: 1.9;
+
+      color: #655b53;
+    }
+
+    /* ======================================================
+       PROGRAMM
+    ====================================================== */
+
+    .program {
+      background: var(--website-alt);
+    }
+
+    .timeline {
+      max-width: 690px;
+
+      margin: auto;
+    }
+
+    .timeline-item {
+      display: grid;
+
+      grid-template-columns: 105px 1fr;
+
+      gap: 30px;
+
+      padding: 31px 0;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .timeline-time {
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 32px;
+
+      color: var(--muted);
+    }
+
+    .timeline-item h3 {
+      margin-bottom: 7px;
+
+      font-size: 27px;
+    }
+
+    .timeline-item p {
+      font-size: 11px;
+
+      line-height: 1.8;
+
+      color: #655b53;
+    }
+
+    /* ======================================================
+       LOCATION
+    ====================================================== */
+
+    .location {
+      text-align: center;
+    }
+
+    .location-name {
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: clamp(31px, 5vw, 43px);
+
+      line-height: 1.2;
+    }
+
+    .location-address {
+      margin-top: 15px;
+
+      font-size: 12px;
+
+      line-height: 1.9;
+
+      color: #655b53;
+    }
+
+    /* GOOGLE MAPS */
+
+    .map-wrapper {
+      width: min(900px, 100%);
+
+      height: 430px;
+
+      margin: 50px auto 0;
+
+      overflow: hidden;
+
+      border-radius: 3px;
+
+      box-shadow:
+        0 20px 55px rgba(57,42,31,.10);
+
+      border:
+        1px solid rgba(70,55,42,.08);
+    }
+
+    .map-wrapper iframe {
+      width: 100%;
+      height: 100%;
+
+      border: 0;
+
+      filter:
+        saturate(.70)
+        sepia(.10)
+        contrast(.92);
+    }
+
+    .maps-button {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 32px;
+
+      padding: 17px 30px;
+
+      border: 1px solid var(--text);
+
+      font-size: 9px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      transition: .3s ease;
+    }
+
+    .maps-button:hover {
+      background: var(--text);
+
+      color: white;
+    }
+
+    /* ======================================================
+       RSVP
+    ====================================================== */
+
+    .rsvp {
+      background: #fffdfa;
+    }
+
+    .rsvp-box {
+      width: min(650px, 100%);
+
+      margin: auto;
+
+      text-align: center;
+    }
+
+    .rsvp-description {
+      max-width: 520px;
+
+      margin: -25px auto 45px;
+
+      font-size: 12px;
+
+      line-height: 1.9;
+
+      color: #675d55;
+    }
+
+    form {
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 26px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 9px;
+
+      font-size: 8px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+
+      padding: 14px 4px;
+
+      border: none;
+
+      border-bottom: 1px solid #b9ada1;
+
+      outline: none;
+
+      background: transparent;
+
+      font-family: "Montserrat", sans-serif;
+
+      font-size: 13px;
+
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-bottom-color: var(--text);
+    }
+
+    textarea {
+      min-height: 90px;
+
+      resize: vertical;
+    }
+
+    .submit-button {
+      width: 100%;
+
+      margin-top: 15px;
+
+      padding: 19px;
+
+      border: 1px solid var(--text);
+
+      background: var(--text);
+
+      color: white;
+
+      cursor: pointer;
+
+      font-family: "Montserrat", sans-serif;
+
+      font-size: 8px;
+
+      letter-spacing: 4px;
+
+      text-transform: uppercase;
+
+      transition: .3s ease;
+    }
+
+    .submit-button:hover {
+      background: transparent;
+
+      color: var(--text);
+    }
+
+    .success {
+      display: none;
+
+      margin-top: 35px;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 28px;
+
+      color: var(--muted);
+    }
+
+    /* ======================================================
+       FOOTER
+    ====================================================== */
+
+    footer {
+      padding: 80px 20px;
+
+      text-align: center;
+
+      background: #191512;
+
+      color: white;
+    }
+
+    .footer-names {
+      margin-bottom: 13px;
+
+      font-family: "Cormorant Garamond", serif;
+
+      font-size: 42px;
+    }
+
+    footer p {
+      font-size: 8px;
+
+      letter-spacing: 4px;
+
+      text-transform: uppercase;
+
+      color: #b7a38f;
+    }
+
+    /* ======================================================
+       MOBILE
+    ====================================================== */
+
+    @media (max-width: 700px) {
+
+      .invitation-scroll {
+        /*
+          Auch auf Handy nicht unnötig lang.
+        */
+        height: 220vh;
+      }
+
+      .physical-card {
+        width: 275px;
+        height: 390px;
+
+        transform:
+          rotateX(63deg)
+          rotateZ(-7deg)
+          translateY(20px)
+          scale(.72);
+      }
+
+      .cover-content {
+        padding: 25px;
+      }
+
+      .cover-content h2 {
+        font-size: 41px;
+      }
+
+      .cover-content h2 span {
+        font-size: 25px;
+      }
+
+      .card-shadow {
+        width: 300px;
+        height: 120px;
+
+        transform: translateY(120px);
+
+        filter: blur(35px);
+      }
+
+      .table-decoration {
+        width: 180px;
+        height: 180px;
+
+        top: 60px;
+        right: -35px;
+      }
+
+      .scroll-instruction {
+        bottom: 22px;
+      }
+
+      .scroll-instruction span {
+        font-size: 16px;
+      }
+
+      .website-entry h1 {
+        font-size: 58px;
+      }
+
+      .hero-copy {
+        font-size: 20px;
+      }
+
+      .countdown-section,
+      .content-section {
+        padding: 90px 20px;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 35px 0;
+      }
+
+      .count-item:nth-child(2) {
+        border-right: none;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail {
+        border-right: none;
+
+        border-bottom: 1px solid var(--line);
+      }
+
+      .detail:last-child {
+        border-bottom: none;
+      }
+
+      .timeline-item {
+        grid-template-columns: 75px 1fr;
+
+        gap: 18px;
+      }
+
+      .map-wrapper {
+        height: 340px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======================================================
+       KARTE
+  ====================================================== -->
+
+  <section
+    class="invitation-scroll"
+    id="invitationScroll"
+  >
+
+    <div class="invitation-sticky">
+
+      <!-- WEBSITE HINTER DER KARTE -->
+
+      <div
+        class="website-entry"
+        id="websiteEntry"
+      >
+
+        <div
+          class="website-entry-content"
+          id="websiteEntryContent"
+        >
+
+          <div class="website-eyebrow">
+            Einladung zu unserer Verlobung
+          </div>
+
+          <h1>
+            Münevver
+
+            <span>&</span>
+
+            Kubilay
+          </h1>
+
+          <div class="hero-line"></div>
+
+          <div class="hero-date">
+            14 · 11 · 2026
+          </div>
+
+          <div class="hero-place">
+            Neresheim
+          </div>
+
+          <p class="hero-copy">
+            Ein neuer Abschnitt beginnt.
+
+            <br><br>
+
+            Diesen besonderen Moment möchten wir
+            gemeinsam mit unseren Familien und
+            Freunden feiern.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- TISCH -->
+
+      <div
+        class="table-scene"
+        id="tableScene"
+      >
+
+        <div class="table-decoration">
+          <div class="branch"></div>
+          <div class="leaf leaf-1"></div>
+          <div class="leaf leaf-2"></div>
+          <div class="leaf leaf-3"></div>
+          <div class="leaf leaf-4"></div>
+        </div>
+
+
+        <div
+          class="card-shadow"
+          id="cardShadow"
+        ></div>
+
+
+        <!-- EINLADUNGSKARTE -->
+
+        <div
+          class="physical-card"
+          id="physicalCard"
+        >
+
+          <!-- INNEN RECHTS = LEER -->
+
+          <div class="card-base"></div>
+
+
+          <!-- AUFKLAPPENDE SEITE -->
+
+          <div
+            class="card-cover"
+            id="cardCover"
+          >
+
+            <!-- VORDERSEITE -->
+
+            <div class="cover-face cover-front">
+
+              <div class="cover-content">
+
+                <div class="cover-kicker">
+                  Einladung zur Verlobung
+                </div>
+
+                <h2>
+                  Münevver
+
+                  <span>&</span>
+
+                  Kubilay
+                </h2>
+
+                <div class="cover-line"></div>
+
+                <div class="cover-heart">
+                  ♡
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- INNEN LINKS = LEER -->
+
+            <div class="cover-face cover-back"></div>
+
+          </div>
+
+        </div>
+
+
+        <!-- SCROLL TEXT -->
+
+        <div
+          class="scroll-instruction"
+          id="scrollInstruction"
+        >
+
+          <span>
+            Um die Einladungskarte zu öffnen
+          </span>
+
+          <strong>
+            bitte scrollen
+          </strong>
+
+          <div class="scroll-indicator"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================================================
+       WEBSITE
+  ====================================================== -->
+
+  <main class="site-content">
+
+
+    <!-- COUNTDOWN -->
+
+    <section class="countdown-section">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Bis wir gemeinsam feiern
+        </div>
+
+        <h2 class="section-title">
+          Der Countdown läuft
+        </h2>
+
+        <div class="countdown">
+
+          <div class="count-item">
+            <span class="count-number" id="days">00</span>
+            <span class="count-label">Tage</span>
+          </div>
+
+          <div class="count-item">
+            <span class="count-number" id="hours">00</span>
+            <span class="count-label">Stunden</span>
+          </div>
+
+          <div class="count-item">
+            <span class="count-number" id="minutes">00</span>
+            <span class="count-label">Minuten</span>
+          </div>
+
+          <div class="count-item">
+            <span class="count-number" id="seconds">00</span>
+            <span class="count-label">Sekunden</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- DETAILS -->
+
+    <section class="content-section">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Die wichtigsten Details
+        </div>
+
+        <h2 class="section-title">
+          Unsere Verlobung
+        </h2>
+
+        <div class="details-grid">
+
+          <div class="detail">
+
+            <div class="detail-number">
+              01
+            </div>
+
+            <h3>
+              Datum
+            </h3>
+
+            <p>
+              Samstag
+              <br>
+              14. November 2026
+            </p>
+
+          </div>
+
+
+          <div class="detail">
+
+            <div class="detail-number">
+              02
+            </div>
+
+            <h3>
+              Ort
+            </h3>
+
+            <p>
+              Härtsfeldhalle / Mensa
+              <br>
+              Neresheim
+            </p>
+
+          </div>
+
+
+          <div class="detail">
+
+            <div class="detail-number">
+              03
+            </div>
+
+            <h3>
+              Beginn
+            </h3>
+
+            <p>
+              Uhrzeit folgt
+              <br>
+              Wir freuen uns auf euch
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PROGRAMM -->
+
+    <section class="content-section program">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Unser gemeinsamer Abend
+        </div>
+
+        <h2 class="section-title">
+          Programm
+        </h2>
+
+        <div class="timeline">
+
+          <div class="timeline-item">
+
+            <div class="timeline-time">
+              17:30
+            </div>
+
+            <div>
+              <h3>
+                Empfang
+              </h3>
+
+              <p>
+                Ankommen, begrüßen und gemeinsam
+                auf den Abend einstimmen.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="timeline-item">
+
+            <div class="timeline-time">
+              18:00
+            </div>
+
+            <div>
+              <h3>
+                Verlobung
+              </h3>
+
+              <p>
+                Gemeinsam feiern wir
+                diesen besonderen Moment.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="timeline-item">
+
+            <div class="timeline-time">
+              19:00
+            </div>
+
+            <div>
+              <h3>
+                Dinner
+              </h3>
+
+              <p>
+                Zeit zum Essen,
+                Genießen und Zusammensein.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="timeline-item">
+
+            <div class="timeline-time">
+              21:00
+            </div>
+
+            <div>
+              <h3>
+                Gemeinsam feiern
+              </h3>
+
+              <p>
+                Musik, Tanz und Erinnerungen,
+                die bleiben.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================
+         LOCATION + GOOGLE MAPS
+    ====================================================== -->
+
+    <section class="content-section location">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Wo wir feiern
+        </div>
+
+        <h2 class="section-title">
+          Location
+        </h2>
+
+        <div class="location-name">
+          Härtsfeldhalle / Mensa Neresheim
+        </div>
+
+        <div class="location-address">
+          Dossinger Weg 16
+          <br>
+          73450 Neresheim
+        </div>
+
+
+        <!-- GOOGLE MAPS KARTE -->
+
+        <div class="map-wrapper">
+
+          <iframe
+            src="https://www.google.com/maps?q=Härtsfeldhalle%20Mensa%20Neresheim%20Dossinger%20Weg%2016%2073450%20Neresheim&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Härtsfeldhalle / Mensa Neresheim"
+          ></iframe>
+
+        </div>
+
+
+        <a
+          class="maps-button"
+          href="https://www.google.com/maps/search/?api=1&query=Härtsfeldhalle%20Mensa%20Neresheim%20Dossinger%20Weg%2016%2073450%20Neresheim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Route in Google Maps öffnen
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================
+         RSVP
+    ====================================================== -->
+
+    <section class="content-section rsvp">
+
+      <div class="rsvp-box">
+
+        <div class="section-eyebrow">
+          Wir freuen uns auf euch
+        </div>
+
+        <h2 class="section-title">
+          RSVP
+        </h2>
+
+        <p class="rsvp-description">
+          Bitte gebt uns Bescheid,
+          ob ihr diesen besonderen Tag
+          gemeinsam mit uns feiern könnt.
+        </p>
+
+        <form id="rsvpForm">
+
+          <div class="form-group">
+
+            <label for="name">
+              Vor- & Nachname
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              placeholder="Dein Name"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="attendance">
+              Kommst du?
+            </label>
+
+            <select
+              id="attendance"
+              required
+            >
+
+              <option value="">
+                Bitte auswählen
+              </option>
+
+              <option value="yes">
+                Ja, ich bin dabei 🤍
+              </option>
+
+              <option value="no">
+                Leider kann ich nicht kommen
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="guests">
+              Anzahl der Personen
+            </label>
+
+            <select id="guests">
+
+              <option value="1">
+                1 Person
+              </option>
+
+              <option value="2">
+                2 Personen
+              </option>
+
+              <option value="3">
+                3 Personen
+              </option>
+
+              <option value="4">
+                4 Personen
+              </option>
+
+              <option value="5">
+                5 Personen
+              </option>
+
+              <option value="6">
+                6 Personen
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="message">
+              Nachricht / Hinweis
+            </label>
+
+            <textarea
+              id="message"
+              placeholder="Nachricht, Allergien oder Hinweise ..."
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="submit-button"
+            type="submit"
+          >
+            Antwort senden
+          </button>
+
+        </form>
+
+
+        <div
+          class="success"
+          id="success"
+        >
+          Vielen Dank für eure Rückmeldung. ♡
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="footer-names">
+      Münevver & Kubilay
+    </div>
+
+    <p>
+      14 · 11 · 2026 · Neresheim
+    </p>
+
+  </footer>
+
+
+  <script>
+
+    /* ======================================================
+       HILFSFUNKTIONEN
+    ====================================================== */
+
+    function clamp(value, min = 0, max = 1) {
+      return Math.min(
+        max,
+        Math.max(min, value)
+      );
+    }
+
+
+    function mapProgress(
+      progress,
+      start,
+      end
+    ) {
+
+      return clamp(
+        (progress - start)
+        /
+        (end - start)
+      );
+
+    }
+
+
+    /* ======================================================
+       ELEMENTE
+    ====================================================== */
+
+    const invitationScroll =
+      document.getElementById(
+        "invitationScroll"
+      );
+
+    const tableScene =
+      document.getElementById(
+        "tableScene"
+      );
+
+    const physicalCard =
+      document.getElementById(
+        "physicalCard"
+      );
+
+    const cardCover =
+      document.getElementById(
+        "cardCover"
+      );
+
+    const cardShadow =
+      document.getElementById(
+        "cardShadow"
+      );
+
+    const scrollInstruction =
+      document.getElementById(
+        "scrollInstruction"
+      );
+
+    const websiteEntry =
+      document.getElementById(
+        "websiteEntry"
+      );
+
+    const websiteEntryContent =
+      document.getElementById(
+        "websiteEntryContent"
+      );
+
+
+    /* ======================================================
+       KARTE / WEBSITE ÜBERGANG
+
+       SCHNELLERE VERSION
+    ====================================================== */
+
+    function updateInvitation() {
+
+      const rect =
+        invitationScroll
+        .getBoundingClientRect();
+
+      const scrollDistance =
+        invitationScroll.offsetHeight
+        -
+        window.innerHeight;
+
+      let progress =
+        -rect.top
+        /
+        scrollDistance;
+
+      progress =
+        clamp(progress);
+
+
+      /* ==================================================
+         PHASE 1
+         0 - 18 %
+
+         NÄHER AN DIE KARTE
+      ================================================== */
+
+      const approach =
+        mapProgress(
+          progress,
+          0,
+          .18
+        );
+
+      const rotateX =
+        63
+        -
+        approach * 49;
+
+      const rotateZ =
+        -8
+        +
+        approach * 8;
+
+      const scale =
+        .72
+        +
+        approach * .28;
+
+      const translateY =
+        40
+        -
+        approach * 40;
+
+
+      physicalCard.style.transform =
+        `
+          rotateX(${rotateX}deg)
+          rotateZ(${rotateZ}deg)
+          translateY(${translateY}px)
+          scale(${scale})
+        `;
+
+
+      /* Hinweis verschwindet schnell */
+
+      const instructionFade =
+        mapProgress(
+          progress,
+          .015,
+          .09
+        );
+
+      scrollInstruction.style.opacity =
+        1
+        -
+        instructionFade;
+
+
+      /* ==================================================
+         PHASE 2
+         14 - 40 %
+
+         KARTE ÖFFNEN
+      ================================================== */
+
+      const opening =
+        mapProgress(
+          progress,
+          .14,
+          .40
+        );
+
+
+      const easedOpening =
+        1
+        -
+        Math.pow(
+          1 - opening,
+          3
+        );
+
+
+      const coverRotation =
+        easedOpening
+        *
+        -178;
+
+
+      cardCover.style.transform =
+        `rotateY(${coverRotation}deg)`;
+
+
+      /*
+        Währenddessen frontal ausrichten
+      */
+
+      if (
+        progress
+        >
+        .18
+      ) {
+
+        const flatten =
+          mapProgress(
+            progress,
+            .18,
+            .38
+          );
+
+
+        const flattenRotateX =
+          14
+          -
+          flatten * 14;
+
+
+        const flattenScale =
+          1
+          +
+          flatten * .06;
+
+
+        physicalCard.style.transform =
+          `
+            rotateX(${flattenRotateX}deg)
+            rotateZ(0deg)
+            translateY(0px)
+            scale(${flattenScale})
+          `;
+
+      }
+
+
+      /* ==================================================
+         PHASE 3
+         38 - 54 %
+
+         KARTE IST OFFEN.
+         SCHNELL HINEINZOOMEN.
+      ================================================== */
+
+      const zoom =
+        mapProgress(
+          progress,
+          .38,
+          .54
+        );
+
+
+      if (
+        progress
+        >=
+        .38
+      ) {
+
+        const zoomScale =
+          1.06
+          +
+          zoom * 2.7;
+
+
+        const zoomX =
+          -110
+          *
+          zoom;
+
+
+        physicalCard.style.transform =
+          `
+            translateX(${zoomX}px)
+            rotateX(0deg)
+            rotateZ(0deg)
+            scale(${zoomScale})
+          `;
+
+
+        tableScene.style.transform =
+          `
+            scale(${1 + zoom * .25})
+          `;
+
+
+        cardShadow.style.opacity =
+          .30
+          *
+          (1 - zoom);
+
+      }
+
+
+      /* ==================================================
+         PHASE 4
+         48 - 62 %
+
+         WEBSITE ÜBERNIMMT SCHON JETZT
+      ================================================== */
+
+      const transition =
+        mapProgress(
+          progress,
+          .48,
+          .62
+        );
+
+
+      tableScene.style.opacity =
+        1
+        -
+        transition;
+
+
+      websiteEntry.style.opacity =
+        transition;
+
+
+      websiteEntry.style.transform =
+        `
+          scale(
+            ${.91 + transition * .09}
+          )
+        `;
+
+
+      /* ==================================================
+         WEBSITE TEXT
+      ================================================== */
+
+      const contentReveal =
+        mapProgress(
+          progress,
+          .52,
+          .65
+        );
+
+
+      websiteEntryContent.style.opacity =
+        contentReveal;
+
+
+      websiteEntryContent.style.transform =
+        `
+          translateY(
+            ${28 - contentReveal * 28}px
+          )
+        `;
+
+
+      /* ==================================================
+         AB 64 % KOMPLETT WEBSITE
+      ================================================== */
+
+      if (
+        progress
+        >=
+        .64
+      ) {
+
+        tableScene.style.opacity =
+          0;
+
+        websiteEntry.style.opacity =
+          1;
+
+        websiteEntry.style.transform =
+          "scale(1)";
+
+        websiteEntryContent.style.opacity =
+          1;
+
+        websiteEntryContent.style.transform =
+          "translateY(0)";
+
+      }
+
+    }
+
+
+    window.addEventListener(
+      "scroll",
+      updateInvitation,
+      {
+        passive: true
+      }
+    );
+
+
+    window.addEventListener(
+      "resize",
+      updateInvitation
+    );
+
+
+    updateInvitation();
+
+
+    /* ======================================================
+       COUNTDOWN
+    ====================================================== */
+
+    const engagementDate =
+      new Date(
+        "2026-11-14T18:00:00"
+      ).getTime();
+
+
+    function updateCountdown() {
+
+      const now =
+        new Date().getTime();
+
+
+      const distance =
+        engagementDate
+        -
+        now;
+
+
+      if (
+        distance
+        <=
+        0
+      ) {
+
+        document
+          .getElementById("days")
+          .textContent =
+          "00";
+
+        document
+          .getElementById("hours")
+          .textContent =
+          "00";
+
+        document
+          .getElementById("minutes")
+          .textContent =
+          "00";
+
+        document
+          .getElementById("seconds")
+          .textContent =
+          "00";
+
+        return;
+      }
+
+
+      const days =
+        Math.floor(
+          distance /
+          (1000 * 60 * 60 * 24)
+        );
+
+
+      const hours =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60 * 24)
+          )
+          /
+          (1000 * 60 * 60)
+        );
+
+
+      const minutes =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60)
+          )
+          /
+          (1000 * 60)
+        );
+
+
+      const seconds =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60)
+          )
+          /
+          1000
+        );
+
+
+      document
+        .getElementById("days")
+        .textContent =
+        String(days)
+        .padStart(2, "0");
+
+
+      document
+        .getElementById("hours")
+        .textContent =
+        String(hours)
+        .padStart(2, "0");
+
+
+      document
+        .getElementById("minutes")
+        .textContent =
+        String(minutes)
+        .padStart(2, "0");
+
+
+      document
+        .getElementById("seconds")
+        .textContent =
+        String(seconds)
+        .padStart(2, "0");
+
+    }
+
+
+    updateCountdown();
+
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
+
+    /* ======================================================
+       RSVP DEMO
+
+       NOCH KEINE ECHTE SPEICHERUNG
+    ====================================================== */
+
+    const rsvpForm =
+      document.getElementById(
+        "rsvpForm"
+      );
+
+
+    const success =
+      document.getElementById(
+        "success"
+      );
+
+
+    rsvpForm.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+        rsvpForm.style.display =
+          "none";
+
+        success.style.display =
+          "block";
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
