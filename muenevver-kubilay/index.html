@@ -758,7 +758,7 @@
 
     .family-section {
       padding:
-        75px 24px 95px;
+        28px 24px 95px;
 
       background:
         var(--website);
@@ -1226,13 +1226,15 @@
     label {
       display: block;
 
-      margin-bottom: 9px;
+      margin-bottom: 10px;
 
-      font-size: 8px;
-      letter-spacing: 3px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2.6px;
       text-transform: uppercase;
 
-      color: var(--muted);
+      /* Dunkleres Braun für bessere Lesbarkeit */
+      color: #5b3d2b;
     }
 
     input,
@@ -1578,6 +1580,60 @@
 
     }
 
+
+    /* KUMÉ EVENT – zurück zur Hauptseite */
+    .kume-home-link {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 120;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 17px;
+      border: 1px solid rgba(50, 38, 29, 0.18);
+      background: rgba(248, 244, 238, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #4b382c;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity .35s ease, transform .35s ease, background .25s ease;
+    }
+
+    .kume-home-link.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .kume-home-link:hover {
+      background: #f8f4ee;
+    }
+
+    .kume-home-link .arrow {
+      font-size: 14px;
+      letter-spacing: 0;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      .kume-home-link {
+        top: 12px;
+        left: 12px;
+        padding: 10px 13px;
+        font-size: 8px;
+        letter-spacing: 2.2px;
+      }
+    }
+
   </style>
 
 </head>
@@ -1822,6 +1878,12 @@
        WEBSITE
   ====================================================== -->
 
+
+  <a class="kume-home-link" id="kumeHomeLink" href="../index.html" aria-label="Zur KUMÉ Event Hauptseite">
+    <span class="arrow">←</span>
+    <span>KUMÉ EVENT</span>
+  </a>
+
   <main class="site-content">
 
 
@@ -1839,13 +1901,13 @@
 
       <div class="family-names">
 
-        Akbulut
+        AKBULUT
 
         <span class="ampersand">
           &
         </span>
 
-        Çiçek Ailesi
+        ÇİÇEK AİLESİ
 
       </div>
 
@@ -3615,6 +3677,21 @@
 
       }
     );
+
+
+    // KUMÉ-Event-Link erst auf der eigentlichen Einladungsseite anzeigen
+    const kumeHomeLink = document.getElementById("kumeHomeLink");
+    const siteContent = document.querySelector(".site-content");
+
+    function updateKumeHomeLink() {
+      if (!kumeHomeLink || !siteContent) return;
+      const showFrom = siteContent.getBoundingClientRect().top <= window.innerHeight * 0.92;
+      kumeHomeLink.classList.toggle("is-visible", showFrom);
+    }
+
+    window.addEventListener("scroll", updateKumeHomeLink, { passive: true });
+    window.addEventListener("resize", updateKumeHomeLink);
+    updateKumeHomeLink();
 
   </script>
 
