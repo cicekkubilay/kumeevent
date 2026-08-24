@@ -28,10 +28,10 @@
       --paper: #fffaf5;
 
       --text: #181512;
-      --text-soft: #6d6258;
+      --text-soft: #5b4032;
 
-      --beige: #a98f78;
-      --beige-dark: #8f7561;
+      --beige: #76513d;
+      --beige-dark: #654333;
 
       --line: rgba(45, 36, 29, 0.14);
 
@@ -1283,9 +1283,9 @@
     .form-eyebrow {
       margin-bottom: 14px;
 
-      color: var(--beige);
+      color: var(--beige-dark);
 
-      font-size: 8px;
+      font-size: 9px;
       letter-spacing: 3px;
       text-transform: uppercase;
     }
@@ -1329,9 +1329,9 @@
 
       margin-bottom: 9px;
 
-      color: var(--beige);
+      color: var(--beige-dark);
 
-      font-size: 8px;
+      font-size: 9px;
       letter-spacing: 2.3px;
       text-transform: uppercase;
     }
@@ -1406,6 +1406,65 @@
       line-height: 1.6;
 
       text-align: center;
+    }
+
+
+    .contact-intro-bottom {
+      margin-top: 0;
+      color: var(--text-soft);
+    }
+
+    .social-contact {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .social-contact-title {
+      margin-bottom: 14px;
+      color: var(--beige-dark);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .social-contact-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .social-contact-link {
+      min-height: 58px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(101, 67, 51, .32);
+      color: var(--beige-dark);
+      font-size: 10px;
+      letter-spacing: 1.2px;
+      transition: background .25s ease, color .25s ease, border-color .25s ease;
+    }
+
+    .social-contact-link strong {
+      font-weight: 400;
+      text-align: right;
+      letter-spacing: .5px;
+      text-transform: none;
+    }
+
+    .social-contact-link:hover {
+      background: var(--beige-dark);
+      border-color: var(--beige-dark);
+      color: var(--white);
+    }
+
+    @media (max-width: 620px) {
+      .social-contact-links {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* =====================================================
@@ -1500,6 +1559,113 @@
       font-size: 8px;
       letter-spacing: 2px;
       text-transform: uppercase;
+    }
+
+
+
+    /* =====================================================
+       RECHTLICHE HINWEISE
+    ===================================================== */
+
+    .legal-section {
+      padding: 105px 0;
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+    }
+
+    .legal-section + .legal-section {
+      border-top: 1px solid var(--line);
+    }
+
+    .legal-wrap {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .legal-kicker {
+      margin-bottom: 18px;
+      color: var(--beige);
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .legal-title {
+      margin-bottom: 45px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(52px, 7vw, 82px);
+      font-weight: 400;
+      line-height: .95;
+    }
+
+    .legal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 55px;
+    }
+
+    .legal-block {
+      margin-bottom: 34px;
+    }
+
+    .legal-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .legal-block h3 {
+      margin-bottom: 12px;
+      color: var(--text);
+      font-family: "Montserrat", sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+    }
+
+    .legal-block p,
+    .legal-block li {
+      color: var(--text-soft);
+      font-size: 11px;
+      line-height: 1.9;
+    }
+
+    .legal-block p + p {
+      margin-top: 13px;
+    }
+
+    .legal-block ul {
+      padding-left: 18px;
+    }
+
+    .legal-block a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .legal-note {
+      margin-top: 45px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: #8a7c70;
+      font-size: 9px;
+      line-height: 1.8;
+    }
+
+    .footer-legal-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px 16px;
+    }
+
+    .footer-legal-links a {
+      transition: color .2s ease;
+    }
+
+    .footer-legal-links a:hover {
+      color: var(--text);
     }
 
     /* =====================================================
@@ -1955,6 +2121,28 @@
         align-items: center;
 
         text-align: center;
+      }
+
+      .legal-section {
+        padding: 75px 0;
+      }
+
+      .legal-wrap {
+        width: calc(100% - 36px);
+      }
+
+      .legal-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .legal-title {
+        margin-bottom: 36px;
+        font-size: 52px;
+      }
+
+      .footer-legal-links {
+        justify-content: center;
       }
 
     }
@@ -2799,87 +2987,10 @@
 
           <div class="contact-line"></div>
 
-          <div class="contact-detail">
-
-            <div class="contact-icon">
-              @
-            </div>
-
-            <div>
-
-              <strong>
-                E-Mail
-              </strong>
-
-              <span>
-                cicek.kubilay@icloud.com
-              </span>
-
-            </div>
-
-          </div>
-
-          <div class="contact-detail">
-
-            <div class="contact-icon">
-              ↗
-            </div>
-
-            <div>
-
-              <strong>
-                Instagram
-              </strong>
-
-              <a
-                href="https://www.instagram.com/kume.event/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                @kume.event
-              </a>
-
-            </div>
-
-          </div>
-
-          <div class="contact-detail">
-
-            <div class="contact-icon">
-              24
-            </div>
-
-            <div>
-
-              <strong>
-                Rückmeldung
-              </strong>
-
-              <span>
-                Wir melden uns schnellstmöglich
-                persönlich bei dir.
-              </span>
-
-            </div>
-
-          </div>
-
-          <a
-            href="https://www.instagram.com/kume.event/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="instagram-button"
-          >
-
-            <span>
-              Direkt über Instagram
-            </span>
-
-            <span>
-              →
-            </span>
-
-          </a>
+          <p class="contact-intro contact-intro-bottom">
+            Nutze einfach das Anfrageformular. Wir melden uns persönlich bei dir
+            und stimmen alle Details individuell mit dir ab.
+          </p>
 
         </div>
 
@@ -3104,10 +3215,40 @@
 
               Deine Angaben werden ausschließlich
               zur Bearbeitung deiner Anfrage verwendet.
+              Mehr dazu findest du in unserer
+              <a href="datenschutz.html">Datenschutzerklärung</a>.
 
             </p>
 
           </form>
+
+          <div class="social-contact">
+            <p class="social-contact-title">Oder direkt über Social Media</p>
+
+            <div class="social-contact-links">
+              <a
+                href="https://www.instagram.com/kume.event/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-contact-link"
+              >
+                <span>Instagram</span>
+                <strong>@kume.event</strong>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                href="https://www.tiktok.com/@kume.event"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-contact-link"
+              >
+                <span>TikTok</span>
+                <strong>@kume.event</strong>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
 
         </div>
 
@@ -3116,6 +3257,8 @@
     </div>
 
   </section>
+
+
 
   <!-- =====================================================
        FOOTER
@@ -3157,8 +3300,6 @@
           Kontakt
         </strong>
 
-        cicek.kubilay@icloud.com
-        <br>
         Instagram · @kume.event
         <br>
         TikTok · @kume.event
@@ -3173,8 +3314,10 @@
         © 2026 KUMÉ EVENT
       </span>
 
-      <span>
-        Fotobox · Digitale Einladungen
+      <span class="footer-legal-links">
+        <a href="impressum.html">Impressum</a>
+        <span>·</span>
+        <a href="datenschutz.html">Datenschutz</a>
       </span>
 
     </div>
