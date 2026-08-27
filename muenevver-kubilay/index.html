@@ -678,6 +678,9 @@
     }
 
     .website-entry-content {
+      position: relative;
+      z-index: 3;
+
       width:
         min(920px,88%);
 
@@ -1534,7 +1537,54 @@
       }
 
       .website-entry {
-        background-position: center center;
+        position: absolute;
+        inset: 0;
+
+        /*
+          MOBILE:
+          Hintergrund = weich vergrößerte Version,
+          davor = das komplette Foto ohne Beschnitt.
+        */
+        background:
+          url("verlobung.jpeg")
+          center center / cover
+          no-repeat;
+
+        isolation: isolate;
+      }
+
+      .website-entry::before {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+
+        z-index: 1;
+
+        background:
+          url("verlobung.jpeg")
+          center center / contain
+          no-repeat;
+
+        pointer-events: none;
+      }
+
+      .website-entry::after {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+
+        z-index: 2;
+
+        /*
+          Nur ein leichter Creme-Schleier,
+          damit das Foto auf dem Handy klar sichtbar bleibt.
+        */
+        background:
+          rgba(248,244,238,.30);
+
+        pointer-events: none;
       }
 
       .website-entry h1 {
@@ -1682,6 +1732,47 @@
       letter-spacing: 0;
       transform: translateY(-1px);
     }
+
+    @media (max-width: 520px) {
+      .website-entry-content {
+        position: relative;
+        z-index: 3;
+
+        width: min(92%, 460px);
+      }
+
+      .website-entry h1 {
+        font-size: clamp(48px, 15vw, 62px);
+        line-height: .84;
+      }
+
+      .website-eyebrow {
+        margin-bottom: 20px;
+        font-size: 7px;
+        letter-spacing: 3.5px;
+      }
+
+      .hero-line {
+        margin: 25px auto;
+      }
+
+      .hero-date {
+        font-size: 9px;
+        letter-spacing: 4px;
+      }
+
+      .hero-copy {
+        margin-top: 30px;
+        font-size: 18px;
+        line-height: 1.45;
+      }
+
+      .family-section {
+        margin-top: 26px;
+        padding-bottom: 32px;
+      }
+    }
+
 
     @media (max-width: 600px) {
       .kume-home-link {
