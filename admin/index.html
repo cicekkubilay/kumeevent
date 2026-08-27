@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KUMÉ EVENT | Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f6f1eb;
+      --paper:#fffaf5;
+      --soft:#eee5dc;
+      --text:#181512;
+      --brown:#55382a;
+      --muted:#66584d;
+      --line:rgba(55,42,33,.20);
+      --green:#516555;
+      --red:#9b665c;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      min-height:100vh;
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Montserrat",sans-serif;
+      font-weight:300;
+    }
+
+    button,input{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit;text-decoration:none}
+
+    .hidden{display:none!important}
+
+    .login-screen{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      background:
+        radial-gradient(circle at 50% 15%,rgba(255,255,255,.95),transparent 34%),
+        var(--bg);
+    }
+
+    .login-card{
+      width:min(520px,100%);
+      padding:54px 42px;
+      background:rgba(255,250,245,.94);
+      border:1px solid var(--line);
+      box-shadow:0 28px 80px rgba(55,40,30,.09);
+    }
+
+    .brand{text-align:center;margin-bottom:44px}
+    .brand-name{
+      font-family:"Cormorant Garamond",serif;
+      font-size:62px;
+      line-height:.85;
+    }
+    .brand-sub{
+      margin-top:14px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:12px;
+      color:var(--brown);
+      font-size:8px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+    .brand-sub:before,.brand-sub:after{
+      content:"";
+      width:32px;
+      height:1px;
+      background:currentColor;
+    }
+
+    .eyebrow{
+      color:var(--brown);
+      font-size:10px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    h1,h2,h3{
+      font-family:"Cormorant Garamond",serif;
+      font-weight:400;
+    }
+
+    .login-card h1{
+      margin-top:14px;
+      font-size:48px;
+      line-height:.95;
+    }
+
+    .login-copy{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    .field{margin-top:26px}
+    .field label{
+      display:block;
+      margin-bottom:9px;
+      color:var(--brown);
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .field input{
+      width:100%;
+      padding:14px 2px;
+      border:none;
+      border-bottom:1px solid #b8aa9e;
+      background:transparent;
+      outline:none;
+      color:var(--text);
+      font-size:13px;
+    }
+
+    .primary{
+      width:100%;
+      margin-top:30px;
+      padding:17px 20px;
+      border:1px solid var(--text);
+      background:var(--text);
+      color:white;
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .primary:hover{background:transparent;color:var(--text)}
+
+    .login-error{
+      display:none;
+      margin-top:18px;
+      padding:13px;
+      border:1px solid rgba(155,102,92,.28);
+      color:#7f4f47;
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:280px 1fr;
+    }
+
+    .sidebar{
+      min-height:100vh;
+      position:sticky;
+      top:0;
+      align-self:start;
+      padding:34px 25px;
+      background:#1b1714;
+      color:white;
+    }
+
+    .sidebar .brand-name{font-size:44px}
+    .sidebar .brand-sub{font-size:6px;letter-spacing:3px;color:#c4ae9a}
+    .sidebar .brand-sub:before,.sidebar .brand-sub:after{width:22px}
+
+    .sidebar-label{
+      margin:46px 0 16px;
+      color:#a99483;
+      font-size:8px;
+      letter-spacing:2.6px;
+      text-transform:uppercase;
+    }
+
+    .project-nav{
+      display:grid;
+      gap:8px;
+    }
+
+    .project-nav button{
+      width:100%;
+      padding:14px 12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:transparent;
+      color:rgba(255,255,255,.68);
+      text-align:left;
+      transition:.2s ease;
+    }
+
+    .project-nav button:hover,
+    .project-nav button.active{
+      background:rgba(255,255,255,.08);
+      color:white;
+      border-color:rgba(255,255,255,.22);
+    }
+
+    .project-nav strong{
+      display:block;
+      font-family:"Cormorant Garamond",serif;
+      font-size:21px;
+      font-weight:400;
+    }
+
+    .project-nav span{
+      display:block;
+      margin-top:5px;
+      font-size:7px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      opacity:.62;
+    }
+
+    .logout{
+      margin-top:40px;
+      padding:11px 0;
+      border:none;
+      border-bottom:1px solid rgba(255,255,255,.22);
+      background:transparent;
+      color:#cdbbaa;
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .main{padding:55px 5vw 80px}
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:30px;
+      padding-bottom:28px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .topbar h1{
+      margin-top:8px;
+      font-size:clamp(48px,6vw,76px);
+      line-height:.9;
+    }
+
+    .admin-chip{
+      padding:10px 13px;
+      border:1px solid var(--line);
+      color:var(--brown);
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .overview{
+      margin-top:38px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+
+    .stat{
+      min-height:170px;
+      padding:30px 28px;
+      border-right:1px solid var(--line);
+    }
+    .stat:last-child{border-right:none}
+    .stat-label{
+      color:#5b4739;
+      font-size:9px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .stat-value{
+      margin-top:18px;
+      font-family:"Cormorant Garamond",serif;
+      font-size:64px;
+      line-height:1;
+    }
+
+    .project-head{
+      margin-top:58px;
+      display:flex;
+      justify-content:space-between;
+      gap:25px;
+      align-items:flex-end;
+    }
+    .project-head h2{
+      margin-top:8px;
+      font-size:clamp(42px,5vw,64px);
+    }
+    .project-meta{
+      margin-top:14px;
+      color:#5f5045;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    .open-link{
+      padding:13px 17px;
+      border:1px solid var(--text);
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .open-link:hover{background:var(--text);color:white}
+
+    .table-wrap{
+      margin-top:30px;
+      overflow-x:auto;
+      background:var(--paper);
+      border:1px solid var(--line);
+    }
+
+    table{
+      width:100%;
+      min-width:760px;
+      border-collapse:collapse;
+    }
+
+    th{
+      padding:18px 20px;
+      text-align:left;
+      border-bottom:1px solid var(--line);
+      color:var(--brown);
+      font-size:9px;
+      font-weight:500;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    td{
+      padding:22px 20px;
+      border-bottom:1px solid var(--line);
+      font-size:13px;
+      line-height:1.6;
+      vertical-align:top;
+    }
+
+    tr:last-child td{border-bottom:none}
+
+    .guest-name{
+      font-family:"Cormorant Garamond",serif;
+      font-size:24px;
+    }
+
+    .status{
+      display:inline-flex;
+      padding:9px 12px;
+      border:1px solid;
+      font-size:9px;
+      letter-spacing:1.4px;
+      text-transform:uppercase;
+    }
+    .status.yes{color:var(--green);border-color:rgba(81,101,85,.35);background:rgba(81,101,85,.06)}
+    .status.no{color:var(--red);border-color:rgba(155,102,92,.35);background:rgba(155,102,92,.06)}
+
+    .empty{
+      margin-top:30px;
+      padding:40px;
+      border:1px solid var(--line);
+      background:var(--paper);
+      color:var(--muted);
+      text-align:center;
+      font-family:"Cormorant Garamond",serif;
+      font-size:25px;
+    }
+
+    .loading{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      color:var(--brown);
+      font-size:9px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    @media(max-width:900px){
+      .app{grid-template-columns:1fr}
+      .sidebar{
+        min-height:auto;
+        position:relative;
+        padding:22px;
+      }
+      .sidebar .brand{margin-bottom:22px}
+      .sidebar-label{margin:24px 0 12px}
+      .project-nav{grid-template-columns:1fr}
+      .logout{margin-top:22px}
+      .main{padding:38px 20px 60px}
+      .overview{grid-template-columns:1fr 1fr}
+      .stat:nth-child(2){border-right:none}
+      .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+    }
+
+    @media(max-width:560px){
+      .login-card{padding:42px 24px}
+      .topbar,.project-head{flex-direction:column;align-items:flex-start}
+      .overview{grid-template-columns:1fr}
+      .stat{border-right:none;border-bottom:1px solid var(--line)}
+      .stat:last-child{border-bottom:none}
+      .open-link{width:100%;text-align:center}
+    }
+  
+    /* Lesbarkeit / stärkere Kontraste */
+    .project-nav button{
+      padding:17px 14px;
+      border-color:rgba(255,255,255,.18);
+    }
+
+    .project-nav strong{
+      font-size:23px;
+    }
+
+    .project-nav span{
+      margin-top:7px;
+      font-size:8px;
+      opacity:.82;
+    }
+
+    .overview{
+      background:rgba(255,250,245,.48);
+    }
+
+    .stat{
+      background:rgba(255,250,245,.22);
+    }
+
+    .table-wrap{
+      box-shadow:0 10px 35px rgba(55,42,33,.035);
+    }
+
+    th{
+      background:#211b17;
+      color:#fff8f1;
+    }
+
+    tbody tr:hover{
+      background:#f3ebe3;
+    }
+
+    td{
+      color:#2f2722;
+    }
+
+    .status.yes{
+      color:#35513c;
+      border-color:rgba(53,81,60,.38);
+      background:rgba(95,129,98,.11);
+      font-weight:500;
+    }
+
+    .status.no{
+      color:#7b4038;
+      border-color:rgba(123,64,56,.34);
+      background:rgba(155,102,92,.10);
+      font-weight:500;
+    }
+
+    .open-link{
+      font-size:9px;
+      font-weight:500;
+    }
+
+    .admin-chip{
+      color:#4e392d;
+      font-size:9px;
+      font-weight:500;
+    }
+
+
+    /* ADMIN – Projekt & Kunde anlegen */
+    .admin-actions{
+      margin-top:28px;
+      display:flex;
+      justify-content:flex-end;
+    }
+
+    .secondary{
+      padding:14px 18px;
+      border:1px solid var(--text);
+      background:transparent;
+      color:var(--text);
+      font-size:8px;
+      font-weight:500;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .secondary:hover{background:var(--text);color:white}
+
+    .create-panel{
+      margin-top:24px;
+      padding:34px;
+      border:1px solid var(--line);
+      background:var(--paper);
+    }
+
+    .create-panel-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:24px;
+      padding-bottom:24px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .create-panel h2{
+      margin-top:8px;
+      font-size:42px;
+      line-height:1;
+    }
+
+    .close-panel{
+      border:none;
+      background:transparent;
+      color:var(--brown);
+      font-size:24px;
+      line-height:1;
+    }
+
+    .create-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0 34px;
+    }
+
+    .create-grid .field input{
+      padding:13px 2px;
+    }
+
+    .create-grid .full{
+      grid-column:1 / -1;
+    }
+
+    .password-wrap{
+      position:relative;
+    }
+
+    .password-wrap input{
+      padding-right:44px!important;
+    }
+
+    .password-toggle{
+      position:absolute;
+      right:0;
+      bottom:7px;
+      width:38px;
+      height:38px;
+      border:none;
+      background:transparent;
+      color:var(--brown);
+      font-size:17px;
+    }
+
+    .create-help{
+      margin-top:9px;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.6;
+    }
+
+    .create-message{
+      display:none;
+      margin-top:20px;
+      padding:14px;
+      border:1px solid var(--line);
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    .create-message.error{
+      display:block;
+      color:#7b4038;
+      border-color:rgba(123,64,56,.35);
+      background:rgba(155,102,92,.06);
+    }
+
+    .create-message.success{
+      display:block;
+      color:#35513c;
+      border-color:rgba(53,81,60,.35);
+      background:rgba(95,129,98,.08);
+    }
+
+    .create-submit{
+      margin-top:24px;
+      max-width:320px;
+    }
+
+    @media(max-width:760px){
+      .admin-actions{justify-content:stretch}
+      .admin-actions .secondary{width:100%}
+      .create-panel{padding:24px 18px}
+      .create-grid{grid-template-columns:1fr}
+      .create-grid .full{grid-column:auto}
+      .create-panel h2{font-size:36px}
+      .create-submit{max-width:none}
+    }
+
+
+    /* ======================================================
+       ADMIN – VERWALTUNG
+    ====================================================== */
+    .project-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:22px;
+    }
+
+    .small-action{
+      padding:11px 13px;
+      border:1px solid var(--line);
+      background:var(--paper);
+      color:var(--text);
+      font-size:8px;
+      font-weight:500;
+      letter-spacing:1.6px;
+      text-transform:uppercase;
+    }
+    .small-action:hover{
+      background:var(--text);
+      color:white;
+      border-color:var(--text);
+    }
+    .small-action.danger{
+      color:#7b4038;
+      border-color:rgba(123,64,56,.35);
+    }
+    .small-action.danger:hover{
+      background:#7b4038;
+      color:white;
+      border-color:#7b4038;
+    }
+
+    .table-action-group{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+
+    .table-action{
+      padding:7px 9px;
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--text);
+      font-size:7px;
+      font-weight:500;
+      letter-spacing:1px;
+      text-transform:uppercase;
+    }
+    .table-action:hover{background:var(--text);color:white}
+    .table-action.delete{color:#7b4038;border-color:rgba(123,64,56,.30)}
+
+    .manager-backdrop{
+      position:fixed;
+      inset:0;
+      z-index:4000;
+      display:grid;
+      place-items:center;
+      padding:20px;
+      background:rgba(24,20,17,.58);
+      backdrop-filter:blur(7px);
+    }
+
+    .manager-modal{
+      width:min(720px,100%);
+      max-height:90vh;
+      overflow:auto;
+      padding:32px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      box-shadow:0 30px 90px rgba(24,20,17,.25);
+    }
+
+    .manager-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:22px;
+      padding-bottom:20px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .manager-head h2{
+      margin-top:8px;
+      font-size:40px;
+      line-height:1;
+    }
+
+    .manager-close{
+      border:none;
+      background:transparent;
+      color:var(--brown);
+      font-size:28px;
+      line-height:1;
+    }
+
+    .manager-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0 28px;
+    }
+
+    .manager-grid .full{grid-column:1/-1}
+
+    .manager-modal textarea,
+    .manager-modal select{
+      width:100%;
+      padding:14px 2px;
+      border:none;
+      border-bottom:1px solid #b8aa9e;
+      background:transparent;
+      color:var(--text);
+      outline:none;
+      font:inherit;
+      font-size:13px;
+    }
+
+    .manager-modal textarea{
+      min-height:105px;
+      resize:vertical;
+    }
+
+    .manager-info{
+      margin-top:24px;
+      padding:18px;
+      background:#f4ece4;
+      border:1px solid var(--line);
+      font-size:11px;
+      line-height:1.8;
+      color:#4e4036;
+    }
+
+    .manager-info strong{
+      color:var(--text);
+      font-weight:500;
+    }
+
+    .manager-footer{
+      margin-top:24px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .manager-footer .primary{
+      width:auto;
+      min-width:220px;
+      margin-top:0;
+    }
+
+    .manager-feedback{
+      display:none;
+      margin-top:18px;
+      padding:12px;
+      border:1px solid var(--line);
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    .manager-feedback.show{display:block}
+    .manager-feedback.error{
+      color:#7b4038;
+      border-color:rgba(123,64,56,.35);
+      background:rgba(155,102,92,.06);
+    }
+    .manager-feedback.success{
+      color:#35513c;
+      border-color:rgba(53,81,60,.35);
+      background:rgba(95,129,98,.08);
+    }
+
+    @media(max-width:700px){
+      .manager-modal{padding:24px 18px}
+      .manager-grid{grid-template-columns:1fr}
+      .manager-grid .full{grid-column:auto}
+      .manager-head h2{font-size:34px}
+      .project-actions{display:grid;grid-template-columns:1fr 1fr}
+      .small-action{width:100%}
+    }
+
+    @media(max-width:430px){
+      .project-actions{grid-template-columns:1fr}
+    }
+
+
+    /* ======================================================
+       MOBILE ADMIN – OFF-CANVAS MENÜ
+    ====================================================== */
+    .mobile-menu-toggle,
+    .mobile-menu-overlay,
+    .mobile-tools {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        overflow-x: hidden;
+      }
+
+      .app {
+        display: block;
+        min-height: 100vh;
+      }
+
+      .mobile-menu-toggle {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 5002;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 13px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: #1b1714;
+        color: #fff8f1;
+        box-shadow: 0 10px 30px rgba(24,20,17,.16);
+        font-size: 8px;
+        font-weight: 500;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+      }
+
+      .mobile-menu-icon {
+        width: 17px;
+        height: 12px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .mobile-menu-icon::before,
+      .mobile-menu-icon::after,
+      .mobile-menu-icon span {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 17px;
+        height: 1px;
+        background: currentColor;
+        transition: .25s ease;
+      }
+
+      .mobile-menu-icon::before { top: 0; }
+      .mobile-menu-icon span { top: 5px; }
+      .mobile-menu-icon::after { top: 10px; }
+
+      .mobile-menu-toggle.is-open .mobile-menu-icon::before {
+        top: 5px;
+        transform: rotate(45deg);
+      }
+
+      .mobile-menu-toggle.is-open .mobile-menu-icon span {
+        opacity: 0;
+      }
+
+      .mobile-menu-toggle.is-open .mobile-menu-icon::after {
+        top: 5px;
+        transform: rotate(-45deg);
+      }
+
+      .mobile-menu-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 4998;
+        display: block;
+        background: rgba(20,16,13,.48);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .25s ease, visibility .25s ease;
+      }
+
+      .mobile-menu-overlay.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 5000;
+        width: min(340px, 86vw);
+        height: 100dvh;
+        min-height: 0;
+        overflow-y: auto;
+        padding: 76px 20px 30px;
+        transform: translateX(-105%);
+        transition: transform .28s ease;
+        box-shadow: 18px 0 50px rgba(15,12,10,.20);
+      }
+
+      .sidebar.is-open {
+        transform: translateX(0);
+      }
+
+      .sidebar .brand {
+        margin-bottom: 30px;
+      }
+
+      .sidebar .brand-name {
+        font-size: 42px;
+      }
+
+      .sidebar-label {
+        margin: 28px 0 12px;
+      }
+
+      .project-nav {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .mobile-tools {
+        display: block;
+        margin-top: 30px;
+        padding-top: 4px;
+        border-top: 1px solid rgba(255,255,255,.10);
+      }
+
+      .mobile-tools-title {
+        margin: 24px 0 12px;
+        color: #a99483;
+        font-size: 8px;
+        letter-spacing: 2.4px;
+        text-transform: uppercase;
+      }
+
+      .mobile-tools-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .mobile-tool-button {
+        width: 100%;
+        padding: 13px 12px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: transparent;
+        color: #f7eee6;
+        text-align: left;
+        font-size: 8px;
+        font-weight: 500;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+      }
+
+      .mobile-tool-button:hover,
+      .mobile-tool-button:active {
+        background: rgba(255,255,255,.08);
+      }
+
+      .mobile-tool-button:disabled {
+        opacity: .35;
+        cursor: not-allowed;
+      }
+
+      .logout {
+        width: 100%;
+        margin-top: 28px;
+        text-align: left;
+      }
+
+      .main {
+        width: 100%;
+        padding: 78px 18px 60px;
+      }
+
+      .topbar {
+        display: block;
+        padding-bottom: 22px;
+      }
+
+      .topbar h1 {
+        font-size: 54px;
+      }
+
+      .admin-chip {
+        display: inline-flex;
+        margin-top: 20px;
+      }
+
+      /* Verwaltungsbuttons im Content auf Mobile ausblenden.
+         Sie liegen stattdessen gesammelt im linken Menü. */
+      .admin-actions,
+      .project-actions {
+        display: none !important;
+      }
+
+      .overview {
+        grid-template-columns: 1fr 1fr;
+        margin-top: 28px;
+      }
+
+      .stat {
+        min-height: 128px;
+        padding: 22px 18px;
+      }
+
+      .stat-value {
+        font-size: 50px;
+      }
+
+      .stat-label {
+        font-size: 7px;
+        line-height: 1.5;
+      }
+
+      .project-head {
+        margin-top: 44px;
+        display: block;
+      }
+
+      .project-head h2 {
+        font-size: 44px;
+        line-height: .95;
+      }
+
+      .open-link {
+        width: 100%;
+        margin-top: 22px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .table-wrap {
+        overflow: visible;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      table {
+        min-width: 0;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: grid;
+        gap: 14px;
+      }
+
+      tr {
+        padding: 18px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+      }
+
+      td {
+        position: relative;
+        min-height: 40px;
+        padding: 11px 0 11px 108px;
+        border-bottom: 1px solid var(--line);
+        font-size: 12px;
+      }
+
+      td:last-child {
+        border-bottom: none;
+      }
+
+      td::before {
+        position: absolute;
+        top: 12px;
+        left: 0;
+        width: 94px;
+        color: var(--brown);
+        font-size: 7px;
+        font-weight: 500;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+      }
+
+      td:nth-child(1)::before { content: "Name"; }
+      td:nth-child(2)::before { content: "Status"; }
+      td:nth-child(3)::before { content: "Personen"; }
+      td:nth-child(4)::before { content: "Nachricht"; }
+      td:nth-child(5)::before { content: "Eingegangen"; }
+      td:nth-child(6)::before { content: "Aktionen"; }
+
+      .table-action-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .table-action {
+        width: 100%;
+      }
+
+      .manager-backdrop {
+        align-items: end;
+        padding: 0;
+      }
+
+      .manager-modal {
+        width: 100%;
+        max-height: 88dvh;
+        padding: 26px 18px 30px;
+        border-radius: 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .overview {
+        grid-template-columns: 1fr;
+      }
+
+      .stat {
+        border-right: none !important;
+        border-bottom: 1px solid var(--line) !important;
+      }
+
+      .stat:last-child {
+        border-bottom: none !important;
+      }
+
+      .topbar h1 {
+        font-size: 48px;
+      }
+
+      .project-head h2 {
+        font-size: 40px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id="loading" class="loading">KUMÉ wird geladen ...</div>
+
+  <section id="loginScreen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="brand">
+        <div class="brand-name">KUMÉ</div>
+        <div class="brand-sub">EVENT ADMIN</div>
+      </div>
+
+      <div class="eyebrow">ADMIN PORTAL</div>
+      <h1>Willkommen zurück.</h1>
+      <p class="login-copy">Melde dich mit deinem KUMÉ EVENT Admin-Account an.</p>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">E-Mail</label>
+          <input id="email" type="email" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Passwort</label>
+          <input id="password" type="password" autocomplete="current-password" required>
+        </div>
+
+        <button class="primary" id="loginButton" type="submit">Einloggen</button>
+      </form>
+
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </section>
+
+  
+  <button
+    class="mobile-menu-toggle hidden"
+    id="mobileMenuToggle"
+    type="button"
+    aria-label="Admin-Menü öffnen"
+    aria-expanded="false"
+  >
+    <span class="mobile-menu-icon"><span></span></span>
+    <span>Menü</span>
+  </button>
+
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+  <section id="adminApp" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-name">KUMÉ</div>
+        <div class="brand-sub">EVENT ADMIN</div>
+      </div>
+
+      <div class="sidebar-label">Projekte</div>
+      <div class="project-nav" id="projectNav"></div>
+
+
+      <div class="mobile-tools">
+        <div class="mobile-tools-title">Verwaltung</div>
+
+        <div class="mobile-tools-grid">
+          <button class="mobile-tool-button" id="mobileNewProject" type="button">
+            + Neues Projekt & Kunde
+          </button>
+
+          <button class="mobile-tool-button" id="mobileEditProject" type="button">
+            Projekt bearbeiten
+          </button>
+
+          <button class="mobile-tool-button" id="mobileCustomerDetails" type="button">
+            Kundendetails
+          </button>
+
+          <button class="mobile-tool-button" id="mobileAddRsvp" type="button">
+            + Rückmeldung
+          </button>
+
+          <button class="mobile-tool-button" id="mobileCsvExport" type="button">
+            CSV Export
+          </button>
+
+          <button class="mobile-tool-button" id="mobileOpenInvitation" type="button">
+            Einladung öffnen ↗
+          </button>
+        </div>
+      </div>
+
+      <button class="logout" id="logoutButton" type="button">Abmelden</button>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <div class="eyebrow">KUMÉ EVENT BACKEND</div>
+          <h1>Dashboard</h1>
+        </div>
+        <div class="admin-chip" id="adminName">ADMIN</div>
+      </div>
+
+      <div class="admin-actions">
+        <button class="secondary" id="openCreatePanel" type="button">+ Neues Projekt & Kunde</button>
+      </div>
+
+      <section class="create-panel hidden" id="createPanel">
+        <div class="create-panel-head">
+          <div>
+            <div class="eyebrow">NEUER AUFTRAG</div>
+            <h2>Projekt & Kundenaccount</h2>
+          </div>
+          <button class="close-panel" id="closeCreatePanel" type="button" aria-label="Schließen">×</button>
+        </div>
+
+        <form id="createProjectForm">
+          <div class="create-grid">
+            <div class="field">
+              <label for="customerName">Kundenname / Paar</label>
+              <input id="customerName" type="text" placeholder="z. B. Merve & Emre" required>
+            </div>
+
+            <div class="field">
+              <label for="customerEmail">Kunden E-Mail</label>
+              <input id="customerEmail" type="email" autocomplete="off" placeholder="kunde@beispiel.de" required>
+            </div>
+
+            <div class="field">
+              <label for="customerPassword">Startpasswort</label>
+              <div class="password-wrap">
+                <input id="customerPassword" type="password" autocomplete="new-password" minlength="8" required>
+                <button class="password-toggle" id="toggleCustomerPassword" type="button"
+                        aria-label="Passwort anzeigen" title="Passwort anzeigen">◉</button>
+              </div>
+              <div class="create-help">Mindestens 8 Zeichen. Dieses Passwort gibst du dem Kunden für den ersten Login.</div>
+            </div>
+
+            <div class="field">
+              <label for="projectTitle">Projektname</label>
+              <input id="projectTitle" type="text" placeholder="z. B. Merve & Emre" required>
+            </div>
+
+            <div class="field">
+              <label for="eventDate">Eventdatum</label>
+              <input id="eventDate" type="date">
+            </div>
+
+            <div class="field">
+              <label for="projectSlug">Slug</label>
+              <input id="projectSlug" type="text" placeholder="merve-emre" required>
+              <div class="create-help">Nur Kleinbuchstaben, Zahlen und Bindestriche.</div>
+            </div>
+
+            <div class="field full">
+              <label for="invitationUrl">Einladungs-URL</label>
+              <input id="invitationUrl" type="url" placeholder="https://kumeevent.de/merve-emre/">
+            </div>
+          </div>
+
+          <div class="create-message" id="createMessage"></div>
+          <button class="primary create-submit" id="createProjectButton" type="submit">
+            Projekt & Kunde erstellen
+          </button>
+        </form>
+      </section>
+
+      <section class="overview">
+        <div class="stat">
+          <div class="stat-label">Projekte</div>
+          <div class="stat-value" id="statProjects">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Zusagen</div>
+          <div class="stat-value" id="statYes">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Absagen</div>
+          <div class="stat-value" id="statNo">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Gäste zugesagt</div>
+          <div class="stat-value" id="statGuests">0</div>
+        </div>
+      </section>
+
+      <section id="projectArea">
+        <div class="empty">Noch kein Projekt ausgewählt.</div>
+      </section>
+    </main>
+  </section>
+
+
+  <div class="manager-backdrop hidden" id="managerBackdrop">
+    <div class="manager-modal" id="managerModal"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://novhauupppznhuvandxh.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_MVtzAxSyh6_waJoajVVpLg_G_-n7s4R";
+
+    const client = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const loading = document.getElementById("loading");
+    const loginScreen = document.getElementById("loginScreen");
+    const adminApp = document.getElementById("adminApp");
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const loginError = document.getElementById("loginError");
+    const logoutButton = document.getElementById("logoutButton");
+    const projectNav = document.getElementById("projectNav");
+    const projectArea = document.getElementById("projectArea");
+    const openCreatePanel = document.getElementById("openCreatePanel");
+    const closeCreatePanel = document.getElementById("closeCreatePanel");
+    const createPanel = document.getElementById("createPanel");
+    const createProjectForm = document.getElementById("createProjectForm");
+    const createProjectButton = document.getElementById("createProjectButton");
+    const createMessage = document.getElementById("createMessage");
+    const customerPassword = document.getElementById("customerPassword");
+    const toggleCustomerPassword = document.getElementById("toggleCustomerPassword");
+    const customerNameInput = document.getElementById("customerName");
+    const projectTitleInput = document.getElementById("projectTitle");
+    const projectSlugInput = document.getElementById("projectSlug");
+    const managerBackdrop = document.getElementById("managerBackdrop");
+    const managerModal = document.getElementById("managerModal");
+    const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+    const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+    const sidebar = document.querySelector(".sidebar");
+    const mobileNewProject = document.getElementById("mobileNewProject");
+    const mobileEditProject = document.getElementById("mobileEditProject");
+    const mobileCustomerDetails = document.getElementById("mobileCustomerDetails");
+    const mobileAddRsvp = document.getElementById("mobileAddRsvp");
+    const mobileCsvExport = document.getElementById("mobileCsvExport");
+    const mobileOpenInvitation = document.getElementById("mobileOpenInvitation");
+
+    let currentUser = null;
+    let currentProfile = null;
+    let projects = [];
+    let rsvps = [];
+    let activeProjectId = null;
+    let projectMembers = [];
+    let customerProfiles = [];
+
+    function showLogin(message = "") {
+      loading.classList.add("hidden");
+      adminApp.classList.add("hidden");
+      loginScreen.classList.remove("hidden");
+      mobileMenuToggle.classList.add("hidden");
+      closeMobileMenu();
+
+      if (message) {
+        loginError.textContent = message;
+        loginError.style.display = "block";
+      } else {
+        loginError.style.display = "none";
+      }
+    }
+
+    function showAdmin() {
+      loading.classList.add("hidden");
+      loginScreen.classList.add("hidden");
+      adminApp.classList.remove("hidden");
+      mobileMenuToggle.classList.remove("hidden");
+      updateMobileTools();
+    }
+
+    async function loadProfile(user) {
+      const { data, error } = await client
+        .from("profiles")
+        .select("id, full_name, role")
+        .eq("id", user.id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    }
+
+    async function verifyAdmin(user) {
+      const profile = await loadProfile(user);
+
+      if (!profile || profile.role !== "admin") {
+        await client.auth.signOut();
+        throw new Error("Dieser Account besitzt keine Admin-Berechtigung.");
+      }
+
+      currentProfile = profile;
+      return true;
+    }
+
+    async function loadDashboardData() {
+      const [
+        projectsResult,
+        rsvpsResult,
+        membersResult,
+        profilesResult
+      ] = await Promise.all([
+        client
+          .from("projects")
+          .select("id, title, slug, invitation_url, event_date, status, created_at")
+          .order("event_date", { ascending: true }),
+
+        client
+          .from("rsvps")
+          .select("id, project_id, guest_name, attendance, guest_count, message, created_at")
+          .order("created_at", { ascending: false }),
+
+        client
+          .from("project_members")
+          .select("project_id, user_id"),
+
+        client
+          .from("profiles")
+          .select("id, full_name, role, email")
+      ]);
+
+      if (projectsResult.error) throw projectsResult.error;
+      if (rsvpsResult.error) throw rsvpsResult.error;
+      if (membersResult.error) throw membersResult.error;
+      if (profilesResult.error) throw profilesResult.error;
+
+      projects = projectsResult.data || [];
+      rsvps = rsvpsResult.data || [];
+      projectMembers = membersResult.data || [];
+      customerProfiles = profilesResult.data || [];
+
+      renderGlobalStats();
+      renderProjectNav();
+      updateMobileTools();
+
+      if (projects.length) {
+        const exists = projects.some(p => p.id === activeProjectId);
+        selectProject(exists ? activeProjectId : projects[0].id);
+      } else {
+        projectArea.innerHTML = '<div class="empty">Noch keine Projekte vorhanden.</div>';
+      }
+    }
+
+    function renderGlobalStats() {
+      const yes = rsvps.filter(r => r.attendance === "yes");
+      const no = rsvps.filter(r => r.attendance === "no");
+      const guests = yes.reduce((sum, row) => sum + Number(row.guest_count || 0), 0);
+
+      document.getElementById("statProjects").textContent = projects.length;
+      document.getElementById("statYes").textContent = yes.length;
+      document.getElementById("statNo").textContent = no.length;
+      document.getElementById("statGuests").textContent = guests;
+    }
+
+    function renderProjectNav() {
+      projectNav.innerHTML = "";
+
+      projects.forEach(project => {
+        const button = document.createElement("button");
+        const projectRsvps = rsvps.filter(r => r.project_id === project.id);
+
+        button.type = "button";
+        button.dataset.projectId = project.id;
+
+        button.innerHTML = `
+          <strong>${escapeHtml(project.title)}</strong>
+          <span>${projectRsvps.length} Rückmeldungen</span>
+        `;
+
+        button.addEventListener("click", () => {
+          selectProject(project.id);
+        });
+
+        projectNav.appendChild(button);
+      });
+    }
+
+    function selectProject(projectId) {
+      activeProjectId = projectId;
+
+      document.querySelectorAll("#projectNav button").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.projectId === projectId
+        );
+      });
+
+      const project = projects.find(p => p.id === projectId);
+      if (!project) return;
+
+      renderProject(project);
+      updateMobileTools();
+
+      if (isMobileAdmin()) {
+        closeMobileMenu();
+      }
+    }
+
+    function renderProject(project) {
+      const rows = rsvps.filter(r => r.project_id === project.id);
+      const yes = rows.filter(r => r.attendance === "yes");
+      const no = rows.filter(r => r.attendance === "no");
+      const guests = yes.reduce((sum, row) => sum + Number(row.guest_count || 0), 0);
+
+      const dateText = project.event_date
+        ? new Intl.DateTimeFormat("de-DE", {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric"
+          }).format(new Date(project.event_date + "T12:00:00"))
+        : "Kein Datum";
+
+      let table = "";
+
+      if (rows.length) {
+        table = `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Personen</th>
+                  <th>Nachricht</th>
+                  <th>Eingegangen</th>
+                  <th>Aktionen</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map(row => `
+                  <tr>
+                    <td class="guest-name">${escapeHtml(row.guest_name)}</td>
+                    <td>
+                      <span class="status ${row.attendance === "yes" ? "yes" : "no"}">
+                        ${row.attendance === "yes" ? "Zusage" : "Absage"}
+                      </span>
+                    </td>
+                    <td>${Number(row.guest_count || 0)}</td>
+                    <td>${escapeHtml(row.message || "—")}</td>
+                    <td>${formatDateTime(row.created_at)}</td>
+                    <td>
+                      <div class="table-action-group">
+                        <button class="table-action" type="button"
+                          onclick="openRsvpEditor('${row.id}')">Bearbeiten</button>
+                        <button class="table-action delete" type="button"
+                          onclick="deleteRsvp('${row.id}')">Löschen</button>
+                      </div>
+                    </td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } else {
+        table = '<div class="empty">Für dieses Projekt gibt es noch keine Rückmeldungen.</div>';
+      }
+
+      projectArea.innerHTML = `
+        <div class="project-head">
+          <div>
+            <div class="eyebrow">AKTIVES PROJEKT</div>
+            <h2>${escapeHtml(project.title)}</h2>
+            <div class="project-meta">
+              ${dateText} · ${escapeHtml(project.status || "")}<br>
+              ${escapeHtml(project.slug || "")}
+            </div>
+          </div>
+
+          ${project.invitation_url ? `
+            <a
+              class="open-link"
+              href="${escapeAttribute(project.invitation_url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Einladung öffnen ↗
+            </a>
+          ` : ""}
+        </div>
+
+        <div class="project-actions">
+          <button class="small-action" type="button" onclick="openProjectEditor('${project.id}')">
+            Projekt bearbeiten
+          </button>
+          <button class="small-action" type="button" onclick="openCustomerDetails('${project.id}')">
+            Kundendetails
+          </button>
+          <button class="small-action" type="button" onclick="openRsvpCreator('${project.id}')">
+            + Rückmeldung
+          </button>
+          <button class="small-action" type="button" onclick="exportProjectCsv('${project.id}')">
+            CSV Export
+          </button>
+        </div>
+
+        <section class="overview">
+          <div class="stat">
+            <div class="stat-label">Rückmeldungen</div>
+            <div class="stat-value">${rows.length}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Zusagen</div>
+            <div class="stat-value">${yes.length}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Absagen</div>
+            <div class="stat-value">${no.length}</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Personen zugesagt</div>
+            <div class="stat-value">${guests}</div>
+          </div>
+        </section>
+
+        ${table}
+      `;
+    }
+
+    function formatDateTime(value) {
+      if (!value) return "—";
+
+      return new Intl.DateTimeFormat("de-DE", {
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }).format(new Date(value));
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escapeAttribute(value) {
+      return escapeHtml(value);
+    }
+
+
+
+
+    function isMobileAdmin() {
+      return window.matchMedia("(max-width: 900px)").matches;
+    }
+
+    function openMobileMenu() {
+      if (!isMobileAdmin()) return;
+      sidebar.classList.add("is-open");
+      mobileMenuOverlay.classList.add("is-open");
+      mobileMenuToggle.classList.add("is-open");
+      mobileMenuToggle.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileMenu() {
+      sidebar.classList.remove("is-open");
+      mobileMenuOverlay.classList.remove("is-open");
+      mobileMenuToggle.classList.remove("is-open");
+      mobileMenuToggle.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+
+    function toggleMobileMenu() {
+      if (sidebar.classList.contains("is-open")) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    }
+
+    function updateMobileTools() {
+      const project = projects.find(item => item.id === activeProjectId);
+      const hasProject = Boolean(project);
+
+      [
+        mobileEditProject,
+        mobileCustomerDetails,
+        mobileAddRsvp,
+        mobileCsvExport,
+        mobileOpenInvitation
+      ].forEach(button => {
+        if (button) button.disabled = !hasProject;
+      });
+
+      if (mobileOpenInvitation) {
+        mobileOpenInvitation.disabled =
+          !hasProject || !project?.invitation_url;
+      }
+    }
+
+    mobileMenuToggle.addEventListener("click", toggleMobileMenu);
+    mobileMenuOverlay.addEventListener("click", closeMobileMenu);
+
+    window.addEventListener("resize", () => {
+      if (!isMobileAdmin()) {
+        closeMobileMenu();
+      }
+    });
+
+    mobileNewProject.addEventListener("click", () => {
+      closeMobileMenu();
+      openCreatePanel.click();
+    });
+
+    mobileEditProject.addEventListener("click", () => {
+      if (!activeProjectId) return;
+      closeMobileMenu();
+      openProjectEditor(activeProjectId);
+    });
+
+    mobileCustomerDetails.addEventListener("click", () => {
+      if (!activeProjectId) return;
+      closeMobileMenu();
+      openCustomerDetails(activeProjectId);
+    });
+
+    mobileAddRsvp.addEventListener("click", () => {
+      if (!activeProjectId) return;
+      closeMobileMenu();
+      openRsvpCreator(activeProjectId);
+    });
+
+    mobileCsvExport.addEventListener("click", () => {
+      if (!activeProjectId) return;
+      closeMobileMenu();
+      exportProjectCsv(activeProjectId);
+    });
+
+    mobileOpenInvitation.addEventListener("click", () => {
+      const project = projects.find(item => item.id === activeProjectId);
+      if (!project?.invitation_url) return;
+      closeMobileMenu();
+      window.open(project.invitation_url, "_blank", "noopener,noreferrer");
+    });
+
+    function closeManager() {
+      managerBackdrop.classList.add("hidden");
+      managerModal.innerHTML = "";
+    }
+
+    managerBackdrop.addEventListener("click", event => {
+      if (event.target === managerBackdrop) closeManager();
+    });
+
+    function setManagerFeedback(text = "", type = "") {
+      const feedback = document.getElementById("managerFeedback");
+      if (!feedback) return;
+      feedback.textContent = text;
+      feedback.className = "manager-feedback" + (text ? " show" : "") + (type ? " " + type : "");
+    }
+
+    function projectCustomer(projectId) {
+      const membership = projectMembers.find(item => item.project_id === projectId);
+      if (!membership) return null;
+      return customerProfiles.find(profile => profile.id === membership.user_id) || null;
+    }
+
+    function openProjectEditor(projectId) {
+      const project = projects.find(item => item.id === projectId);
+      if (!project) return;
+
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">PROJEKT VERWALTEN</div>
+            <h2>${escapeHtml(project.title)}</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="closeManager()">×</button>
+        </div>
+
+        <form id="projectEditForm">
+          <div class="manager-grid">
+            <div class="field">
+              <label for="editProjectTitle">Projektname</label>
+              <input id="editProjectTitle" type="text" value="${escapeAttribute(project.title || "")}" required>
+            </div>
+            <div class="field">
+              <label for="editProjectSlug">Slug</label>
+              <input id="editProjectSlug" type="text" value="${escapeAttribute(project.slug || "")}" required>
+            </div>
+            <div class="field">
+              <label for="editEventDate">Eventdatum</label>
+              <input id="editEventDate" type="date" value="${escapeAttribute(project.event_date || "")}">
+            </div>
+            <div class="field">
+              <label for="editProjectStatus">Status</label>
+              <select id="editProjectStatus">
+                <option value="active" ${project.status === "active" ? "selected" : ""}>Aktiv</option>
+                <option value="finished" ${project.status === "finished" ? "selected" : ""}>Beendet</option>
+                <option value="archived" ${project.status === "archived" ? "selected" : ""}>Archiviert</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="editInvitationUrl">Einladungs-URL</label>
+              <input id="editInvitationUrl" type="url" value="${escapeAttribute(project.invitation_url || "")}">
+            </div>
+          </div>
+
+          <div id="managerFeedback" class="manager-feedback"></div>
+
+          <div class="manager-footer">
+            <button class="primary" type="submit">Änderungen speichern</button>
+          </div>
+        </form>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+
+      document.getElementById("projectEditForm").addEventListener("submit", async event => {
+        event.preventDefault();
+        setManagerFeedback();
+
+        try {
+          const payload = {
+            title: document.getElementById("editProjectTitle").value.trim(),
+            slug: slugify(document.getElementById("editProjectSlug").value),
+            event_date: document.getElementById("editEventDate").value || null,
+            status: document.getElementById("editProjectStatus").value,
+            invitation_url: document.getElementById("editInvitationUrl").value.trim() || null
+          };
+
+          const { error } = await client
+            .from("projects")
+            .update(payload)
+            .eq("id", projectId);
+
+          if (error) throw error;
+
+          setManagerFeedback("Projekt wurde gespeichert.", "success");
+          activeProjectId = projectId;
+          await loadDashboardData();
+
+        } catch (error) {
+          console.error(error);
+          setManagerFeedback(error?.message || "Projekt konnte nicht gespeichert werden.", "error");
+        }
+      });
+    }
+
+    function openCustomerDetails(projectId) {
+      const project = projects.find(item => item.id === projectId);
+      const customer = projectCustomer(projectId);
+
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">KUNDENDETAILS</div>
+            <h2>${escapeHtml(customer?.full_name || "Kein Kunde zugeordnet")}</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="closeManager()">×</button>
+        </div>
+
+        <div class="manager-info">
+          <strong>Projekt:</strong> ${escapeHtml(project?.title || "—")}<br>
+          <strong>Name:</strong> ${escapeHtml(customer?.full_name || "—")}<br>
+          <strong>E-Mail:</strong> ${escapeHtml(customer?.email || "Noch nicht hinterlegt")}<br>
+          <strong>Rolle:</strong> ${escapeHtml(customer?.role || "—")}<br>
+          <strong>User-ID:</strong> ${escapeHtml(customer?.id || "—")}
+        </div>
+
+        <div class="manager-footer">
+          <button class="secondary" type="button" onclick="closeManager()">Schließen</button>
+        </div>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+    }
+
+    function openRsvpCreator(projectId) {
+      renderRsvpForm({
+        mode: "create",
+        projectId,
+        row: {
+          guest_name: "",
+          attendance: "yes",
+          guest_count: 1,
+          message: ""
+        }
+      });
+    }
+
+    function openRsvpEditor(rsvpId) {
+      const row = rsvps.find(item => item.id === rsvpId);
+      if (!row) return;
+
+      renderRsvpForm({
+        mode: "edit",
+        projectId: row.project_id,
+        row
+      });
+    }
+
+    function renderRsvpForm({ mode, projectId, row }) {
+      const editing = mode === "edit";
+
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">${editing ? "RÜCKMELDUNG BEARBEITEN" : "RÜCKMELDUNG HINZUFÜGEN"}</div>
+            <h2>${editing ? escapeHtml(row.guest_name) : "Neue Rückmeldung"}</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="closeManager()">×</button>
+        </div>
+
+        <form id="rsvpManagerForm">
+          <div class="manager-grid">
+            <div class="field full">
+              <label for="manageGuestName">Name</label>
+              <input id="manageGuestName" type="text" value="${escapeAttribute(row.guest_name || "")}" required>
+            </div>
+
+            <div class="field">
+              <label for="manageAttendance">Status</label>
+              <select id="manageAttendance">
+                <option value="yes" ${row.attendance === "yes" ? "selected" : ""}>Zusage</option>
+                <option value="no" ${row.attendance === "no" ? "selected" : ""}>Absage</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="manageGuestCount">Personen</label>
+              <input id="manageGuestCount" type="number" min="1" max="20" value="${Number(row.guest_count || 1)}" required>
+            </div>
+
+            <div class="field full">
+              <label for="manageMessage">Nachricht</label>
+              <textarea id="manageMessage">${escapeHtml(row.message || "")}</textarea>
+            </div>
+          </div>
+
+          <div id="managerFeedback" class="manager-feedback"></div>
+
+          <div class="manager-footer">
+            <button class="primary" type="submit">
+              ${editing ? "Rückmeldung speichern" : "Rückmeldung hinzufügen"}
+            </button>
+          </div>
+        </form>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+
+      document.getElementById("rsvpManagerForm").addEventListener("submit", async event => {
+        event.preventDefault();
+        setManagerFeedback();
+
+        const payload = {
+          project_id: projectId,
+          guest_name: document.getElementById("manageGuestName").value.trim(),
+          attendance: document.getElementById("manageAttendance").value,
+          guest_count: Number(document.getElementById("manageGuestCount").value),
+          message: document.getElementById("manageMessage").value.trim() || null
+        };
+
+        try {
+          let result;
+
+          if (editing) {
+            const { project_id, ...changes } = payload;
+            result = await client
+              .from("rsvps")
+              .update(changes)
+              .eq("id", row.id);
+          } else {
+            result = await client
+              .from("rsvps")
+              .insert(payload);
+          }
+
+          if (result.error) throw result.error;
+
+          setManagerFeedback(
+            editing ? "Rückmeldung wurde gespeichert." : "Rückmeldung wurde hinzugefügt.",
+            "success"
+          );
+
+          activeProjectId = projectId;
+          await loadDashboardData();
+
+        } catch (error) {
+          console.error(error);
+          setManagerFeedback(error?.message || "Rückmeldung konnte nicht gespeichert werden.", "error");
+        }
+      });
+    }
+
+    async function deleteRsvp(rsvpId) {
+      const row = rsvps.find(item => item.id === rsvpId);
+      if (!row) return;
+
+      if (!confirm(`Rückmeldung von "${row.guest_name}" wirklich löschen?`)) {
+        return;
+      }
+
+      try {
+        const { error } = await client
+          .from("rsvps")
+          .delete()
+          .eq("id", rsvpId);
+
+        if (error) throw error;
+
+        activeProjectId = row.project_id;
+        await loadDashboardData();
+
+      } catch (error) {
+        console.error(error);
+        alert(error?.message || "Rückmeldung konnte nicht gelöscht werden.");
+      }
+    }
+
+    function exportProjectCsv(projectId) {
+      const project = projects.find(item => item.id === projectId);
+      const rows = rsvps.filter(item => item.project_id === projectId);
+
+      const csvRows = [
+        ["Name", "Status", "Personen", "Nachricht", "Eingegangen"],
+        ...rows.map(row => [
+          row.guest_name || "",
+          row.attendance === "yes" ? "Zusage" : "Absage",
+          String(row.guest_count || 0),
+          row.message || "",
+          formatDateTime(row.created_at)
+        ])
+      ];
+
+      const escapeCsv = value => {
+        const text = String(value ?? "");
+        return `"${text.replaceAll('"', '""')}"`;
+      };
+
+      const content = "\uFEFF" + csvRows
+        .map(row => row.map(escapeCsv).join(";"))
+        .join("\n");
+
+      const blob = new Blob([content], {
+        type: "text/csv;charset=utf-8;"
+      });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${project?.slug || "gaesteliste"}-rueckmeldungen.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function slugify(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/&/g, " ")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function setCreateMessage(text = "", type = "") {
+      createMessage.textContent = text;
+      createMessage.className = "create-message" + (type ? " " + type : "");
+    }
+
+    openCreatePanel.addEventListener("click", () => {
+      createPanel.classList.remove("hidden");
+      setCreateMessage();
+      createPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    closeCreatePanel.addEventListener("click", () => {
+      createPanel.classList.add("hidden");
+      setCreateMessage();
+    });
+
+    toggleCustomerPassword.addEventListener("click", () => {
+      const hidden = customerPassword.type === "password";
+      customerPassword.type = hidden ? "text" : "password";
+      toggleCustomerPassword.setAttribute(
+        "aria-label",
+        hidden ? "Passwort ausblenden" : "Passwort anzeigen"
+      );
+      toggleCustomerPassword.setAttribute(
+        "title",
+        hidden ? "Passwort ausblenden" : "Passwort anzeigen"
+      );
+    });
+
+    customerNameInput.addEventListener("input", () => {
+      if (!projectTitleInput.dataset.manual) {
+        projectTitleInput.value = customerNameInput.value;
+      }
+      if (!projectSlugInput.dataset.manual) {
+        projectSlugInput.value = slugify(customerNameInput.value);
+      }
+    });
+
+    projectTitleInput.addEventListener("input", () => {
+      projectTitleInput.dataset.manual = projectTitleInput.value ? "1" : "";
+    });
+
+    projectSlugInput.addEventListener("input", () => {
+      const cleaned = slugify(projectSlugInput.value);
+      projectSlugInput.value = cleaned;
+      projectSlugInput.dataset.manual = cleaned ? "1" : "";
+    });
+
+    createProjectForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      setCreateMessage();
+
+      const customerName = customerNameInput.value.trim();
+      const customerEmail = document.getElementById("customerEmail").value.trim();
+      const customerPasswordValue = customerPassword.value;
+      const projectTitle = projectTitleInput.value.trim();
+      const projectSlug = slugify(projectSlugInput.value);
+      const invitationUrl = document.getElementById("invitationUrl").value.trim();
+      const eventDate = document.getElementById("eventDate").value || null;
+
+      if (customerPasswordValue.length < 8) {
+        setCreateMessage("Das Startpasswort muss mindestens 8 Zeichen haben.", "error");
+        return;
+      }
+
+      createProjectButton.disabled = true;
+      createProjectButton.textContent = "Wird erstellt ...";
+
+      try {
+        const { data, error } = await client.functions.invoke(
+          "create-customer-project",
+          {
+            body: {
+              customerName,
+              customerEmail,
+              customerPassword: customerPasswordValue,
+              projectTitle,
+              projectSlug,
+              invitationUrl: invitationUrl || null,
+              eventDate
+            }
+          }
+        );
+
+        if (error) {
+          let message = error.message || "Projekt konnte nicht erstellt werden.";
+
+          // Bei Edge-Function-Fehlern enthält context häufig die eigentliche JSON-Antwort.
+          try {
+            if (error.context && typeof error.context.json === "function") {
+              const details = await error.context.json();
+              if (details?.error) message = details.error;
+            }
+          } catch (_) {}
+
+          throw new Error(message);
+        }
+
+        if (!data?.success) {
+          throw new Error(data?.error || "Projekt konnte nicht erstellt werden.");
+        }
+
+        createProjectForm.reset();
+        projectTitleInput.dataset.manual = "";
+        projectSlugInput.dataset.manual = "";
+        customerPassword.type = "password";
+
+        setCreateMessage(
+          `Erstellt: ${data.project?.title || projectTitle}. Kundenaccount: ${customerEmail}`,
+          "success"
+        );
+
+        activeProjectId = data.project?.id || null;
+        await loadDashboardData();
+
+      } catch (error) {
+        console.error(error);
+        setCreateMessage(
+          error?.message || "Projekt und Kunde konnten nicht erstellt werden.",
+          "error"
+        );
+      } finally {
+        createProjectButton.disabled = false;
+        createProjectButton.textContent = "Projekt & Kunde erstellen";
+      }
+    });
+
+    loginForm.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      loginError.style.display = "none";
+      loginButton.disabled = true;
+      loginButton.textContent = "Wird eingeloggt ...";
+
+      try {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        const { data, error } = await client.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        currentUser = data.user;
+        await verifyAdmin(currentUser);
+        showAdmin();
+
+        document.getElementById("adminName").textContent =
+          currentProfile.full_name
+            ? currentProfile.full_name + " · ADMIN"
+            : "ADMIN";
+
+        await loadDashboardData();
+
+      } catch (error) {
+        console.error(error);
+        showLogin(
+          error?.message || "Login fehlgeschlagen."
+        );
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Einloggen";
+      }
+    });
+
+    logoutButton.addEventListener("click", async () => {
+      await client.auth.signOut();
+      currentUser = null;
+      currentProfile = null;
+      projects = [];
+      rsvps = [];
+      activeProjectId = null;
+      showLogin();
+    });
+
+    async function init() {
+      try {
+        const { data, error } = await client.auth.getSession();
+
+        if (error) throw error;
+
+        const session = data.session;
+
+        if (!session?.user) {
+          showLogin();
+          return;
+        }
+
+        currentUser = session.user;
+        await verifyAdmin(currentUser);
+        showAdmin();
+
+        document.getElementById("adminName").textContent =
+          currentProfile.full_name
+            ? currentProfile.full_name + " · ADMIN"
+            : "ADMIN";
+
+        await loadDashboardData();
+
+      } catch (error) {
+        console.error(error);
+        showLogin(
+          error?.message || ""
+        );
+      }
+    }
+
+    init();
+  </script>
+
+</body>
+</html>

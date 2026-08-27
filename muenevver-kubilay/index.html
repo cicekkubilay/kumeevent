@@ -655,13 +655,21 @@
       align-items: center;
       justify-content: center;
 
-      background:
-        radial-gradient(
-          circle at 50% 15%,
-          rgba(255,255,255,.88),
-          transparent 36%
+      /*
+        FOTO NACH DEM ÖFFNEN DER EINLADUNGSKARTE
+        Lege dein Bild als "verlobung.jpg" in denselben Ordner
+        wie diese index.html.
+      */
+      background-image:
+        linear-gradient(
+          rgba(248,244,238,.66),
+          rgba(248,244,238,.66)
         ),
-        var(--website);
+        url("verlobung.jpeg");
+
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
 
       opacity: 0;
 
@@ -1525,6 +1533,10 @@
         font-size: 16px;
       }
 
+      .website-entry {
+        background-position: center center;
+      }
+
       .website-entry h1 {
         font-size: 58px;
       }
@@ -2386,7 +2398,7 @@
 
         <form
           id="rsvpForm"
-          action="https://formsubmit.co/cicek.kubilay@icloud.com"
+          action="#"
           method="POST"
         >
 
@@ -3579,8 +3591,18 @@
 
 
     /* ======================================================
-       RÜCKMELDUNG PER MAIL
+       RÜCKMELDUNG → SUPABASE
     ====================================================== */
+
+    const SUPABASE_URL =
+      "https://novhauupppznhuvandxh.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_MVtzAxSyh6_waJoajVVpLg_G_-n7s4R";
+
+    const PROJECT_SLUG =
+      "muenevver-kubilay";
+
 
     const rsvpForm =
       document.getElementById("rsvpForm");
@@ -3629,39 +3651,106 @@
             : "Wird gesendet ...";
 
 
-        const formData =
-          new FormData(
-            rsvpForm
+        const guestName =
+          document
+            .getElementById("name")
+            .value
+            .trim();
+
+
+        const attendanceValue =
+          document
+            .getElementById("attendance")
+            .value;
+
+
+        const guestCount =
+          Number(
+            document
+              .getElementById("guests")
+              .value
           );
+
+
+        const message =
+          document
+            .getElementById("message")
+            .value
+            .trim();
+
+
+        const attendance =
+          attendanceValue === "Ja"
+            ? "yes"
+            : attendanceValue === "Nein"
+              ? "no"
+              : null;
+
+
+        if (
+          !guestName ||
+          !attendance ||
+          !Number.isInteger(guestCount)
+        ) {
+
+          errorMessage.style.display =
+            "block";
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            normalText;
+
+          return;
+        }
 
 
         try {
 
           const response =
             await fetch(
-              "https://formsubmit.co/ajax/cicek.kubilay@icloud.com",
+              SUPABASE_URL +
+                "/rest/v1/rpc/submit_rsvp",
               {
 
                 method: "POST",
 
                 headers: {
+                  "apikey":
+                    SUPABASE_PUBLISHABLE_KEY,
+                  "Content-Type":
+                    "application/json",
                   "Accept":
                     "application/json"
                 },
 
                 body:
-                  formData
+                  JSON.stringify({
+                    p_project_slug:
+                      PROJECT_SLUG,
+                    p_guest_name:
+                      guestName,
+                    p_attendance:
+                      attendance,
+                    p_guest_count:
+                      guestCount,
+                    p_message:
+                      message || null
+                  })
 
               }
             );
 
 
-          if (
-            !response.ok
-          ) {
+          if (!response.ok) {
+
+            const errorText =
+              await response.text();
 
             throw new Error(
-              "Formular konnte nicht gesendet werden."
+              errorText ||
+              "Rückmeldung konnte nicht gespeichert werden."
             );
 
           }
@@ -3698,7 +3787,10 @@
 
         catch(error) {
 
-          console.error(error);
+          console.error(
+            "Supabase RSVP error:",
+            error
+          );
 
 
           errorMessage.style.display =
