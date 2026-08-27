@@ -1480,6 +1480,114 @@
       .discount-row{grid-template-columns:1fr}
     }
 
+
+    /* ======================================================
+       DOKUMENT-WORKFLOW / PDF / RECHNUNGEN
+    ====================================================== */
+    .sidebar-invoices{
+      width:100%;
+      margin-top:8px;
+      padding:14px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:transparent;
+      color:#f7eee6;
+      text-align:left;
+      font-size:8px;
+      font-weight:500;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+    }
+    .sidebar-invoices:hover{background:rgba(255,255,255,.08)}
+
+    .workflow-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:22px;
+    }
+
+    .workflow-select{
+      min-width:180px;
+      padding:11px 12px;
+      border:1px solid var(--line);
+      background:var(--paper);
+      color:var(--text);
+      font-size:9px;
+      outline:none;
+    }
+
+    .doc-section-title{
+      margin-top:26px;
+      padding-bottom:10px;
+      border-bottom:1px solid var(--line);
+      color:var(--brown);
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .invoice-source{
+      margin-top:18px;
+      padding:16px;
+      border:1px solid var(--line);
+      background:#f4ece4;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.7;
+    }
+
+    .invoice-type-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .invoice-type-card{
+      padding:16px;
+      border:1px solid var(--line);
+      background:#fffaf5;
+      cursor:pointer;
+    }
+
+    .invoice-type-card.active{
+      border-color:var(--brown);
+      background:#f3ebe3;
+    }
+
+    .invoice-type-card input{display:none}
+    .invoice-type-card strong{
+      display:block;
+      font-family:"Cormorant Garamond",serif;
+      font-size:25px;
+      font-weight:400;
+    }
+    .invoice-type-card span{
+      display:block;
+      margin-top:5px;
+      color:var(--muted);
+      font-size:8px;
+      line-height:1.5;
+    }
+
+    .pdf-note{
+      margin-top:18px;
+      padding:13px 15px;
+      border:1px solid rgba(85,56,42,.18);
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.65;
+    }
+
+    @media(max-width:900px){
+      .sidebar-invoices{display:none}
+      .invoice-type-grid{grid-template-columns:1fr}
+      .workflow-actions{display:grid}
+      .workflow-actions .small-action,
+      .workflow-actions .secondary,
+      .workflow-actions .workflow-select{width:100%}
+    }
+
   </style>
 </head>
 
@@ -1541,7 +1649,11 @@
       <div class="project-nav" id="projectNav"></div>
 
       <button class="sidebar-documents" id="openDocuments" type="button">
-        Dokumente & Rechnungen
+        Angebote & Aufträge
+      </button>
+
+      <button class="sidebar-invoices" id="openInvoices" type="button">
+        Rechnungen
       </button>
 
       <div class="mobile-tools">
@@ -1573,7 +1685,11 @@
           </button>
 
           <button class="mobile-tool-button" id="mobileDocuments" type="button">
-            Dokumente & Rechnungen
+            Angebote & Aufträge
+          </button>
+
+          <button class="mobile-tool-button" id="mobileInvoices" type="button">
+            Rechnungen
           </button>
         </div>
       </div>
@@ -1685,6 +1801,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
 
   <script>
     const SUPABASE_URL = "https://novhauupppznhuvandxh.supabase.co";
@@ -1728,6 +1846,8 @@
     const mobileOpenInvitation = document.getElementById("mobileOpenInvitation");
     const openDocuments = document.getElementById("openDocuments");
     const mobileDocuments = document.getElementById("mobileDocuments");
+    const openInvoices = document.getElementById("openInvoices");
+    const mobileInvoices = document.getElementById("mobileInvoices");
 
     let currentUser = null;
     let currentProfile = null;
@@ -2077,7 +2197,8 @@
         accepted: "Angenommen",
         open: "Offen",
         paid: "Bezahlt",
-        cancelled: "Storniert"
+        cancelled: "Storniert",
+        rejected: "Abgelehnt"
       }[status] || status;
     }
 
@@ -2646,12 +2767,1052 @@
     }
 
 
+
+    function docItems(documentId) {
+      return documentItems
+        .filter(item => item.document_id === documentId)
+        .sort((a,b) => Number(a.position) - Number(b.position));
+    }
+
+    async function cloneDocument(sourceDoc, newType, newNumber, overrides = {}) {
+      const sourceItems = docItems(sourceDoc.id);
+
+      const payload = {
+        project_id: sourceDoc.project_id,
+        document_type: newType,
+        document_number: newNumber,
+        status: overrides.status || "draft",
+        issue_date: overrides.issue_date || new Date().toISOString().slice(0,10),
+        valid_until: overrides.valid_until ?? null,
+        due_date: overrides.due_date ?? null,
+
+        customer_name: sourceDoc.customer_name || null,
+        customer_street: sourceDoc.customer_street || null,
+        customer_zip: sourceDoc.customer_zip || null,
+        customer_city: sourceDoc.customer_city || null,
+        customer_country: sourceDoc.customer_country || null,
+
+        package_code: sourceDoc.package_code || null,
+        subtotal: overrides.subtotal ?? sourceDoc.subtotal,
+        discount_type: sourceDoc.discount_type || "percent",
+        discount_value: sourceDoc.discount_value || 0,
+        discount_amount: overrides.discount_amount ?? sourceDoc.discount_amount ?? 0,
+        tax_rate: overrides.tax_rate ?? sourceDoc.tax_rate,
+        tax_amount: overrides.tax_amount ?? sourceDoc.tax_amount,
+        total: overrides.total ?? sourceDoc.total,
+        deposit_amount: overrides.deposit_amount ?? sourceDoc.deposit_amount ?? 0,
+        paid_amount: overrides.paid_amount ?? 0,
+        notes: overrides.notes ?? sourceDoc.notes ?? null,
+        source_document_id: sourceDoc.id
+      };
+
+      const { data: created, error } = await client
+        .from("documents")
+        .insert(payload)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      if (sourceItems.length) {
+        const rows = sourceItems.map((item, index) => ({
+          document_id: created.id,
+          position: index + 1,
+          description: item.description,
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+          total: item.total
+        }));
+
+        const { error: itemError } = await client
+          .from("document_items")
+          .insert(rows);
+
+        if (itemError) {
+          await client.from("documents").delete().eq("id", created.id);
+          throw itemError;
+        }
+      }
+
+      return created;
+    }
+
+    async function setOfferDecision(documentId, status) {
+      const doc = documents.find(item => item.id === documentId);
+      if (!doc || doc.document_type !== "offer") return;
+
+      try {
+        const { error } = await client
+          .from("documents")
+          .update({ status })
+          .eq("id", documentId);
+
+        if (error) throw error;
+
+        if (status === "accepted") {
+          const existingOrder = documents.find(item =>
+            item.document_type === "order_confirmation" &&
+            item.source_document_id === documentId
+          );
+
+          if (!existingOrder) {
+            const number = await nextDocumentNumber("order_confirmation");
+            await cloneDocument(
+              { ...doc, status: "accepted" },
+              "order_confirmation",
+              number,
+              {
+                status: "accepted",
+                valid_until: null
+              }
+            );
+          }
+        }
+
+        activeProjectId = doc.project_id;
+        await loadDashboardData();
+        openDocumentsManager(doc.project_id);
+
+      } catch (error) {
+        console.error(error);
+        alert(error?.message || "Status konnte nicht geändert werden.");
+      }
+    }
+
+    async function updateDocumentStatus(documentId, status) {
+      const doc = documents.find(item => item.id === documentId);
+      if (!doc) return;
+
+      try {
+        const { error } = await client
+          .from("documents")
+          .update({ status })
+          .eq("id", documentId);
+
+        if (error) throw error;
+
+        activeProjectId = doc.project_id;
+        await loadDashboardData();
+        openDocumentDetails(documentId);
+      } catch (error) {
+        console.error(error);
+        alert(error?.message || "Status konnte nicht geändert werden.");
+      }
+    }
+
+    function openDocumentEditor(documentId) {
+      const doc = documents.find(item => item.id === documentId);
+      if (!doc) return;
+
+      const items = docItems(documentId);
+      const project = projects.find(item => item.id === doc.project_id);
+
+      managerModal.className = "manager-modal documents-modal";
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">DOKUMENT BEARBEITEN</div>
+            <h2>${escapeHtml(doc.document_number)}</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="openDocumentDetails('${doc.id}')">×</button>
+        </div>
+
+        <form id="genericDocumentForm">
+          <div class="document-form-grid">
+            <div class="field">
+              <label>Dokumentnummer</label>
+              <input id="editDocNumber" value="${escapeAttribute(doc.document_number)}" required>
+            </div>
+
+            <div class="field">
+              <label>Ausstellungsdatum</label>
+              <input id="editIssueDate" type="date" value="${doc.issue_date || ""}" required>
+            </div>
+
+            <div class="field">
+              <label>${doc.document_type === "offer" ? "Gültig bis" : "Fällig am"}</label>
+              <input id="editTargetDate" type="date" value="${doc.document_type === "offer" ? (doc.valid_until || "") : (doc.due_date || "")}">
+            </div>
+
+            <div class="field full">
+              <label>Kundenname / Paar</label>
+              <input id="editCustomerName" value="${escapeAttribute(doc.customer_name || project?.title || "")}">
+            </div>
+
+            <div class="field full">
+              <label>Straße & Hausnummer</label>
+              <input id="editCustomerStreet" value="${escapeAttribute(doc.customer_street || "")}">
+            </div>
+
+            <div class="field">
+              <label>PLZ</label>
+              <input id="editCustomerZip" value="${escapeAttribute(doc.customer_zip || "")}">
+            </div>
+
+            <div class="field">
+              <label>Ort</label>
+              <input id="editCustomerCity" value="${escapeAttribute(doc.customer_city || "")}">
+            </div>
+
+            <div class="field">
+              <label>Land</label>
+              <input id="editCustomerCountry" value="${escapeAttribute(doc.customer_country || "Deutschland")}">
+            </div>
+          </div>
+
+          <div class="offer-section">
+            <div class="offer-editor-head">
+              <div>
+                <div class="eyebrow">LEISTUNGEN</div>
+                <div class="offer-section-title">Positionen bearbeiten</div>
+              </div>
+              <button class="secondary" id="editAddItem" type="button">+ Position</button>
+            </div>
+
+            <div class="document-items" id="editItems"></div>
+          </div>
+
+          <div class="offer-section">
+            <div class="discount-row">
+              <div class="field">
+                <label>Rabattart</label>
+                <select id="editDiscountType">
+                  <option value="percent" ${doc.discount_type === "percent" ? "selected" : ""}>Prozent</option>
+                  <option value="fixed" ${doc.discount_type === "fixed" ? "selected" : ""}>Fester Betrag €</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Rabatt</label>
+                <input id="editDiscountValue" type="number" min="0" step="0.01" value="${Number(doc.discount_value || 0)}">
+              </div>
+            </div>
+
+            <div class="document-form-grid">
+              <div class="field">
+                <label>Umsatzsteuer</label>
+                <select id="editTaxRate">
+                  <option value="19" ${Number(doc.tax_rate) === 19 ? "selected" : ""}>19 %</option>
+                  <option value="7" ${Number(doc.tax_rate) === 7 ? "selected" : ""}>7 %</option>
+                  <option value="0" ${Number(doc.tax_rate) === 0 ? "selected" : ""}>0 %</option>
+                </select>
+              </div>
+
+              ${doc.document_type === "order_confirmation" ? `
+                <div class="field">
+                  <label>Vereinbarte Anzahlung €</label>
+                  <input id="editDepositAmount" type="number" min="0" step="0.01" value="${Number(doc.deposit_amount || 0)}">
+                </div>
+              ` : ""}
+
+              <div class="field full">
+                <label>Notizen</label>
+                <textarea id="editNotes">${escapeHtml(doc.notes || "")}</textarea>
+              </div>
+            </div>
+
+            <div class="document-summary">
+              <div class="document-summary-row">
+                <span>Zwischensumme</span>
+                <strong id="editSubtotal">${money(doc.subtotal)}</strong>
+              </div>
+              <div class="document-summary-row discount">
+                <span>Rabatt</span>
+                <strong id="editDiscountAmount">− ${money(doc.discount_amount || 0)}</strong>
+              </div>
+              <div class="document-summary-row">
+                <span id="editTaxLabel">MwSt. ${Number(doc.tax_rate)} %</span>
+                <strong id="editTaxAmount">${money(doc.tax_amount)}</strong>
+              </div>
+              <div class="document-summary-row total">
+                <span>Gesamt</span>
+                <strong id="editTotal">${money(doc.total)}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="manager-feedback" id="managerFeedback"></div>
+
+          <div class="manager-footer">
+            <button class="primary" id="saveGenericDocument" type="submit">Änderungen speichern</button>
+            <button class="secondary" type="button" onclick="openDocumentDetails('${doc.id}')">Abbrechen</button>
+          </div>
+        </form>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+
+      const container = document.getElementById("editItems");
+      const discountType = document.getElementById("editDiscountType");
+      const discountValue = document.getElementById("editDiscountValue");
+      const taxRate = document.getElementById("editTaxRate");
+
+      function addEditRow(item = {}) {
+        const row = document.createElement("div");
+        row.className = "document-item-row";
+        row.innerHTML = `
+          <div class="field item-description">
+            <label>Leistung</label>
+            <input class="item-desc" value="${escapeAttribute(item.description || "")}" required>
+          </div>
+          <div class="field">
+            <label>Menge</label>
+            <input class="item-qty" type="number" min="0.01" step="0.01" value="${Number(item.quantity || 1)}" required>
+          </div>
+          <div class="field">
+            <label>Einzelpreis €</label>
+            <input class="item-price" type="number" min="0" step="0.01" value="${Number(item.unit_price || 0).toFixed(2)}" required>
+          </div>
+          <div>
+            <label style="display:block;margin-bottom:9px;color:var(--brown);font-size:8px;letter-spacing:2px;text-transform:uppercase">Gesamt</label>
+            <div class="document-item-total">0,00 €</div>
+          </div>
+          <button class="remove-item" type="button">×</button>
+        `;
+
+        row.querySelectorAll("input").forEach(input => input.addEventListener("input", recalc));
+        row.querySelector(".remove-item").addEventListener("click", () => {
+          row.remove();
+          recalc();
+        });
+
+        container.appendChild(row);
+      }
+
+      function recalc() {
+        let subtotal = 0;
+
+        container.querySelectorAll(".document-item-row").forEach(row => {
+          const qty = Number(row.querySelector(".item-qty").value || 0);
+          const price = Number(row.querySelector(".item-price").value || 0);
+          const line = qty * price;
+          subtotal += line;
+          row.querySelector(".document-item-total").textContent = money(line);
+        });
+
+        const dType = discountType.value;
+        const dValue = Math.max(0, Number(discountValue.value || 0));
+        let dAmount = dType === "fixed"
+          ? dValue
+          : subtotal * Math.min(dValue,100) / 100;
+
+        dAmount = Math.min(subtotal, dAmount);
+
+        const taxable = Math.max(0, subtotal - dAmount);
+        const rate = Number(taxRate.value || 0);
+        const tax = taxable * rate / 100;
+        const total = taxable + tax;
+
+        document.getElementById("editSubtotal").textContent = money(subtotal);
+        document.getElementById("editDiscountAmount").textContent = `− ${money(dAmount)}`;
+        document.getElementById("editTaxLabel").textContent = `MwSt. ${rate} %`;
+        document.getElementById("editTaxAmount").textContent = money(tax);
+        document.getElementById("editTotal").textContent = money(total);
+
+        return { subtotal, dType, dValue, dAmount, rate, tax, total };
+      }
+
+      items.forEach(addEditRow);
+      if (!items.length) addEditRow();
+
+      document.getElementById("editAddItem").addEventListener("click", () => {
+        addEditRow();
+        recalc();
+      });
+
+      discountType.addEventListener("change", recalc);
+      discountValue.addEventListener("input", recalc);
+      taxRate.addEventListener("change", recalc);
+      recalc();
+
+      document.getElementById("genericDocumentForm").addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const button = document.getElementById("saveGenericDocument");
+        button.disabled = true;
+        button.textContent = "Wird gespeichert ...";
+        setManagerFeedback();
+
+        try {
+          const rows = [...container.querySelectorAll(".document-item-row")];
+
+          if (!rows.length) throw new Error("Mindestens eine Position ist erforderlich.");
+
+          const itemPayload = rows.map((row,index) => {
+            const description = row.querySelector(".item-desc").value.trim();
+            const quantity = Number(row.querySelector(".item-qty").value || 0);
+            const unitPrice = Number(row.querySelector(".item-price").value || 0);
+
+            if (!description) throw new Error("Bitte alle Leistungen benennen.");
+
+            return {
+              document_id: doc.id,
+              position: index + 1,
+              description,
+              quantity,
+              unit_price: unitPrice,
+              total: quantity * unitPrice
+            };
+          });
+
+          const sums = recalc();
+
+          const updatePayload = {
+            document_number: document.getElementById("editDocNumber").value.trim(),
+            issue_date: document.getElementById("editIssueDate").value,
+            customer_name: document.getElementById("editCustomerName").value.trim() || null,
+            customer_street: document.getElementById("editCustomerStreet").value.trim() || null,
+            customer_zip: document.getElementById("editCustomerZip").value.trim() || null,
+            customer_city: document.getElementById("editCustomerCity").value.trim() || null,
+            customer_country: document.getElementById("editCustomerCountry").value.trim() || null,
+            subtotal: sums.subtotal,
+            discount_type: sums.dType,
+            discount_value: sums.dValue,
+            discount_amount: sums.dAmount,
+            tax_rate: sums.rate,
+            tax_amount: sums.tax,
+            total: sums.total,
+            notes: document.getElementById("editNotes").value.trim() || null
+          };
+
+          if (doc.document_type === "offer") {
+            updatePayload.valid_until = document.getElementById("editTargetDate").value || null;
+          } else {
+            updatePayload.due_date = document.getElementById("editTargetDate").value || null;
+          }
+
+          if (doc.document_type === "order_confirmation") {
+            updatePayload.deposit_amount = Number(document.getElementById("editDepositAmount")?.value || 0);
+          }
+
+          const { error: updateError } = await client
+            .from("documents")
+            .update(updatePayload)
+            .eq("id", doc.id);
+
+          if (updateError) throw updateError;
+
+          const { error: deleteItemsError } = await client
+            .from("document_items")
+            .delete()
+            .eq("document_id", doc.id);
+
+          if (deleteItemsError) throw deleteItemsError;
+
+          const { error: insertItemsError } = await client
+            .from("document_items")
+            .insert(itemPayload);
+
+          if (insertItemsError) throw insertItemsError;
+
+          activeProjectId = doc.project_id;
+          await loadDashboardData();
+          openDocumentDetails(doc.id);
+
+        } catch (error) {
+          console.error(error);
+          setManagerFeedback(error?.message || "Dokument konnte nicht gespeichert werden.", "error");
+        } finally {
+          button.disabled = false;
+          button.textContent = "Änderungen speichern";
+        }
+      });
+    }
+
+    function openInvoicesManager(projectId = activeProjectId) {
+      if (!projectId) {
+        alert("Bitte zuerst ein Projekt auswählen.");
+        return;
+      }
+
+      const project = projects.find(item => item.id === projectId);
+      if (!project) return;
+
+      const orders = documents.filter(item =>
+        item.project_id === projectId &&
+        item.document_type === "order_confirmation"
+      );
+
+      const invoices = documents.filter(item =>
+        item.project_id === projectId &&
+        ["deposit_invoice","final_invoice"].includes(item.document_type)
+      );
+
+      managerModal.className = "manager-modal documents-modal";
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">RECHNUNGSWESEN</div>
+            <h2>Rechnungen</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="closeManager()">×</button>
+        </div>
+
+        <div class="manager-info">
+          <strong>${escapeHtml(project.title)}</strong><br>
+          Rechnungen werden aus angenommenen Aufträgen erstellt. Positionen können vor dem Speichern nochmals angepasst werden.
+        </div>
+
+        <div class="doc-section-title">Aufträge bereit zur Abrechnung</div>
+
+        <div class="documents-list">
+          ${orders.length ? orders.map(order => `
+            <div class="document-card">
+              <div>
+                <div class="document-number">${escapeHtml(order.document_number)}</div>
+                <div class="document-sub">Auftragsbestätigung</div>
+              </div>
+              <div>
+                <span class="document-badge">${documentStatusLabel(order.status)}</span>
+              </div>
+              <div>
+                <div class="document-money">${money(order.total)}</div>
+                <div class="document-sub">Auftragssumme</div>
+              </div>
+              <div>
+                <div class="document-money">${money(order.deposit_amount || 0)}</div>
+                <div class="document-sub">Anzahlung</div>
+              </div>
+              <div class="doc-actions">
+                <button class="table-action" type="button" onclick="openInvoiceCreator('${order.id}')">
+                  Rechnung erstellen
+                </button>
+              </div>
+            </div>
+          `).join("") : `
+            <div class="documents-empty">
+              Noch keine Auftragsbestätigung vorhanden.
+            </div>
+          `}
+        </div>
+
+        <div class="doc-section-title">Erstellte Rechnungen</div>
+
+        <div class="documents-list">
+          ${invoices.length ? invoices.map(doc => `
+            <div class="document-card">
+              <div>
+                <div class="document-number">${escapeHtml(doc.document_number)}</div>
+                <div class="document-sub">${documentTypeLabel(doc.document_type)}</div>
+              </div>
+              <div>
+                <span class="document-badge">${documentStatusLabel(doc.status)}</span>
+              </div>
+              <div>
+                <div class="document-money">${money(doc.total)}</div>
+                <div class="document-sub">Gesamt</div>
+              </div>
+              <div>
+                <div class="document-money">${money(doc.paid_amount)}</div>
+                <div class="document-sub">Bezahlt</div>
+              </div>
+              <div class="doc-actions">
+                <button class="table-action" type="button" onclick="openDocumentDetails('${doc.id}')">Öffnen</button>
+              </div>
+            </div>
+          `).join("") : `
+            <div class="documents-empty">
+              Noch keine Rechnungen erstellt.
+            </div>
+          `}
+        </div>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+    }
+
+    async function openInvoiceCreator(orderId) {
+      const order = documents.find(item => item.id === orderId);
+      if (!order || order.document_type !== "order_confirmation") return;
+
+      const orderItems = docItems(orderId);
+      const suggestedDeposit = Number(order.deposit_amount || 0) > 0
+        ? Number(order.deposit_amount)
+        : Number(order.total || 0) * 0.30;
+
+      managerModal.className = "manager-modal documents-modal";
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">NEUE RECHNUNG</div>
+            <h2>Rechnung erstellen</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="openInvoicesManager('${order.project_id}')">×</button>
+        </div>
+
+        <div class="invoice-source">
+          Grundlage: <strong>${escapeHtml(order.document_number)}</strong> · ${money(order.total)}
+        </div>
+
+        <div class="invoice-type-grid">
+          <label class="invoice-type-card active">
+            <input type="radio" name="invoiceType" value="deposit_invoice" checked>
+            <strong>Anzahlungsrechnung</strong>
+            <span>Erstellt eine Rechnung über die vereinbarte Anzahlung. Standardmäßig ${money(suggestedDeposit)}.</span>
+          </label>
+
+          <label class="invoice-type-card">
+            <input type="radio" name="invoiceType" value="final_invoice">
+            <strong>Schlussrechnung</strong>
+            <span>Übernimmt die Auftragspositionen. Positionen und Beträge können vorher bearbeitet werden.</span>
+          </label>
+        </div>
+
+        <form id="invoiceForm">
+          <div class="document-form-grid">
+            <div class="field">
+              <label>Rechnungsnummer</label>
+              <input id="invoiceNumber" required>
+            </div>
+            <div class="field">
+              <label>Rechnungsdatum</label>
+              <input id="invoiceIssueDate" type="date" value="${new Date().toISOString().slice(0,10)}" required>
+            </div>
+            <div class="field">
+              <label>Fällig am</label>
+              <input id="invoiceDueDate" type="date">
+            </div>
+          </div>
+
+          <div class="offer-section">
+            <div class="offer-editor-head">
+              <div>
+                <div class="eyebrow">RECHNUNGSPOSITIONEN</div>
+                <div class="offer-section-title">Positionen</div>
+              </div>
+              <button class="secondary" id="invoiceAddItem" type="button">+ Position</button>
+            </div>
+
+            <div class="document-items" id="invoiceItems"></div>
+
+            <div class="document-form-grid">
+              <div class="field">
+                <label>Umsatzsteuer</label>
+                <select id="invoiceTaxRate">
+                  <option value="19" ${Number(order.tax_rate) === 19 ? "selected" : ""}>19 %</option>
+                  <option value="7" ${Number(order.tax_rate) === 7 ? "selected" : ""}>7 %</option>
+                  <option value="0" ${Number(order.tax_rate) === 0 ? "selected" : ""}>0 %</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label>Rechnungshinweis</label>
+                <textarea id="invoiceNotes">${escapeHtml(order.notes || "")}</textarea>
+              </div>
+            </div>
+
+            <div class="document-summary">
+              <div class="document-summary-row">
+                <span>Zwischensumme</span>
+                <strong id="invoiceSubtotal">0,00 €</strong>
+              </div>
+              <div class="document-summary-row">
+                <span id="invoiceTaxLabel">MwSt.</span>
+                <strong id="invoiceTaxAmount">0,00 €</strong>
+              </div>
+              <div class="document-summary-row total">
+                <span>Gesamt</span>
+                <strong id="invoiceTotal">0,00 €</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="manager-feedback" id="managerFeedback"></div>
+
+          <div class="manager-footer">
+            <button class="primary" id="saveInvoice" type="submit">Rechnung speichern</button>
+            <button class="secondary" type="button" onclick="openInvoicesManager('${order.project_id}')">Abbrechen</button>
+          </div>
+        </form>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+
+      const container = document.getElementById("invoiceItems");
+      const taxRate = document.getElementById("invoiceTaxRate");
+
+      function addInvoiceRow(item = {}) {
+        const row = document.createElement("div");
+        row.className = "document-item-row";
+        row.innerHTML = `
+          <div class="field item-description">
+            <label>Leistung</label>
+            <input class="item-desc" value="${escapeAttribute(item.description || "")}" required>
+          </div>
+          <div class="field">
+            <label>Menge</label>
+            <input class="item-qty" type="number" min="0.01" step="0.01" value="${Number(item.quantity || 1)}" required>
+          </div>
+          <div class="field">
+            <label>Einzelpreis €</label>
+            <input class="item-price" type="number" min="0" step="0.01" value="${Number(item.unit_price || 0).toFixed(2)}" required>
+          </div>
+          <div>
+            <label style="display:block;margin-bottom:9px;color:var(--brown);font-size:8px;letter-spacing:2px;text-transform:uppercase">Gesamt</label>
+            <div class="document-item-total">0,00 €</div>
+          </div>
+          <button class="remove-item" type="button">×</button>
+        `;
+
+        row.querySelectorAll("input").forEach(input => input.addEventListener("input", recalcInvoice));
+        row.querySelector(".remove-item").addEventListener("click", () => {
+          row.remove();
+          recalcInvoice();
+        });
+
+        container.appendChild(row);
+      }
+
+      function recalcInvoice() {
+        let subtotal = 0;
+
+        container.querySelectorAll(".document-item-row").forEach(row => {
+          const qty = Number(row.querySelector(".item-qty").value || 0);
+          const price = Number(row.querySelector(".item-price").value || 0);
+          const line = qty * price;
+          subtotal += line;
+          row.querySelector(".document-item-total").textContent = money(line);
+        });
+
+        const rate = Number(taxRate.value || 0);
+        const tax = subtotal * rate / 100;
+        const total = subtotal + tax;
+
+        document.getElementById("invoiceSubtotal").textContent = money(subtotal);
+        document.getElementById("invoiceTaxLabel").textContent = `MwSt. ${rate} %`;
+        document.getElementById("invoiceTaxAmount").textContent = money(tax);
+        document.getElementById("invoiceTotal").textContent = money(total);
+
+        return { subtotal, rate, tax, total };
+      }
+
+      async function applyInvoiceType() {
+        const type = document.querySelector('input[name="invoiceType"]:checked').value;
+        document.querySelectorAll(".invoice-type-card").forEach(card => {
+          card.classList.toggle("active", card.querySelector("input").checked);
+        });
+
+        container.innerHTML = "";
+
+        if (type === "deposit_invoice") {
+          const rate = Number(order.tax_rate || 0);
+          const gross = suggestedDeposit;
+          const net = rate > 0 ? gross / (1 + rate/100) : gross;
+
+          addInvoiceRow({
+            description: `Anzahlung gemäß Auftragsbestätigung ${order.document_number}`,
+            quantity: 1,
+            unit_price: net
+          });
+        } else {
+          orderItems.forEach(addInvoiceRow);
+          if (!orderItems.length) addInvoiceRow();
+        }
+
+        document.getElementById("invoiceNumber").value = await nextDocumentNumber(type);
+        recalcInvoice();
+      }
+
+      document.querySelectorAll('input[name="invoiceType"]').forEach(input => {
+        input.addEventListener("change", applyInvoiceType);
+      });
+
+      document.getElementById("invoiceAddItem").addEventListener("click", () => {
+        addInvoiceRow();
+        recalcInvoice();
+      });
+
+      taxRate.addEventListener("change", recalcInvoice);
+
+      await applyInvoiceType();
+
+      document.getElementById("invoiceForm").addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const button = document.getElementById("saveInvoice");
+        button.disabled = true;
+        button.textContent = "Wird gespeichert ...";
+        setManagerFeedback();
+
+        try {
+          const type = document.querySelector('input[name="invoiceType"]:checked').value;
+          const rows = [...container.querySelectorAll(".document-item-row")];
+          const items = rows.map((row,index) => {
+            const description = row.querySelector(".item-desc").value.trim();
+            const quantity = Number(row.querySelector(".item-qty").value || 0);
+            const unitPrice = Number(row.querySelector(".item-price").value || 0);
+            if (!description) throw new Error("Bitte alle Rechnungspositionen benennen.");
+
+            return {
+              position:index + 1,
+              description,
+              quantity,
+              unit_price:unitPrice,
+              total:quantity * unitPrice
+            };
+          });
+
+          const sums = recalcInvoice();
+
+          const payload = {
+            project_id: order.project_id,
+            document_type:type,
+            document_number:document.getElementById("invoiceNumber").value.trim(),
+            status:"open",
+            issue_date:document.getElementById("invoiceIssueDate").value,
+            due_date:document.getElementById("invoiceDueDate").value || null,
+            valid_until:null,
+
+            customer_name:order.customer_name || null,
+            customer_street:order.customer_street || null,
+            customer_zip:order.customer_zip || null,
+            customer_city:order.customer_city || null,
+            customer_country:order.customer_country || null,
+
+            package_code:order.package_code || null,
+            subtotal:sums.subtotal,
+            discount_type:"fixed",
+            discount_value:0,
+            discount_amount:0,
+            tax_rate:sums.rate,
+            tax_amount:sums.tax,
+            total:sums.total,
+            deposit_amount:type === "deposit_invoice" ? sums.total : 0,
+            paid_amount:0,
+            notes:document.getElementById("invoiceNotes").value.trim() || null,
+            source_document_id:order.id
+          };
+
+          const { data: created, error } = await client
+            .from("documents")
+            .insert(payload)
+            .select()
+            .single();
+
+          if (error) throw error;
+
+          const itemPayload = items.map(item => ({...item, document_id:created.id}));
+
+          const { error:itemError } = await client
+            .from("document_items")
+            .insert(itemPayload);
+
+          if (itemError) {
+            await client.from("documents").delete().eq("id",created.id);
+            throw itemError;
+          }
+
+          activeProjectId = order.project_id;
+          await loadDashboardData();
+          openDocumentDetails(created.id);
+
+        } catch (error) {
+          console.error(error);
+          setManagerFeedback(error?.message || "Rechnung konnte nicht erstellt werden.","error");
+        } finally {
+          button.disabled = false;
+          button.textContent = "Rechnung speichern";
+        }
+      });
+    }
+
+    function safePdfFileName(value) {
+      return String(value || "dokument")
+        .replace(/[^\wäöüÄÖÜß.-]+/g,"-")
+        .replace(/-+/g,"-");
+    }
+
+    function downloadDocumentPdf(documentId) {
+      const doc = documents.find(item => item.id === documentId);
+      if (!doc) return;
+
+      const items = docItems(documentId);
+      const project = projects.find(item => item.id === doc.project_id);
+      const { jsPDF } = window.jspdf || {};
+
+      if (!jsPDF) {
+        alert("PDF-Bibliothek konnte nicht geladen werden.");
+        return;
+      }
+
+      const pdf = new jsPDF({ unit:"mm", format:"a4" });
+      const pageW = 210;
+      const margin = 20;
+
+      pdf.setTextColor(24,21,18);
+      pdf.setFont("helvetica","normal");
+      pdf.setFontSize(28);
+      pdf.text("KUMÉ", margin, 24);
+
+      pdf.setFontSize(7);
+      pdf.setTextColor(85,56,42);
+      pdf.text("—  EVENT  —", margin, 31);
+
+      pdf.setDrawColor(200,188,176);
+      pdf.line(margin, 38, pageW - margin, 38);
+
+      pdf.setTextColor(24,21,18);
+      pdf.setFontSize(19);
+      pdf.text(documentTypeLabel(doc.document_type), margin, 51);
+
+      pdf.setFontSize(9);
+      pdf.setTextColor(85,56,42);
+      pdf.text(`Nr. ${doc.document_number}`, margin, 59);
+      pdf.text(
+        `Datum: ${doc.issue_date ? new Intl.DateTimeFormat("de-DE").format(new Date(doc.issue_date+"T12:00:00")) : "—"}`,
+        margin,
+        65
+      );
+
+      if (doc.document_type === "offer" && doc.valid_until) {
+        pdf.text(
+          `Gültig bis: ${new Intl.DateTimeFormat("de-DE").format(new Date(doc.valid_until+"T12:00:00"))}`,
+          margin,
+          71
+        );
+      } else if (doc.due_date) {
+        pdf.text(
+          `Fällig am: ${new Intl.DateTimeFormat("de-DE").format(new Date(doc.due_date+"T12:00:00"))}`,
+          margin,
+          71
+        );
+      }
+
+      let y = 84;
+
+      pdf.setFontSize(7);
+      pdf.setTextColor(85,56,42);
+      pdf.text("KUNDE", margin, y);
+
+      y += 7;
+      pdf.setTextColor(24,21,18);
+      pdf.setFontSize(10);
+
+      [
+        doc.customer_name || project?.title,
+        doc.customer_street,
+        [doc.customer_zip,doc.customer_city].filter(Boolean).join(" "),
+        doc.customer_country
+      ].filter(Boolean).forEach(line => {
+        pdf.text(String(line), margin, y);
+        y += 5;
+      });
+
+      y += 6;
+
+      pdf.autoTable({
+        startY:y,
+        margin:{left:margin,right:margin},
+        head:[["Pos.","Leistung","Menge","Einzelpreis","Gesamt"]],
+        body:items.map(item => [
+          item.position,
+          item.description,
+          Number(item.quantity).toLocaleString("de-DE"),
+          money(item.unit_price),
+          money(item.total)
+        ]),
+        theme:"grid",
+        styles:{
+          font:"helvetica",
+          fontSize:8,
+          textColor:[47,39,34],
+          lineColor:[220,210,201],
+          lineWidth:.2,
+          cellPadding:3
+        },
+        headStyles:{
+          fillColor:[33,27,23],
+          textColor:[255,248,241],
+          fontStyle:"normal"
+        },
+        columnStyles:{
+          0:{cellWidth:12},
+          2:{cellWidth:20,halign:"right"},
+          3:{cellWidth:30,halign:"right"},
+          4:{cellWidth:30,halign:"right"}
+        }
+      });
+
+      y = pdf.lastAutoTable.finalY + 10;
+
+      const rightX = pageW - margin;
+      pdf.setFontSize(9);
+      pdf.setTextColor(47,39,34);
+
+      pdf.text(`Zwischensumme: ${money(doc.subtotal)}`, rightX, y, {align:"right"});
+      y += 6;
+
+      if (Number(doc.discount_amount || 0) > 0) {
+        pdf.text(`Rabatt: - ${money(doc.discount_amount)}`, rightX, y, {align:"right"});
+        y += 6;
+      }
+
+      pdf.text(`MwSt. ${Number(doc.tax_rate)} %: ${money(doc.tax_amount)}`, rightX, y, {align:"right"});
+      y += 8;
+
+      pdf.setFontSize(14);
+      pdf.text(`Gesamt: ${money(doc.total)}`, rightX, y, {align:"right"});
+
+      if (doc.document_type === "order_confirmation" && Number(doc.deposit_amount || 0) > 0) {
+        y += 8;
+        pdf.setFontSize(9);
+        pdf.text(`Vereinbarte Anzahlung: ${money(doc.deposit_amount)}`, rightX, y, {align:"right"});
+      }
+
+      if (doc.notes) {
+        y += 16;
+        if (y > 250) {
+          pdf.addPage();
+          y = 24;
+        }
+        pdf.setFontSize(7);
+        pdf.setTextColor(85,56,42);
+        pdf.text("HINWEISE",margin,y);
+        y += 6;
+
+        pdf.setTextColor(47,39,34);
+        pdf.setFontSize(8);
+        const lines = pdf.splitTextToSize(doc.notes, pageW - margin*2);
+        pdf.text(lines, margin, y);
+      }
+
+      pdf.setFontSize(6.5);
+      pdf.setTextColor(110,95,84);
+      pdf.text(
+        "KUMÉ EVENT · Bitte ergänze vor produktiver Rechnungsnutzung noch deine vollständigen Unternehmens- und Steuerdaten.",
+        margin,
+        287
+      );
+
+      pdf.save(`${safePdfFileName(doc.document_number)}-${safePdfFileName(documentTypeLabel(doc.document_type))}.pdf`);
+    }
+
     function openDocumentDetails(documentId) {
       const doc = documents.find(item => item.id === documentId);
       if (!doc) return;
 
       const project = projects.find(item => item.id === doc.project_id);
-      const items = documentItems.filter(item => item.document_id === documentId);
+      const items = docItems(documentId);
+
+      const offerStatusControl = doc.document_type === "offer" ? `
+        <select class="workflow-select" onchange="setOfferDecision('${doc.id}', this.value)">
+          <option value="draft" ${doc.status === "draft" ? "selected" : ""}>Entwurf</option>
+          <option value="sent" ${doc.status === "sent" ? "selected" : ""}>Versendet</option>
+          <option value="accepted" ${doc.status === "accepted" ? "selected" : ""}>Angenommen</option>
+          <option value="rejected" ${doc.status === "rejected" ? "selected" : ""}>Abgelehnt</option>
+        </select>
+      ` : `
+        <select class="workflow-select" onchange="updateDocumentStatus('${doc.id}', this.value)">
+          ${doc.document_type === "order_confirmation" ? `
+            <option value="accepted" ${doc.status === "accepted" ? "selected" : ""}>Aktiv / angenommen</option>
+            <option value="cancelled" ${doc.status === "cancelled" ? "selected" : ""}>Storniert</option>
+          ` : `
+            <option value="open" ${doc.status === "open" ? "selected" : ""}>Offen</option>
+            <option value="paid" ${doc.status === "paid" ? "selected" : ""}>Bezahlt</option>
+            <option value="cancelled" ${doc.status === "cancelled" ? "selected" : ""}>Storniert</option>
+          `}
+        </select>
+      `;
 
       managerModal.className = "manager-modal documents-modal";
       managerModal.innerHTML = `
@@ -2660,7 +3821,10 @@
             <div class="eyebrow">${documentTypeLabel(doc.document_type)}</div>
             <h2>${escapeHtml(doc.document_number)}</h2>
           </div>
-          <button class="manager-close" type="button" onclick="openDocumentsManager('${doc.project_id}')">×</button>
+          <button class="manager-close" type="button"
+            onclick="${["deposit_invoice","final_invoice"].includes(doc.document_type)
+              ? `openInvoicesManager('${doc.project_id}')`
+              : `openDocumentsManager('${doc.project_id}')`}">×</button>
         </div>
 
         <div class="manager-info">
@@ -2672,6 +3836,30 @@
           Status: ${documentStatusLabel(doc.status)} ·
           Ausgestellt: ${doc.issue_date ? new Intl.DateTimeFormat("de-DE").format(new Date(doc.issue_date + "T12:00:00")) : "—"}
         </div>
+
+        <div class="workflow-actions">
+          ${offerStatusControl}
+
+          <button class="small-action" type="button" onclick="openDocumentEditor('${doc.id}')">
+            Bearbeiten
+          </button>
+
+          <button class="small-action" type="button" onclick="downloadDocumentPdf('${doc.id}')">
+            PDF herunterladen
+          </button>
+
+          ${doc.document_type === "order_confirmation" ? `
+            <button class="small-action" type="button" onclick="openInvoiceCreator('${doc.id}')">
+              Rechnung erstellen
+            </button>
+          ` : ""}
+        </div>
+
+        ${doc.document_type === "offer" && doc.status === "accepted" ? `
+          <div class="pdf-note">
+            Das Angebot wurde angenommen. Eine Auftragsbestätigung wird automatisch aus diesem Angebot erzeugt und bleibt mit dem ursprünglichen Angebot verknüpft.
+          </div>
+        ` : ""}
 
         <div class="table-wrap">
           <table>
@@ -2717,6 +3905,12 @@
             <span>Gesamt</span>
             <strong>${money(doc.total)}</strong>
           </div>
+          ${doc.document_type === "order_confirmation" && Number(doc.deposit_amount || 0) > 0 ? `
+            <div class="document-summary-row">
+              <span>Vereinbarte Anzahlung</span>
+              <strong>${money(doc.deposit_amount)}</strong>
+            </div>
+          ` : ""}
         </div>
 
         ${doc.notes ? `
@@ -2725,12 +3919,6 @@
             ${escapeHtml(doc.notes)}
           </div>
         ` : ""}
-
-        <div class="manager-footer">
-          <button class="secondary" type="button" onclick="openDocumentsManager('${doc.project_id}')">
-            Zurück
-          </button>
-        </div>
       `;
 
       managerBackdrop.classList.remove("hidden");
@@ -2775,7 +3963,8 @@
         mobileAddRsvp,
         mobileCsvExport,
         mobileOpenInvitation,
-        mobileDocuments
+        mobileDocuments,
+        mobileInvoices
       ].forEach(button => {
         if (button) button.disabled = !hasProject;
       });
@@ -2794,6 +3983,15 @@
     mobileDocuments.addEventListener("click", () => {
       closeMobileMenu();
       openDocumentsManager(activeProjectId);
+    });
+
+    openInvoices.addEventListener("click", () => {
+      openInvoicesManager(activeProjectId);
+    });
+
+    mobileInvoices.addEventListener("click", () => {
+      closeMobileMenu();
+      openInvoicesManager(activeProjectId);
     });
 
     mobileMenuToggle.addEventListener("click", toggleMobileMenu);
