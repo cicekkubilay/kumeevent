@@ -447,24 +447,51 @@
       position: absolute;
       inset: 0;
 
+      /*
+        FOTO IM INNEREN DER KARTE
+        Sobald sich der Deckel öffnet, wird verlobung.jpeg sichtbar.
+      */
       background:
-        radial-gradient(
-          circle at 20% 15%,
-          rgba(255,255,255,.55),
-          transparent 30%
-        ),
         linear-gradient(
-          145deg,
-          rgba(255,255,255,.65),
-          rgba(220,205,190,.12)
+          rgba(248,244,238,.10),
+          rgba(248,244,238,.10)
         ),
-        var(--paper);
+        url("verlobung.jpeg")
+        center center / cover
+        no-repeat;
 
       border:
         1px solid rgba(90,70,55,.06);
 
       box-shadow:
         0 25px 60px rgba(50,37,27,.18);
+
+      overflow: hidden;
+
+      opacity: 1;
+
+      will-change:
+        opacity,
+        transform;
+    }
+
+    /* ganz leichter Papier-/Lichtschein über dem Foto */
+    .card-base::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.14),
+          transparent 24%,
+          transparent 78%,
+          rgba(80,55,35,.06)
+        );
     }
 
     .card-cover {
@@ -665,7 +692,7 @@
           rgba(248,244,238,.66),
           rgba(248,244,238,.66)
         ),
-        url("verlobung.jpeg");
+        url("verlobung.jpg");
 
       background-size: cover;
       background-position: center center;
@@ -1480,6 +1507,10 @@
         height: 150vh;
       }
 
+      .card-base {
+        background-position: center center;
+      }
+
       .physical-card {
         width: 275px;
         height: 390px;
@@ -1546,7 +1577,7 @@
           davor = das komplette Foto ohne Beschnitt.
         */
         background:
-          url("verlobung.jpeg")
+          url("verlobung.jpg")
           center center / cover
           no-repeat;
 
@@ -1562,7 +1593,7 @@
         z-index: 1;
 
         background:
-          url("verlobung.jpeg")
+          url("verlobung.jpg")
           center center / contain
           no-repeat;
 
@@ -3313,6 +3344,9 @@
     const cardCover =
       document.getElementById("cardCover");
 
+    const cardBase =
+      document.querySelector(".card-base");
+
     const cardShadow =
       document.getElementById("cardShadow");
 
@@ -3421,6 +3455,23 @@
         `;
 
 
+      /*
+        Das Foto im Inneren ist während des Öffnens sichtbar.
+        Kurz bevor die Website übernimmt, verblasst NUR das Kartenfoto.
+      */
+      const cardPhotoFade =
+        smooth(
+          mapProgress(
+            progress,
+            .58,
+            .88
+          )
+        );
+
+      cardBase.style.opacity =
+        1 - cardPhotoFade;
+
+
       if (
         progress > .28
       ) {
@@ -3513,6 +3564,8 @@
       ) {
 
         tableScene.style.opacity = 0;
+
+        cardBase.style.opacity = 0;
 
         websiteEntry.style.opacity = 1;
 

@@ -1141,6 +1141,345 @@
       }
     }
 
+
+    /* ======================================================
+       DOKUMENTE / ANGEBOTE / RECHNUNGEN
+    ====================================================== */
+    .sidebar-documents{
+      width:100%;
+      margin-top:12px;
+      padding:14px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:transparent;
+      color:#f7eee6;
+      text-align:left;
+      font-size:8px;
+      font-weight:500;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+    }
+    .sidebar-documents:hover{background:rgba(255,255,255,.08)}
+
+    .documents-modal{
+      width:min(1080px,100%);
+      max-height:92vh;
+    }
+
+    .documents-toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-top:24px;
+      padding-bottom:18px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .documents-toolbar-copy{
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.7;
+    }
+
+    .documents-list{
+      display:grid;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .document-card{
+      display:grid;
+      grid-template-columns:1.2fr .9fr .8fr .8fr auto;
+      align-items:center;
+      gap:16px;
+      padding:17px 18px;
+      border:1px solid var(--line);
+      background:#fffaf5;
+    }
+
+    .document-number{
+      font-family:"Cormorant Garamond",serif;
+      font-size:24px;
+      line-height:1;
+    }
+
+    .document-sub{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:8px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+    }
+
+    .document-money{
+      font-family:"Cormorant Garamond",serif;
+      font-size:25px;
+    }
+
+    .document-badge{
+      display:inline-flex;
+      padding:7px 9px;
+      border:1px solid var(--line);
+      color:var(--brown);
+      font-size:7px;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+    }
+
+    .offer-editor{
+      margin-top:24px;
+      padding-top:22px;
+      border-top:1px solid var(--line);
+    }
+
+    .offer-editor-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:18px;
+      margin-bottom:16px;
+    }
+
+    .offer-editor-head h3{
+      margin-top:7px;
+      font-size:34px;
+    }
+
+    .document-form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:0 22px;
+    }
+
+    .document-form-grid .full{grid-column:1/-1}
+
+    .document-items{
+      margin-top:24px;
+      border-top:1px solid var(--line);
+    }
+
+    .document-item-row{
+      display:grid;
+      grid-template-columns:1fr 110px 150px 130px 44px;
+      gap:10px;
+      align-items:end;
+      padding:14px 0;
+      border-bottom:1px solid var(--line);
+    }
+
+    .document-item-row .field{margin-top:0}
+
+    .document-item-total{
+      min-height:45px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      font-family:"Cormorant Garamond",serif;
+      font-size:22px;
+    }
+
+    .remove-item{
+      height:44px;
+      border:1px solid rgba(123,64,56,.30);
+      background:transparent;
+      color:#7b4038;
+      font-size:18px;
+    }
+
+    .document-summary{
+      width:min(410px,100%);
+      margin:24px 0 0 auto;
+      border-top:1px solid var(--line);
+    }
+
+    .document-summary-row{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      padding:10px 0;
+      border-bottom:1px solid var(--line);
+      font-size:11px;
+    }
+
+    .document-summary-row.total{
+      font-family:"Cormorant Garamond",serif;
+      font-size:27px;
+      color:var(--text);
+    }
+
+    .documents-empty{
+      padding:34px 20px;
+      border:1px solid var(--line);
+      text-align:center;
+      color:var(--muted);
+      font-family:"Cormorant Garamond",serif;
+      font-size:24px;
+    }
+
+    @media(max-width:900px){
+      .sidebar-documents{display:none}
+      .documents-modal{
+        width:100%;
+        max-height:90dvh;
+      }
+      .document-card{
+        grid-template-columns:1fr 1fr;
+      }
+      .document-card .doc-actions{
+        grid-column:1/-1;
+      }
+      .document-form-grid{
+        grid-template-columns:1fr;
+      }
+      .document-form-grid .full{grid-column:auto}
+      .document-item-row{
+        grid-template-columns:1fr 1fr;
+      }
+      .document-item-row .item-description{
+        grid-column:1/-1;
+      }
+      .document-item-total{
+        justify-content:flex-start;
+      }
+    }
+
+    @media(max-width:520px){
+      .document-card{grid-template-columns:1fr}
+      .document-card .doc-actions{grid-column:auto}
+      .document-item-row{grid-template-columns:1fr}
+      .document-item-row .item-description{grid-column:auto}
+      .documents-toolbar{
+        align-items:stretch;
+        flex-direction:column;
+      }
+      .documents-toolbar .secondary{width:100%}
+    }
+
+
+    /* ======================================================
+       ANGEBOT – PAKETE / EXTRAS / RABATT / ADRESSE
+    ====================================================== */
+    .package-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .package-card{
+      padding:18px;
+      border:1px solid var(--line);
+      background:#fffaf5;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .package-card:hover,
+    .package-card.active{
+      border-color:var(--brown);
+      background:#f3ebe3;
+    }
+
+    .package-card input{display:none}
+
+    .package-name{
+      font-family:"Cormorant Garamond",serif;
+      font-size:26px;
+      line-height:1;
+    }
+
+    .package-price{
+      margin-top:8px;
+      color:var(--brown);
+      font-size:11px;
+      font-weight:500;
+    }
+
+    .package-copy{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.65;
+    }
+
+    .extras-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .extra-option{
+      display:flex;
+      align-items:flex-start;
+      gap:11px;
+      padding:13px 14px;
+      border:1px solid var(--line);
+      background:#fffaf5;
+      cursor:pointer;
+    }
+
+    .extra-option input{
+      width:15px;
+      height:15px;
+      margin-top:2px;
+      accent-color:var(--brown);
+    }
+
+    .extra-option strong{
+      display:block;
+      font-size:10px;
+      font-weight:500;
+    }
+
+    .extra-option span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:8px;
+      line-height:1.5;
+    }
+
+    .offer-section{
+      margin-top:26px;
+      padding-top:22px;
+      border-top:1px solid var(--line);
+    }
+
+    .offer-section-title{
+      margin-top:7px;
+      font-family:"Cormorant Garamond",serif;
+      font-size:31px;
+      font-weight:400;
+    }
+
+    .discount-row{
+      display:grid;
+      grid-template-columns:160px 1fr;
+      gap:18px;
+      align-items:end;
+    }
+
+    .document-summary-row.discount{
+      color:#35513c;
+    }
+
+    .offer-terms-preview{
+      margin-top:20px;
+      padding:16px 18px;
+      border:1px solid var(--line);
+      background:#f4ece4;
+      color:#4e4036;
+      font-size:9px;
+      line-height:1.75;
+    }
+
+    @media(max-width:820px){
+      .package-grid{grid-template-columns:1fr}
+      .extras-grid{grid-template-columns:1fr}
+      .discount-row{grid-template-columns:1fr}
+    }
+
   </style>
 </head>
 
@@ -1201,6 +1540,9 @@
       <div class="sidebar-label">Projekte</div>
       <div class="project-nav" id="projectNav"></div>
 
+      <button class="sidebar-documents" id="openDocuments" type="button">
+        Dokumente & Rechnungen
+      </button>
 
       <div class="mobile-tools">
         <div class="mobile-tools-title">Verwaltung</div>
@@ -1228,6 +1570,10 @@
 
           <button class="mobile-tool-button" id="mobileOpenInvitation" type="button">
             Einladung öffnen ↗
+          </button>
+
+          <button class="mobile-tool-button" id="mobileDocuments" type="button">
+            Dokumente & Rechnungen
           </button>
         </div>
       </div>
@@ -1380,6 +1726,8 @@
     const mobileAddRsvp = document.getElementById("mobileAddRsvp");
     const mobileCsvExport = document.getElementById("mobileCsvExport");
     const mobileOpenInvitation = document.getElementById("mobileOpenInvitation");
+    const openDocuments = document.getElementById("openDocuments");
+    const mobileDocuments = document.getElementById("mobileDocuments");
 
     let currentUser = null;
     let currentProfile = null;
@@ -1388,6 +1736,8 @@
     let activeProjectId = null;
     let projectMembers = [];
     let customerProfiles = [];
+    let documents = [];
+    let documentItems = [];
 
     function showLogin(message = "") {
       loading.classList.add("hidden");
@@ -1440,7 +1790,9 @@
         projectsResult,
         rsvpsResult,
         membersResult,
-        profilesResult
+        profilesResult,
+        documentsResult,
+        documentItemsResult
       ] = await Promise.all([
         client
           .from("projects")
@@ -1458,18 +1810,32 @@
 
         client
           .from("profiles")
-          .select("id, full_name, role, email")
+          .select("id, full_name, role, email"),
+
+        client
+          .from("documents")
+          .select("id, project_id, document_type, document_number, status, issue_date, valid_until, due_date, subtotal, tax_rate, tax_amount, total, deposit_amount, paid_amount, notes, source_document_id, created_at, updated_at, customer_name, customer_street, customer_zip, customer_city, customer_country, package_code, discount_type, discount_value, discount_amount")
+          .order("created_at", { ascending: false }),
+
+        client
+          .from("document_items")
+          .select("id, document_id, position, description, quantity, unit_price, total, created_at")
+          .order("position", { ascending: true })
       ]);
 
       if (projectsResult.error) throw projectsResult.error;
       if (rsvpsResult.error) throw rsvpsResult.error;
       if (membersResult.error) throw membersResult.error;
       if (profilesResult.error) throw profilesResult.error;
+      if (documentsResult.error) throw documentsResult.error;
+      if (documentItemsResult.error) throw documentItemsResult.error;
 
       projects = projectsResult.data || [];
       rsvps = rsvpsResult.data || [];
       projectMembers = membersResult.data || [];
       customerProfiles = profilesResult.data || [];
+      documents = documentsResult.data || [];
+      documentItems = documentItemsResult.data || [];
 
       renderGlobalStats();
       renderProjectNav();
@@ -1687,6 +2053,689 @@
 
 
 
+
+    function money(value) {
+      return new Intl.NumberFormat("de-DE", {
+        style: "currency",
+        currency: "EUR"
+      }).format(Number(value || 0));
+    }
+
+    function documentTypeLabel(type) {
+      return {
+        offer: "Angebot",
+        order_confirmation: "Auftragsbestätigung",
+        deposit_invoice: "Anzahlungsrechnung",
+        final_invoice: "Schlussrechnung"
+      }[type] || type;
+    }
+
+    function documentStatusLabel(status) {
+      return {
+        draft: "Entwurf",
+        sent: "Versendet",
+        accepted: "Angenommen",
+        open: "Offen",
+        paid: "Bezahlt",
+        cancelled: "Storniert"
+      }[status] || status;
+    }
+
+    function projectDocuments(projectId) {
+      return documents.filter(item => item.project_id === projectId);
+    }
+
+    async function nextDocumentNumber(type) {
+      const prefixes = {
+        offer: "ANG",
+        order_confirmation: "AB",
+        deposit_invoice: "RE",
+        final_invoice: "RE"
+      };
+
+      const prefix = prefixes[type] || "DOK";
+      const year = new Date().getFullYear();
+      const start = `${prefix}-${year}-`;
+
+      const numbers = documents
+        .map(item => item.document_number || "")
+        .filter(number => number.startsWith(start))
+        .map(number => Number(number.split("-").pop()))
+        .filter(Number.isFinite);
+
+      const next = (numbers.length ? Math.max(...numbers) : 0) + 1;
+
+      return `${start}${String(next).padStart(4, "0")}`;
+    }
+
+    function openDocumentsManager(projectId = activeProjectId) {
+      if (!projectId) {
+        alert("Bitte zuerst ein Projekt auswählen.");
+        return;
+      }
+
+      const project = projects.find(item => item.id === projectId);
+      if (!project) return;
+
+      const customer = projectCustomer(projectId);
+      const list = projectDocuments(projectId);
+
+      managerModal.className = "manager-modal documents-modal";
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">KAUFMÄNNISCHE DOKUMENTE</div>
+            <h2>Dokumente & Rechnungen</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="closeManager()">×</button>
+        </div>
+
+        <div class="manager-info">
+          <strong>${escapeHtml(project.title)}</strong><br>
+          ${customer?.full_name ? escapeHtml(customer.full_name) : "Kein Kundenname"} 
+          ${customer?.email ? " · " + escapeHtml(customer.email) : ""}
+        </div>
+
+        <div class="documents-toolbar">
+          <div class="documents-toolbar-copy">
+            Angebote, Auftragsbestätigungen sowie Anzahlungs- und Schlussrechnungen dieses Projekts.
+          </div>
+          <button class="secondary" type="button" onclick="openOfferCreator('${projectId}')">
+            + Neues Angebot
+          </button>
+        </div>
+
+        <div class="documents-list">
+          ${list.length ? list.map(doc => `
+            <div class="document-card">
+              <div>
+                <div class="document-number">${escapeHtml(doc.document_number)}</div>
+                <div class="document-sub">${documentTypeLabel(doc.document_type)}</div>
+              </div>
+
+              <div>
+                <span class="document-badge">${documentStatusLabel(doc.status)}</span>
+                <div class="document-sub">${doc.issue_date ? new Intl.DateTimeFormat("de-DE").format(new Date(doc.issue_date + "T12:00:00")) : "—"}</div>
+              </div>
+
+              <div>
+                <div class="document-money">${money(doc.total)}</div>
+                <div class="document-sub">Gesamt</div>
+              </div>
+
+              <div>
+                <div class="document-money">${money(doc.paid_amount)}</div>
+                <div class="document-sub">Bezahlt</div>
+              </div>
+
+              <div class="doc-actions">
+                <button class="table-action" type="button" onclick="openDocumentDetails('${doc.id}')">
+                  Öffnen
+                </button>
+              </div>
+            </div>
+          `).join("") : `
+            <div class="documents-empty">
+              Für dieses Projekt wurden noch keine Dokumente erstellt.
+            </div>
+          `}
+        </div>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+    }
+
+    async function openOfferCreator(projectId) {
+      const project = projects.find(item => item.id === projectId);
+      if (!project) return;
+
+      const customer = projectCustomer(projectId);
+      const number = await nextDocumentNumber("offer");
+
+      const packagePresets = {
+        standard: {
+          label: "Standard",
+          price: 299,
+          description: "Responsive digitale Einladung im KUMÉ Stil inkl. Eventinfos, Location/Maps, RSVP und Kundenbereich."
+        },
+        erweitert: {
+          label: "Erweitert",
+          price: 449,
+          description: "Alles aus Standard plus individuelle Animationen, Countdown, Ablauf/Programm und erweiterte Gestaltung."
+        },
+        premium: {
+          label: "Premium",
+          price: 649,
+          description: "Individuelles Premium-Konzept mit aufwendigen Animationen, Sonderfunktionen und stärker personalisiertem Design."
+        }
+      };
+
+      const extras = [
+        { code:"bilingual", label:"Zweisprachige Einladung", price:79, desc:"Zweite Sprache inkl. Umschaltung." },
+        { code:"gallery", label:"Galerie / Fotobereich", price:59, desc:"Eigener Foto- oder Erinnerungsbereich." },
+        { code:"wishlist", label:"Wunschliste / Geschenkbereich", price:49, desc:"Links, Wünsche oder Hinweise zu Geschenken." },
+        { code:"timeline", label:"Erweiterter Ablauf / Timeline", price:49, desc:"Detaillierter Tagesablauf mit mehreren Programmpunkten." },
+        { code:"custom_animation", label:"Zusatzanimation", price:89, desc:"Zusätzliche individuelle Animation außerhalb des Pakets." },
+        { code:"rush", label:"Express-Fertigstellung", price:99, desc:"Priorisierte Umsetzung bei kurzfristigen Projekten." }
+      ];
+
+      managerModal.className = "manager-modal documents-modal";
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">NEUES DOKUMENT</div>
+            <h2>Angebot erstellen</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="openDocumentsManager('${projectId}')">×</button>
+        </div>
+
+        <form id="offerForm">
+          <div class="document-form-grid">
+            <div class="field">
+              <label>Dokumentnummer</label>
+              <input id="offerNumber" value="${escapeAttribute(number)}" required>
+            </div>
+
+            <div class="field">
+              <label>Ausstellungsdatum</label>
+              <input id="offerIssueDate" type="date" value="${new Date().toISOString().slice(0,10)}" required>
+            </div>
+
+            <div class="field">
+              <label>Gültig bis</label>
+              <input id="offerValidUntil" type="date">
+            </div>
+          </div>
+
+          <div class="offer-section">
+            <div class="eyebrow">KUNDENDATEN</div>
+            <div class="offer-section-title">Anschrift im Angebot</div>
+
+            <div class="document-form-grid">
+              <div class="field full">
+                <label>Kundenname / Paar</label>
+                <input id="offerCustomerName" type="text"
+                  value="${escapeAttribute(customer?.full_name || project.title)}">
+              </div>
+
+              <div class="field full">
+                <label>Straße & Hausnummer</label>
+                <input id="offerCustomerStreet" type="text" placeholder="Optional">
+              </div>
+
+              <div class="field">
+                <label>PLZ</label>
+                <input id="offerCustomerZip" type="text" placeholder="Optional">
+              </div>
+
+              <div class="field">
+                <label>Ort</label>
+                <input id="offerCustomerCity" type="text" placeholder="Optional">
+              </div>
+
+              <div class="field">
+                <label>Land</label>
+                <input id="offerCustomerCountry" type="text" value="Deutschland">
+              </div>
+            </div>
+          </div>
+
+          <div class="offer-section">
+            <div class="eyebrow">PAKET</div>
+            <div class="offer-section-title">Grundpaket auswählen</div>
+
+            <div class="package-grid">
+              ${Object.entries(packagePresets).map(([code, pkg], index) => `
+                <label class="package-card ${index === 0 ? "active" : ""}">
+                  <input type="radio" name="offerPackage" value="${code}" ${index === 0 ? "checked" : ""}>
+                  <div class="package-name">${pkg.label}</div>
+                  <div class="package-price">${money(pkg.price)}</div>
+                  <div class="package-copy">${pkg.description}</div>
+                </label>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="offer-section">
+            <div class="eyebrow">EXTRAS</div>
+            <div class="offer-section-title">Zusatzleistungen</div>
+
+            <div class="extras-grid">
+              ${extras.map(extra => `
+                <label class="extra-option">
+                  <input
+                    type="checkbox"
+                    class="offer-extra"
+                    data-code="${extra.code}"
+                    data-label="${escapeAttribute(extra.label)}"
+                    data-price="${extra.price}"
+                  >
+                  <div>
+                    <strong>${extra.label} · ${money(extra.price)}</strong>
+                    <span>${extra.desc}</span>
+                  </div>
+                </label>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="offer-section">
+            <div class="eyebrow">LEISTUNGEN</div>
+            <div class="offer-editor-head">
+              <div class="offer-section-title">Positionen</div>
+              <button class="secondary" id="addOfferItem" type="button">+ Eigene Position</button>
+            </div>
+
+            <div class="document-items" id="offerItems"></div>
+          </div>
+
+          <div class="offer-section">
+            <div class="eyebrow">PREIS</div>
+            <div class="offer-section-title">Rabatt & Steuer</div>
+
+            <div class="discount-row">
+              <div class="field">
+                <label>Rabattart</label>
+                <select id="offerDiscountType">
+                  <option value="percent">Prozent</option>
+                  <option value="fixed">Fester Betrag €</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Rabatt</label>
+                <input id="offerDiscountValue" type="number" min="0" step="0.01" value="0">
+              </div>
+            </div>
+
+            <div class="document-form-grid">
+              <div class="field">
+                <label>Umsatzsteuer</label>
+                <select id="offerTaxRate">
+                  <option value="19">19 %</option>
+                  <option value="7">7 %</option>
+                  <option value="0">0 %</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label>Notizen / Angebotsbedingungen</label>
+                <textarea id="offerNotes">Dieses Angebot ist für den beschriebenen Leistungsumfang verbindlich. Nachträgliche Änderungs- oder Zusatzwünsche können den Gesamtpreis abhängig vom tatsächlichen Mehraufwand um bis zu ca. 10 % verändern. Weitergehende Änderungen erfolgen nur nach vorheriger Abstimmung.</textarea>
+              </div>
+            </div>
+
+            <div class="offer-terms-preview">
+              <strong>Hinweis:</strong> Die 10-%-Regel bezieht sich nur auf nachträgliche Änderungs- oder Zusatzwünsche. Für den im Angebot konkret beschriebenen Leistungsumfang gilt der ausgewiesene Preis.
+            </div>
+
+            <div class="document-summary">
+              <div class="document-summary-row">
+                <span>Zwischensumme</span>
+                <strong id="offerSubtotal">0,00 €</strong>
+              </div>
+              <div class="document-summary-row discount">
+                <span>Rabatt</span>
+                <strong id="offerDiscountAmount">− 0,00 €</strong>
+              </div>
+              <div class="document-summary-row">
+                <span id="offerTaxLabel">MwSt. 19 %</span>
+                <strong id="offerTaxAmount">0,00 €</strong>
+              </div>
+              <div class="document-summary-row total">
+                <span>Gesamt</span>
+                <strong id="offerTotal">0,00 €</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="manager-feedback" id="managerFeedback"></div>
+
+          <div class="manager-footer">
+            <button class="primary" id="saveOfferButton" type="submit">
+              Angebot speichern
+            </button>
+            <button class="secondary" type="button" onclick="openDocumentsManager('${projectId}')">
+              Abbrechen
+            </button>
+          </div>
+        </form>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+
+      const offerItems = document.getElementById("offerItems");
+      const addOfferItem = document.getElementById("addOfferItem");
+      const offerTaxRate = document.getElementById("offerTaxRate");
+      const offerDiscountType = document.getElementById("offerDiscountType");
+      const offerDiscountValue = document.getElementById("offerDiscountValue");
+      const offerForm = document.getElementById("offerForm");
+
+      function addRow(description = "", quantity = 1, unitPrice = 0, lockedCode = "") {
+        const row = document.createElement("div");
+        row.className = "document-item-row";
+        if (lockedCode) row.dataset.presetCode = lockedCode;
+
+        row.innerHTML = `
+          <div class="field item-description">
+            <label>Leistung</label>
+            <input class="item-desc" type="text" value="${escapeAttribute(description)}" placeholder="z. B. Digitale Einladung" required>
+          </div>
+          <div class="field">
+            <label>Menge</label>
+            <input class="item-qty" type="number" min="0.01" step="0.01" value="${quantity}" required>
+          </div>
+          <div class="field">
+            <label>Einzelpreis €</label>
+            <input class="item-price" type="number" min="0" step="0.01" value="${Number(unitPrice).toFixed(2)}" required>
+          </div>
+          <div>
+            <label style="display:block;margin-bottom:9px;color:var(--brown);font-size:8px;letter-spacing:2px;text-transform:uppercase">Gesamt</label>
+            <div class="document-item-total">0,00 €</div>
+          </div>
+          <button class="remove-item" type="button" title="Position entfernen">×</button>
+        `;
+
+        row.querySelectorAll("input").forEach(input => {
+          input.addEventListener("input", recalcOffer);
+        });
+
+        row.querySelector(".remove-item").addEventListener("click", () => {
+          row.remove();
+          recalcOffer();
+        });
+
+        offerItems.appendChild(row);
+        recalcOffer();
+      }
+
+      function selectedPackageCode() {
+        return document.querySelector('input[name="offerPackage"]:checked')?.value || "standard";
+      }
+
+      function syncPresetItems() {
+        const packageCode = selectedPackageCode();
+        const pkg = packagePresets[packageCode];
+
+        offerItems.querySelectorAll("[data-preset-code]").forEach(row => row.remove());
+
+        addRow(
+          `Digitale Einladung – Paket ${pkg.label}`,
+          1,
+          pkg.price,
+          `package:${packageCode}`
+        );
+
+        document.querySelectorAll(".offer-extra:checked").forEach(input => {
+          addRow(
+            input.dataset.label,
+            1,
+            Number(input.dataset.price || 0),
+            `extra:${input.dataset.code}`
+          );
+        });
+
+        recalcOffer();
+      }
+
+      function recalcOffer() {
+        let subtotal = 0;
+
+        offerItems.querySelectorAll(".document-item-row").forEach(row => {
+          const qty = Number(row.querySelector(".item-qty").value || 0);
+          const price = Number(row.querySelector(".item-price").value || 0);
+          const total = qty * price;
+          subtotal += total;
+          row.querySelector(".document-item-total").textContent = money(total);
+        });
+
+        const discountType = offerDiscountType.value;
+        const discountValue = Math.max(0, Number(offerDiscountValue.value || 0));
+
+        let discountAmount =
+          discountType === "fixed"
+            ? discountValue
+            : subtotal * Math.min(discountValue, 100) / 100;
+
+        discountAmount = Math.min(discountAmount, subtotal);
+
+        const taxableSubtotal = Math.max(0, subtotal - discountAmount);
+        const taxRate = Number(offerTaxRate.value || 0);
+        const taxAmount = taxableSubtotal * taxRate / 100;
+        const total = taxableSubtotal + taxAmount;
+
+        document.getElementById("offerSubtotal").textContent = money(subtotal);
+        document.getElementById("offerDiscountAmount").textContent = `− ${money(discountAmount)}`;
+        document.getElementById("offerTaxLabel").textContent = `MwSt. ${taxRate} %`;
+        document.getElementById("offerTaxAmount").textContent = money(taxAmount);
+        document.getElementById("offerTotal").textContent = money(total);
+
+        return {
+          subtotal,
+          discountType,
+          discountValue,
+          discountAmount,
+          taxRate,
+          taxAmount,
+          total
+        };
+      }
+
+      document.querySelectorAll(".package-card").forEach(card => {
+        card.addEventListener("click", () => {
+          document.querySelectorAll(".package-card").forEach(item => item.classList.remove("active"));
+          card.classList.add("active");
+          syncPresetItems();
+        });
+      });
+
+      document.querySelectorAll(".offer-extra").forEach(input => {
+        input.addEventListener("change", syncPresetItems);
+      });
+
+      addOfferItem.addEventListener("click", () => addRow());
+      offerTaxRate.addEventListener("change", recalcOffer);
+      offerDiscountType.addEventListener("change", recalcOffer);
+      offerDiscountValue.addEventListener("input", recalcOffer);
+
+      syncPresetItems();
+
+      offerForm.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const saveButton = document.getElementById("saveOfferButton");
+        saveButton.disabled = true;
+        saveButton.textContent = "Wird gespeichert ...";
+        setManagerFeedback();
+
+        try {
+          const rows = [...offerItems.querySelectorAll(".document-item-row")];
+
+          if (!rows.length) {
+            throw new Error("Bitte mindestens eine Position hinzufügen.");
+          }
+
+          const items = rows.map((row, index) => {
+            const description = row.querySelector(".item-desc").value.trim();
+            const quantity = Number(row.querySelector(".item-qty").value || 0);
+            const unitPrice = Number(row.querySelector(".item-price").value || 0);
+
+            if (!description) {
+              throw new Error("Bitte bei jeder Position eine Leistung eintragen.");
+            }
+
+            return {
+              position: index + 1,
+              description,
+              quantity,
+              unit_price: unitPrice,
+              total: quantity * unitPrice
+            };
+          });
+
+          const sums = recalcOffer();
+
+          const documentPayload = {
+            project_id: projectId,
+            document_type: "offer",
+            document_number: document.getElementById("offerNumber").value.trim(),
+            status: "draft",
+            issue_date: document.getElementById("offerIssueDate").value,
+            valid_until: document.getElementById("offerValidUntil").value || null,
+            due_date: null,
+
+            customer_name: document.getElementById("offerCustomerName").value.trim() || null,
+            customer_street: document.getElementById("offerCustomerStreet").value.trim() || null,
+            customer_zip: document.getElementById("offerCustomerZip").value.trim() || null,
+            customer_city: document.getElementById("offerCustomerCity").value.trim() || null,
+            customer_country: document.getElementById("offerCustomerCountry").value.trim() || null,
+
+            package_code: selectedPackageCode(),
+
+            subtotal: sums.subtotal,
+            discount_type: sums.discountType,
+            discount_value: sums.discountValue,
+            discount_amount: sums.discountAmount,
+
+            tax_rate: sums.taxRate,
+            tax_amount: sums.taxAmount,
+            total: sums.total,
+            deposit_amount: 0,
+            paid_amount: 0,
+            notes: document.getElementById("offerNotes").value.trim() || null
+          };
+
+          const { data: createdDocument, error: documentError } =
+            await client
+              .from("documents")
+              .insert(documentPayload)
+              .select()
+              .single();
+
+          if (documentError) throw documentError;
+
+          const itemPayload = items.map(item => ({
+            ...item,
+            document_id: createdDocument.id
+          }));
+
+          const { error: itemError } =
+            await client
+              .from("document_items")
+              .insert(itemPayload);
+
+          if (itemError) {
+            await client.from("documents").delete().eq("id", createdDocument.id);
+            throw itemError;
+          }
+
+          activeProjectId = projectId;
+          await loadDashboardData();
+          openDocumentsManager(projectId);
+
+        } catch (error) {
+          console.error(error);
+          setManagerFeedback(
+            error?.message || "Angebot konnte nicht gespeichert werden.",
+            "error"
+          );
+        } finally {
+          saveButton.disabled = false;
+          saveButton.textContent = "Angebot speichern";
+        }
+      });
+    }
+
+
+    function openDocumentDetails(documentId) {
+      const doc = documents.find(item => item.id === documentId);
+      if (!doc) return;
+
+      const project = projects.find(item => item.id === doc.project_id);
+      const items = documentItems.filter(item => item.document_id === documentId);
+
+      managerModal.className = "manager-modal documents-modal";
+      managerModal.innerHTML = `
+        <div class="manager-head">
+          <div>
+            <div class="eyebrow">${documentTypeLabel(doc.document_type)}</div>
+            <h2>${escapeHtml(doc.document_number)}</h2>
+          </div>
+          <button class="manager-close" type="button" onclick="openDocumentsManager('${doc.project_id}')">×</button>
+        </div>
+
+        <div class="manager-info">
+          <strong>${escapeHtml(project?.title || "Projekt")}</strong><br>
+          ${doc.customer_name ? escapeHtml(doc.customer_name) + "<br>" : ""}
+          ${doc.customer_street ? escapeHtml(doc.customer_street) + "<br>" : ""}
+          ${(doc.customer_zip || doc.customer_city) ? escapeHtml([doc.customer_zip, doc.customer_city].filter(Boolean).join(" ")) + "<br>" : ""}
+          ${doc.customer_country ? escapeHtml(doc.customer_country) + "<br>" : ""}
+          Status: ${documentStatusLabel(doc.status)} ·
+          Ausgestellt: ${doc.issue_date ? new Intl.DateTimeFormat("de-DE").format(new Date(doc.issue_date + "T12:00:00")) : "—"}
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Position</th>
+                <th>Leistung</th>
+                <th>Menge</th>
+                <th>Einzelpreis</th>
+                <th>Gesamt</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${items.map(item => `
+                <tr>
+                  <td>${item.position}</td>
+                  <td>${escapeHtml(item.description)}</td>
+                  <td>${Number(item.quantity)}</td>
+                  <td>${money(item.unit_price)}</td>
+                  <td>${money(item.total)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="document-summary">
+          <div class="document-summary-row">
+            <span>Zwischensumme</span>
+            <strong>${money(doc.subtotal)}</strong>
+          </div>
+          ${Number(doc.discount_amount || 0) > 0 ? `
+            <div class="document-summary-row discount">
+              <span>Rabatt</span>
+              <strong>− ${money(doc.discount_amount)}</strong>
+            </div>
+          ` : ""}
+          <div class="document-summary-row">
+            <span>MwSt. ${Number(doc.tax_rate)} %</span>
+            <strong>${money(doc.tax_amount)}</strong>
+          </div>
+          <div class="document-summary-row total">
+            <span>Gesamt</span>
+            <strong>${money(doc.total)}</strong>
+          </div>
+        </div>
+
+        ${doc.notes ? `
+          <div class="manager-info">
+            <strong>Notizen</strong><br>
+            ${escapeHtml(doc.notes)}
+          </div>
+        ` : ""}
+
+        <div class="manager-footer">
+          <button class="secondary" type="button" onclick="openDocumentsManager('${doc.project_id}')">
+            Zurück
+          </button>
+        </div>
+      `;
+
+      managerBackdrop.classList.remove("hidden");
+    }
+
     function isMobileAdmin() {
       return window.matchMedia("(max-width: 900px)").matches;
     }
@@ -1725,7 +2774,8 @@
         mobileCustomerDetails,
         mobileAddRsvp,
         mobileCsvExport,
-        mobileOpenInvitation
+        mobileOpenInvitation,
+        mobileDocuments
       ].forEach(button => {
         if (button) button.disabled = !hasProject;
       });
@@ -1735,6 +2785,16 @@
           !hasProject || !project?.invitation_url;
       }
     }
+
+
+    openDocuments.addEventListener("click", () => {
+      openDocumentsManager(activeProjectId);
+    });
+
+    mobileDocuments.addEventListener("click", () => {
+      closeMobileMenu();
+      openDocumentsManager(activeProjectId);
+    });
 
     mobileMenuToggle.addEventListener("click", toggleMobileMenu);
     mobileMenuOverlay.addEventListener("click", closeMobileMenu);
@@ -2278,6 +3338,8 @@
       currentProfile = null;
       projects = [];
       rsvps = [];
+      documents = [];
+      documentItems = [];
       activeProjectId = null;
       showLogin();
     });
