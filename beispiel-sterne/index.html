@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celestial – KUMÉ EVENT</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --night:#050712;
+  --night2:#090d1d;
+  --blue:#151d3b;
+  --silver:#dbe4f1;
+  --star:#fff7db;
+  --gold:#d8c38f;
+  --lav:#9f9ac8;
+  --muted:#9da8bd;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  overflow-x:hidden;
+  background:var(--night);
+  color:#f5f5f2;
+  font-family:"Montserrat",sans-serif;
+  font-weight:300;
+}
+h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:400}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+.container{width:min(1080px,calc(100% - 40px));margin:auto}
+
+.back-link{
+  position:fixed;left:16px;top:16px;z-index:1500;
+  padding:10px 14px;border:1px solid rgba(255,255,255,.16);
+  background:rgba(5,7,18,.72);backdrop-filter:blur(12px);
+  font-size:8px;letter-spacing:2px;text-transform:uppercase;
+}
+
+/* INTRO */
+.intro{
+  position:fixed;inset:0;z-index:1300;overflow:hidden;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 50%,#121936 0,#070a17 45%,#02040b 100%);
+  transition:opacity 1.2s ease,visibility 1.2s ease;
+}
+.intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.space{position:absolute;inset:0;perspective:700px}
+.starfield{position:absolute;inset:-30%}
+.star{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:white;box-shadow:0 0 8px white;
+  animation:starFly 4s linear infinite;
+}
+.star:nth-child(1){left:12%;top:18%;animation-delay:-1s}
+.star:nth-child(2){left:24%;top:65%;animation-delay:-2.5s}
+.star:nth-child(3){left:38%;top:28%;animation-delay:-.4s}
+.star:nth-child(4){left:48%;top:78%;animation-delay:-3s}
+.star:nth-child(5){left:62%;top:16%;animation-delay:-1.7s}
+.star:nth-child(6){left:73%;top:58%;animation-delay:-.8s}
+.star:nth-child(7){left:84%;top:30%;animation-delay:-2.1s}
+.star:nth-child(8){left:91%;top:73%;animation-delay:-3.4s}
+.star:nth-child(9){left:31%;top:89%;animation-delay:-1.2s}
+.star:nth-child(10){left:68%;top:88%;animation-delay:-2.8s}
+
+.constellation{
+  position:absolute;left:50%;top:48%;width:min(760px,88vw);height:320px;
+  transform:translate(-50%,-50%);opacity:0;
+  animation:constellationIn 1.5s 4.2s ease forwards;
+}
+.cstar{
+  position:absolute;width:8px;height:8px;border-radius:50%;
+  background:var(--star);box-shadow:0 0 18px 4px rgba(255,247,219,.45);
+}
+.cstar.s1{left:8%;top:55%}.cstar.s2{left:20%;top:35%}.cstar.s3{left:34%;top:52%}
+.cstar.s4{left:48%;top:28%}.cstar.s5{left:61%;top:48%}.cstar.s6{left:75%;top:31%}
+.cstar.s7{left:90%;top:53%}
+.constellation svg{position:absolute;inset:0;width:100%;height:100%}
+.constellation path{
+  fill:none;stroke:rgba(219,228,241,.45);stroke-width:1;
+  stroke-dasharray:1000;stroke-dashoffset:1000;
+  animation:drawConstellation 2s 4.8s ease forwards;
+}
+.constellation-names{
+  position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  opacity:0;animation:namesIn 1.3s 6.2s ease forwards;
+}
+.constellation-names small{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:#aab6ca}
+.constellation-names h2{margin-top:18px;font-size:clamp(62px,12vw,120px);line-height:.75}
+.constellation-names h2 span{display:block;margin:14px;color:var(--gold);font-size:.38em;font-style:italic}
+
+.shooting-star{
+  position:absolute;left:-20%;top:22%;width:180px;height:1px;
+  background:linear-gradient(90deg,transparent,#fff);
+  transform:rotate(-17deg);opacity:0;
+  animation:shoot 1.2s 7.7s ease-in forwards;
+}
+.shooting-star::after{
+  content:"";position:absolute;right:-3px;top:-3px;width:7px;height:7px;
+  border-radius:50%;background:#fff;box-shadow:0 0 24px 7px rgba(255,255,255,.7);
+}
+.flash{
+  position:absolute;inset:0;background:white;opacity:0;pointer-events:none;
+  animation:flash 1.3s 8.55s ease forwards;
+}
+
+.start-card{
+  position:relative;z-index:20;width:min(570px,88vw);padding:44px 30px;
+  border:1px solid rgba(255,255,255,.16);background:rgba(5,8,20,.58);
+  backdrop-filter:blur(14px);text-align:center;
+  animation:startFade 1s 1.2s ease forwards;
+}
+.start-card.hide{opacity:0;pointer-events:none;transition:.7s ease}
+.start-card small{color:#aab5c8;font-size:7px;letter-spacing:5px;text-transform:uppercase}
+.start-card h2{margin-top:14px;font-size:clamp(42px,8vw,68px);line-height:.9}
+.start-card p{max-width:420px;margin:18px auto;color:#aeb7c7;font-family:"Cormorant Garamond",serif;font-size:20px;line-height:1.45}
+.start-button{
+  margin-top:20px;padding:14px 22px;border:1px solid var(--gold);
+  background:transparent;color:#f6edda;cursor:pointer;font-size:7px;letter-spacing:4px;text-transform:uppercase;
+}
+.music-note{margin-top:14px;color:#7f899d;font-size:7px;letter-spacing:1.5px}
+.skip{
+  position:absolute;right:18px;bottom:18px;z-index:30;padding:9px 12px;
+  border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.18);
+  color:#aeb7c7;cursor:pointer;font-size:7px;letter-spacing:2px;text-transform:uppercase;
+  opacity:0;pointer-events:none;transition:.4s;
+}
+.skip.show{opacity:1;pointer-events:auto}
+
+/* MUSIC */
+.music-toggle{
+  position:fixed;right:16px;top:16px;z-index:1500;width:42px;height:42px;
+  display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);
+  border-radius:50%;background:rgba(5,7,18,.72);color:#fff;cursor:pointer;
+  backdrop-filter:blur(12px);
+}
+.music-toggle span{font-size:15px}
+.music-toggle.playing::after{
+  content:"";position:absolute;inset:-5px;border:1px solid rgba(216,195,143,.3);
+  border-radius:50%;animation:pulse 2s infinite;
+}
+
+/* HERO */
+.hero{
+  min-height:100svh;position:relative;display:grid;place-items:center;
+  overflow:hidden;padding:100px 20px;text-align:center;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(126,143,203,.15),transparent 23%),
+    linear-gradient(180deg,#050712,#0b1023 65%,#060813);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 15% 20%,white 0 1px,transparent 1.5px),
+    radial-gradient(circle at 74% 18%,white 0 1px,transparent 1.5px),
+    radial-gradient(circle at 34% 72%,white 0 1px,transparent 1.5px),
+    radial-gradient(circle at 88% 65%,white 0 1px,transparent 1.5px),
+    radial-gradient(circle at 56% 45%,white 0 1px,transparent 1.5px);
+  background-size:190px 190px,230px 230px,260px 260px,210px 210px,300px 300px;
+  opacity:.6;
+}
+.hero-inner{position:relative;z-index:2}
+.eyebrow{color:#aab5c8;font-size:8px;letter-spacing:5px;text-transform:uppercase;text-align:center}
+.hero h1{margin-top:25px;font-size:clamp(82px,14vw,155px);line-height:.7}
+.hero h1 span{display:block;margin:17px;color:var(--gold);font-size:.37em;font-style:italic}
+.hero-date{margin-top:36px;font-size:10px;letter-spacing:5px;text-transform:uppercase}
+.hero-place{margin-top:12px;color:#aab5c8;font-family:"Cormorant Garamond",serif;font-size:29px;font-style:italic}
+
+/* ORBITS */
+.orbit-section{padding:120px 20px;background:#f1eee6;color:#18202a}
+.section-title{margin-top:18px;text-align:center;font-size:clamp(55px,8vw,96px);line-height:.88}
+.section-copy{max-width:650px;margin:25px auto 0;text-align:center;color:#657080;font-family:"Cormorant Garamond",serif;font-size:25px;line-height:1.55}
+.solar-system{
+  position:relative;width:min(820px,92vw);aspect-ratio:1/1;margin:60px auto 0;
+}
+.sun{
+  position:absolute;left:50%;top:50%;width:145px;aspect-ratio:1;
+  transform:translate(-50%,-50%);border-radius:50%;
+  display:grid;place-items:center;text-align:center;
+  background:radial-gradient(circle,#fff5d0,#d8c38f 55%,#806f49);
+  box-shadow:0 0 50px rgba(216,195,143,.45);font-family:"Cormorant Garamond",serif;font-size:23px;
+}
+.orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(28,40,55,.16);border-radius:50%}
+.o1{width:42%;height:42%}.o2{width:64%;height:64%}.o3{width:86%;height:86%}
+.planet{position:absolute;width:88px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;text-align:center;padding:8px;color:#fff;font-size:8px;line-height:1.5;box-shadow:0 8px 25px rgba(0,0,0,.18)}
+.p1{left:50%;top:-44px;transform:translateX(-50%);background:#566884}
+.p2{right:-44px;top:50%;transform:translateY(-50%);background:#826b76}
+.p3{left:5%;bottom:10%;background:#5d745e}
+.planet strong{display:block;font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:400}
+
+/* MOON COUNTDOWN */
+.countdown{
+  min-height:90vh;display:grid;place-items:center;padding:100px 20px;
+  background:radial-gradient(circle at 50% 50%,#151c36,#060813 58%);text-align:center;
+}
+.moon-count{
+  position:relative;width:min(470px,82vw);aspect-ratio:1;border-radius:50%;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 34% 29%,rgba(90,94,105,.16) 0 7%,transparent 8%),
+    radial-gradient(circle at 68% 62%,rgba(90,94,105,.12) 0 10%,transparent 11%),
+    radial-gradient(circle at 42% 72%,rgba(90,94,105,.1) 0 6%,transparent 7%),
+    radial-gradient(circle at 40% 35%,#fffdf4,#d9d9d2 67%,#aeb2b7);
+  color:#171b24;box-shadow:0 0 80px rgba(218,224,234,.25);
+}
+.moon-count small{font-size:7px;letter-spacing:4px;text-transform:uppercase}
+.days{display:block;font-family:"Cormorant Garamond",serif;font-size:clamp(90px,16vw,150px);line-height:.7}
+.until{margin-top:12px;font-family:"Cormorant Garamond",serif;font-size:24px;font-style:italic}
+.time-detail{margin-top:22px;font-size:7px;letter-spacing:2.5px;text-transform:uppercase}
+
+/* COORDINATES */
+.coordinates{padding:120px 20px;background:#0d1122;text-align:center}
+.coord-card{width:min(750px,100%);margin:55px auto 0;padding:60px 35px;border:1px solid rgba(255,255,255,.16);position:relative}
+.coord-card::before,.coord-card::after{content:"+";position:absolute;color:#69758d;font-size:20px}
+.coord-card::before{left:-7px;top:-13px}.coord-card::after{right:-7px;bottom:-13px}
+.coord-card h3{font-size:48px}
+.coord-card p{margin-top:13px;color:#9da8bd;font-size:11px;line-height:1.8}
+.route{display:inline-flex;margin-top:28px;padding:14px 22px;border:1px solid var(--gold);color:#e8dcc1;font-size:7px;letter-spacing:3px;text-transform:uppercase}
+
+/* RSVP */
+.rsvp{padding:120px 20px;background:#f1eee6;color:#17202a}
+.rsvp-card{width:min(700px,100%);margin:55px auto 0;padding:48px;border:1px solid rgba(20,30,40,.16);background:#faf8f2;text-align:center}
+.rsvp-card h3{font-size:42px}
+.rsvp-card>p{margin:12px auto 0;color:#697382;font-family:"Cormorant Garamond",serif;font-size:22px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+.choice{min-height:95px;border:1px solid #26344b;background:transparent;cursor:pointer;font-family:"Cormorant Garamond",serif;font-size:27px;color:#1c2737}
+.choice:hover,.choice.active{background:#10182b;color:#fff}
+.form{display:none;margin-top:30px;text-align:left}.form.show{display:block}
+.group{margin-bottom:21px}
+label{display:block;margin-bottom:7px;color:#707c8d;font-size:7px;letter-spacing:3px;text-transform:uppercase}
+input,select,textarea{width:100%;padding:13px 3px;border:none;border-bottom:1px solid rgba(30,45,65,.25);background:transparent;outline:none;color:#17202a;font-size:12px}
+textarea{min-height:85px;resize:vertical}
+.submit{width:100%;margin-top:10px;padding:17px;border:0;background:#10182b;color:white;cursor:pointer;font-size:7px;letter-spacing:4px;text-transform:uppercase}
+.success{display:none;margin-top:28px;font-family:"Cormorant Garamond",serif;font-size:30px;color:#53627b}
+.new-star{display:inline-block;margin-right:7px;color:#b09b61;animation:newStar 1s ease infinite alternate}
+
+footer{padding:70px 20px;background:#03050b;text-align:center}
+.footer-names{font-family:"Cormorant Garamond",serif;font-size:44px}
+footer p{margin-top:10px;color:#7e899d;font-size:7px;letter-spacing:4px;text-transform:uppercase}
+
+/* KEYFRAMES */
+@keyframes starFly{0%{transform:translateZ(-500px) scale(.2);opacity:0}30%{opacity:1}100%{transform:translateZ(600px) scale(2.3);opacity:0}}
+@keyframes constellationIn{to{opacity:1}}
+@keyframes drawConstellation{to{stroke-dashoffset:0}}
+@keyframes namesIn{to{opacity:1}}
+@keyframes shoot{0%{left:-20%;top:22%;opacity:0}15%{opacity:1}100%{left:105%;top:58%;opacity:0}}
+@keyframes flash{0%,100%{opacity:0}35%{opacity:.9}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:.7}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes newStar{to{text-shadow:0 0 16px #d8c38f;transform:scale(1.25)}}
+
+@media(max-width:760px){
+  .solar-system{margin-top:40px;aspect-ratio:.82/1}
+  .sun{width:105px;font-size:18px}
+  .planet{width:70px;font-size:7px}
+  .planet strong{font-size:15px}
+  .rsvp-card{padding:35px 20px}
+  .choices{grid-template-columns:1fr}
+  .back-link{top:12px;left:12px}
+  .music-toggle{top:12px;right:12px}
+}
+</style>
+</head>
+
+<body>
+
+<a href="../index.html#designs" class="back-link">← KUMÉ EVENT</a>
+
+<button class="music-toggle" id="musicToggle" type="button" aria-label="Musik ein- oder ausschalten">
+  <span id="musicIcon">♪</span>
+</button>
+
+<!-- CELESTIAL MINI CLIP -->
+<div class="intro" id="intro">
+
+  <div class="space">
+    <div class="starfield">
+      <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+      <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+    </div>
+  </div>
+
+  <div class="constellation">
+    <svg viewBox="0 0 760 320" preserveAspectRatio="none">
+      <path d="M61 176 L152 112 L258 166 L365 90 L464 154 L570 99 L684 170"/>
+    </svg>
+    <i class="cstar s1"></i><i class="cstar s2"></i><i class="cstar s3"></i>
+    <i class="cstar s4"></i><i class="cstar s5"></i><i class="cstar s6"></i><i class="cstar s7"></i>
+
+    <div class="constellation-names">
+      <div>
+        <small>Written in the stars</small>
+        <h2>Name <span>&</span> Name</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="shooting-star"></div>
+  <div class="flash"></div>
+
+  <div class="start-card" id="startCard">
+    <small>KUMÉ EVENT presents</small>
+    <h2>Eine Reise zu den Sternen</h2>
+    <p>
+      Diese Einladung beginnt mit einem kleinen Film.
+      Am schönsten wirkt er mit Ton.
+    </p>
+    <button class="start-button" id="startJourney" type="button">Reise beginnen ✦</button>
+    <div class="music-note">Mit sanfter, melodischer Instrumentalmusik</div>
+  </div>
+
+  <button class="skip" id="skipIntro" type="button">Intro überspringen</button>
+</div>
+
+<main>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Our story was written in the stars</div>
+    <h1>Name <span>&</span> Name</h1>
+    <div class="hero-date">00 · 00 · 2026</div>
+    <div class="hero-place">Ort</div>
+  </div>
+</section>
+
+<section class="orbit-section">
+  <div class="container">
+    <div class="eyebrow" style="color:#68778d">The Orbit of our Night</div>
+    <h2 class="section-title">Ein Abend in unserer Umlaufbahn</h2>
+    <p class="section-copy">
+      Alles dreht sich an diesem Abend um einen gemeinsamen Mittelpunkt:
+      Erinnerungen, Menschen und einen Moment, den wir mit euch teilen möchten.
+    </p>
+
+    <div class="solar-system">
+      <div class="orbit o3">
+        <div class="planet p3"><div><strong>21:00</strong>Dance</div></div>
+      </div>
+      <div class="orbit o2">
+        <div class="planet p2"><div><strong>19:00</strong>Dinner</div></div>
+      </div>
+      <div class="orbit o1">
+        <div class="planet p1"><div><strong>17:30</strong>Arrival</div></div>
+      </div>
+      <div class="sun">18:00<br>Unser Moment</div>
+    </div>
+  </div>
+</section>
+
+<section class="countdown">
+  <div class="moon-count">
+    <div>
+      <small>Noch</small>
+      <span class="days" id="days">000</span>
+      <div class="until">Mondnächte bis zu unserem Tag</div>
+      <div class="time-detail">
+        <span id="hours">00</span> Std ·
+        <span id="minutes">00</span> Min ·
+        <span id="seconds">00</span> Sek
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="coordinates">
+  <div class="container">
+    <div class="eyebrow">Coordinates of our night</div>
+    <h2 class="section-title">Das Ziel unserer Reise</h2>
+
+    <div class="coord-card">
+      <h3>Eventlocation</h3>
+      <p>
+        Straße 123<br>
+        12345 Ort<br><br>
+        00.00.2026 · Beginn 17:30 Uhr
+      </p>
+      <a class="route" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">
+        Koordinaten öffnen ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="rsvp">
+  <div class="container">
+    <div class="eyebrow" style="color:#68778d">Add your star</div>
+    <h2 class="section-title">Seid ihr Teil unserer Konstellation?</h2>
+
+    <div class="rsvp-card">
+      <h3>Wir würden uns freuen, euren Stern am Himmel zu sehen.</h3>
+      <p>Gebt uns kurz Bescheid, ob ihr diesen Abend mit uns verbringt.</p>
+
+      <div class="choices">
+        <button class="choice" type="button" data-choice="yes">✦ Wir sind dabei</button>
+        <button class="choice" type="button" data-choice="no">Leider nicht</button>
+      </div>
+
+      <form class="form" id="demoForm">
+        <input type="hidden" id="attendance">
+
+        <div class="group">
+          <label for="name">Vor- & Nachname</label>
+          <input id="name" type="text" placeholder="Name" required>
+        </div>
+
+        <div class="group" id="guestGroup">
+          <label for="guests">Personen</label>
+          <select id="guests">
+            <option>1 Person</option>
+            <option>2 Personen</option>
+            <option>3 Personen</option>
+            <option>4 Personen</option>
+            <option>5 Personen</option>
+          </select>
+        </div>
+
+        <div class="group">
+          <label for="message">Nachricht</label>
+          <textarea id="message" placeholder="Eine Nachricht für uns ..."></textarea>
+        </div>
+
+        <button class="submit" type="submit">Stern hinzufügen</button>
+      </form>
+
+      <div class="success" id="success">
+        <span class="new-star">✦</span>Euer Stern gehört jetzt zu unserer Konstellation.
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-names">Name & Name</div>
+  <p>Beispiel-Design · Celestial · KUMÉ EVENT</p>
+</footer>
+
+<script>
+const intro = document.getElementById("intro");
+const startCard = document.getElementById("startCard");
+const startJourney = document.getElementById("startJourney");
+const skipIntro = document.getElementById("skipIntro");
+const musicToggle = document.getElementById("musicToggle");
+const musicIcon = document.getElementById("musicIcon");
+
+let audioCtx = null;
+let masterGain = null;
+let musicPlaying = false;
+let melodyTimer = null;
+let melodyStep = 0;
+
+/*
+  CELESTIAL MELODY
+  Eine ruhige, romantische Instrumental-Melodie wird direkt im Browser erzeugt.
+  Dadurch wird keine externe MP3-Datei benötigt.
+*/
+const melody = [
+  392.00, 493.88, 587.33, 659.25,
+  587.33, 493.88, 440.00, 392.00,
+  329.63, 392.00, 493.88, 587.33,
+  523.25, 493.88, 440.00, null,
+
+  392.00, 493.88, 659.25, 783.99,
+  739.99, 659.25, 587.33, 493.88,
+  440.00, 523.25, 659.25, 587.33,
+  493.88, 440.00, 392.00, null
+];
+
+const bassNotes = [
+  98.00, 98.00, 82.41, 82.41,
+  73.42, 73.42, 82.41, 82.41
+];
+
+function ensureAudio(){
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if(!AudioContext) return false;
+
+  if(!audioCtx){
+    audioCtx = new AudioContext();
+
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.0001;
+
+    const masterFilter = audioCtx.createBiquadFilter();
+    masterFilter.type = "lowpass";
+    masterFilter.frequency.value = 2400;
+
+    masterGain.connect(masterFilter);
+    masterFilter.connect(audioCtx.destination);
+  }
+
+  if(audioCtx.state === "suspended"){
+    audioCtx.resume();
+  }
+
+  return true;
+}
+
+function playTone(frequency, duration = 1.05, volume = 0.07, type = "sine"){
+  if(!audioCtx || !masterGain || !frequency) return;
+
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(frequency, now);
+
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(volume, now + 0.08);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+  osc.connect(gain);
+  gain.connect(masterGain);
+
+  osc.start(now);
+  osc.stop(now + duration + 0.08);
+}
+
+function playBell(frequency){
+  if(!audioCtx || !masterGain || !frequency) return;
+
+  const now = audioCtx.currentTime;
+
+  const fundamental = audioCtx.createOscillator();
+  const harmonic = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  const harmonicGain = audioCtx.createGain();
+
+  fundamental.type = "sine";
+  harmonic.type = "sine";
+
+  fundamental.frequency.value = frequency;
+  harmonic.frequency.value = frequency * 2;
+
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.075, now + 0.025);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.35);
+
+  harmonicGain.gain.setValueAtTime(0.0001, now);
+  harmonicGain.gain.exponentialRampToValueAtTime(0.018, now + 0.02);
+  harmonicGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
+
+  fundamental.connect(gain);
+  harmonic.connect(harmonicGain);
+  gain.connect(masterGain);
+  harmonicGain.connect(masterGain);
+
+  fundamental.start(now);
+  harmonic.start(now);
+  fundamental.stop(now + 1.45);
+  harmonic.stop(now + 0.8);
+}
+
+function playMelodyStep(){
+  if(!musicPlaying) return;
+
+  const note = melody[melodyStep % melody.length];
+
+  if(note){
+    playBell(note);
+
+    // Eine leise Terz/Quinte gibt der Melodie mehr Wärme.
+    if(melodyStep % 4 === 0){
+      playTone(note / 2, 1.6, 0.025, "sine");
+    }
+  }
+
+  // Alle vier Schritte ein sehr dezenter tiefer Begleitton.
+  if(melodyStep % 4 === 0){
+    const bassIndex = Math.floor(melodyStep / 4) % bassNotes.length;
+    playTone(bassNotes[bassIndex], 2.7, 0.025, "sine");
+  }
+
+  melodyStep++;
+}
+
+function startAmbientMusic(){
+  if(musicPlaying) return;
+  if(!ensureAudio()) return;
+
+  musicPlaying = true;
+  melodyStep = 0;
+
+  const now = audioCtx.currentTime;
+  masterGain.gain.cancelScheduledValues(now);
+  masterGain.gain.setValueAtTime(0.0001, now);
+  masterGain.gain.exponentialRampToValueAtTime(0.9, now + 1.5);
+
+  playMelodyStep();
+  melodyTimer = setInterval(playMelodyStep, 720);
+
+  musicToggle.classList.add("playing");
+  musicIcon.textContent = "♫";
+}
+
+function stopAmbientMusic(){
+  if(!musicPlaying) return;
+
+  musicPlaying = false;
+
+  if(melodyTimer){
+    clearInterval(melodyTimer);
+    melodyTimer = null;
+  }
+
+  if(audioCtx && masterGain){
+    const now = audioCtx.currentTime;
+    masterGain.gain.cancelScheduledValues(now);
+    masterGain.gain.setValueAtTime(Math.max(masterGain.gain.value, 0.0001), now);
+    masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
+  }
+
+  musicToggle.classList.remove("playing");
+  musicIcon.textContent = "♪";
+}
+
+musicToggle.addEventListener("click", () => {
+  if(musicPlaying) stopAmbientMusic();
+  else startAmbientMusic();
+});
+
+function closeIntro(){
+  intro.classList.add("hidden");
+  if(introTimer) clearTimeout(introTimer);
+}
+
+startJourney.addEventListener("click", () => {
+  startAmbientMusic();
+  startCard.classList.add("hide");
+  skipIntro.classList.add("show");
+
+  introTimer = setTimeout(closeIntro, 9600);
+});
+
+skipIntro.addEventListener("click", closeIntro);
+
+/* COUNTDOWN */
+const eventDate = new Date("2026-12-31T18:00:00").getTime();
+
+function updateCountdown(){
+  const distance = eventDate - Date.now();
+
+  if(distance <= 0){
+    document.getElementById("days").textContent = "000";
+    document.getElementById("hours").textContent = "00";
+    document.getElementById("minutes").textContent = "00";
+    document.getElementById("seconds").textContent = "00";
+    return;
+  }
+
+  const days = Math.floor(distance/(1000*60*60*24));
+  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+  const seconds = Math.floor((distance%(1000*60))/1000);
+
+  document.getElementById("days").textContent = String(days).padStart(3,"0");
+  document.getElementById("hours").textContent = String(hours).padStart(2,"0");
+  document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
+  document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+/* RSVP */
+const choices = document.querySelectorAll(".choice");
+const form = document.getElementById("demoForm");
+const attendance = document.getElementById("attendance");
+const guestGroup = document.getElementById("guestGroup");
+
+choices.forEach(button => {
+  button.addEventListener("click", function(){
+    choices.forEach(b => b.classList.remove("active"));
+    this.classList.add("active");
+
+    const choice = this.dataset.choice;
+    attendance.value = choice;
+    guestGroup.style.display = choice === "yes" ? "block" : "none";
+    form.classList.add("show");
+    form.scrollIntoView({behavior:"smooth",block:"center"});
+  });
+});
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  this.style.display = "none";
+  document.getElementById("success").style.display = "block";
+});
+</script>
+
+</body>
+</html>

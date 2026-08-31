@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Botanical – KUMÉ EVENT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --forest:#0d1a13;
+      --forest-2:#14241a;
+      --moss:#4d624f;
+      --sage:#8b9b83;
+      --leaf:#607761;
+      --leaf-light:#a7b49a;
+      --cream:#f6f2e7;
+      --paper:#fbf8ef;
+      --blush:#dbc8bd;
+      --gold:#b9a36f;
+      --ink:#1f271f;
+      --muted:#6e786d;
+      --line:rgba(51,72,52,.17);
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      overflow-x:hidden;
+      background:var(--forest);
+      color:var(--cream);
+      font-family:"Manrope",sans-serif;
+      font-weight:300;
+    }
+
+    h1,h2,h3{
+      font-family:"Cormorant Garamond",serif;
+      font-weight:400;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    .container{
+      width:min(1080px,calc(100% - 40px));
+      margin:0 auto;
+    }
+
+    .back-link{
+      position:fixed;
+      top:16px;
+      left:16px;
+      z-index:1300;
+      padding:10px 14px;
+      border:1px solid rgba(246,242,231,.15);
+      background:rgba(13,26,19,.76);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      color:#f2ead9;
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       SECRET GARDEN INTRO
+    ====================================================== */
+
+    .garden-intro{
+      position:fixed;
+      inset:0;
+      z-index:1100;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 50% 52%,rgba(132,154,123,.13),transparent 20%),
+        radial-gradient(circle at 50% 50%,#18291d 0%,#0b1510 54%,#07100b 100%);
+      transition:opacity 1.1s ease, visibility 1.1s ease;
+    }
+
+    .garden-intro.hidden{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    .intro-mist{
+      position:absolute;
+      inset:-15%;
+      background:
+        radial-gradient(ellipse at 35% 55%,rgba(255,255,255,.06),transparent 30%),
+        radial-gradient(ellipse at 68% 42%,rgba(255,255,255,.035),transparent 32%);
+      filter:blur(25px);
+      animation:mistMove 8s ease-in-out infinite alternate;
+    }
+
+    .bud{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:78px;
+      height:100px;
+      transform:translate(-50%,-45%) scale(.45);
+      opacity:0;
+      animation:budAppear 1.2s .6s ease forwards;
+      z-index:10;
+    }
+
+    .bud-stem{
+      position:absolute;
+      left:50%;
+      top:64px;
+      width:3px;
+      height:120px;
+      transform:translateX(-50%) scaleY(0);
+      transform-origin:top;
+      background:linear-gradient(var(--sage),#405a42);
+      animation:stemGrow 1.4s 1.2s ease forwards;
+    }
+
+    .bud-petal{
+      position:absolute;
+      left:50%;
+      top:22px;
+      width:42px;
+      height:62px;
+      border-radius:70% 30% 70% 30% / 65% 35% 65% 35%;
+      transform-origin:50% 85%;
+      background:linear-gradient(145deg,#e7d4cc,#b98e80);
+      box-shadow:inset -10px -10px 18px rgba(61,35,31,.08);
+    }
+
+    .bud-petal.p1{
+      transform:translateX(-50%) rotate(-8deg) scale(.5);
+      animation:petalOpen1 1.5s 2.3s ease forwards;
+    }
+
+    .bud-petal.p2{
+      transform:translateX(-50%) rotate(8deg) scale(.5);
+      animation:petalOpen2 1.5s 2.3s ease forwards;
+    }
+
+    .bud-petal.p3{
+      width:36px;
+      height:56px;
+      transform:translateX(-50%) rotate(90deg) scale(.4);
+      animation:petalOpen3 1.5s 2.3s ease forwards;
+    }
+
+    .bud-core{
+      position:absolute;
+      left:50%;
+      top:51px;
+      width:17px;
+      height:17px;
+      transform:translate(-50%,-50%) scale(0);
+      border-radius:50%;
+      background:#d8b86f;
+      box-shadow:0 0 20px rgba(216,184,111,.28);
+      animation:corePop .7s 3.4s ease forwards;
+    }
+
+    /* Growing vine */
+    .vine{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:3px;
+      height:72vh;
+      transform:translate(-50%,-1%) rotate(62deg) scaleY(0);
+      transform-origin:top;
+      background:linear-gradient(#73856f,#38513d);
+      border-radius:4px;
+      z-index:5;
+      animation:vineGrow 2.1s 3.7s ease forwards;
+    }
+
+    .vine::before,
+    .vine::after{
+      content:"";
+      position:absolute;
+      width:42px;
+      height:22px;
+      border-radius:80% 20% 80% 20%;
+      background:linear-gradient(145deg,#728a70,#435c47);
+      opacity:0;
+    }
+
+    .vine::before{
+      left:-34px;
+      top:25%;
+      transform:rotate(-35deg);
+      animation:leafPop .7s 4.5s ease forwards;
+    }
+
+    .vine::after{
+      right:-34px;
+      top:56%;
+      transform:scaleX(-1) rotate(-30deg);
+      animation:leafPop .7s 5s ease forwards;
+    }
+
+    /* Garden doors made of foliage */
+    .garden-door{
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:50.5%;
+      z-index:18;
+      background:
+        radial-gradient(circle at 15% 15%,rgba(114,142,106,.55),transparent 16%),
+        radial-gradient(circle at 45% 30%,rgba(71,106,73,.72),transparent 17%),
+        radial-gradient(circle at 25% 60%,rgba(96,127,89,.62),transparent 18%),
+        radial-gradient(circle at 62% 80%,rgba(72,103,69,.72),transparent 18%),
+        linear-gradient(180deg,#19301f,#0c1911);
+      box-shadow:inset 0 0 80px rgba(0,0,0,.25);
+    }
+
+    .garden-door.left{
+      left:0;
+      animation:doorLeft 1.6s 6.7s cubic-bezier(.62,.02,.23,1) forwards;
+    }
+
+    .garden-door.right{
+      right:0;
+      animation:doorRight 1.6s 6.7s cubic-bezier(.62,.02,.23,1) forwards;
+    }
+
+    .garden-door::before,
+    .garden-door::after{
+      content:"";
+      position:absolute;
+      width:120px;
+      height:220px;
+      opacity:.4;
+      background:
+        radial-gradient(ellipse at 50% 10%,#789071 0 22%,transparent 23%),
+        radial-gradient(ellipse at 25% 38%,#5f785d 0 18%,transparent 19%),
+        radial-gradient(ellipse at 70% 58%,#81977a 0 20%,transparent 21%),
+        radial-gradient(ellipse at 42% 82%,#527056 0 19%,transparent 20%);
+    }
+
+    .garden-door::before{
+      top:8%;
+      left:8%;
+      transform:rotate(-15deg);
+    }
+
+    .garden-door::after{
+      bottom:5%;
+      right:8%;
+      transform:rotate(18deg);
+    }
+
+    .intro-title{
+      position:absolute;
+      z-index:14;
+      left:50%;
+      top:50%;
+      width:min(800px,88vw);
+      transform:translate(-50%,-45%);
+      text-align:center;
+      opacity:0;
+      animation:titleReveal 1s 5.4s ease forwards;
+    }
+
+    .intro-title small{
+      display:block;
+      color:#a9b59f;
+      font-size:8px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .intro-title h2{
+      margin-top:18px;
+      font-size:clamp(58px,11vw,112px);
+      line-height:.78;
+    }
+
+    .intro-title h2 span{
+      display:block;
+      margin:14px 0;
+      color:#d7c8ad;
+      font-size:.42em;
+      font-style:italic;
+    }
+
+    .intro-title p{
+      margin-top:24px;
+      color:#a9b59f;
+      font-family:"Cormorant Garamond",serif;
+      font-size:23px;
+      font-style:italic;
+    }
+
+    .skip-intro{
+      position:absolute;
+      right:18px;
+      bottom:18px;
+      z-index:30;
+      padding:9px 12px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.18);
+      color:#c9d3c1;
+      cursor:pointer;
+      font-size:7px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       MAIN HERO
+    ====================================================== */
+
+    .hero{
+      position:relative;
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      padding:100px 24px;
+      background:
+        radial-gradient(circle at 50% 35%,rgba(171,193,160,.11),transparent 24%),
+        linear-gradient(180deg,#102016,#17291d 55%,#0d1a13);
+      text-align:center;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(ellipse at 10% 80%,rgba(81,115,79,.5),transparent 20%),
+        radial-gradient(ellipse at 88% 28%,rgba(108,138,100,.42),transparent 20%);
+      opacity:.55;
+    }
+
+    .hero-vines{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.5;
+    }
+
+    .hero-vine{
+      position:absolute;
+      width:2px;
+      background:linear-gradient(#8fa084,#486048);
+      border-radius:4px;
+    }
+
+    .hero-vine.v1{
+      left:11%;
+      top:-3%;
+      height:62%;
+      transform:rotate(-12deg);
+    }
+
+    .hero-vine.v2{
+      right:12%;
+      bottom:-5%;
+      height:65%;
+      transform:rotate(14deg);
+    }
+
+    .hero-vine::before,
+    .hero-vine::after{
+      content:"";
+      position:absolute;
+      width:42px;
+      height:20px;
+      border-radius:80% 20% 80% 20%;
+      background:linear-gradient(145deg,#7f9876,#526a53);
+    }
+
+    .hero-vine::before{
+      top:30%;
+      left:-34px;
+      transform:rotate(-30deg);
+    }
+
+    .hero-vine::after{
+      top:63%;
+      right:-34px;
+      transform:scaleX(-1) rotate(-28deg);
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:4;
+      width:min(850px,100%);
+    }
+
+    .hero-kicker{
+      color:#a8b59e;
+      font-size:8px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .hero h1{
+      margin-top:25px;
+      font-size:clamp(80px,14vw,150px);
+      line-height:.72;
+      letter-spacing:-.04em;
+    }
+
+    .hero h1 span{
+      display:block;
+      margin:18px 0;
+      color:#d9c7aa;
+      font-size:.37em;
+      font-style:italic;
+    }
+
+    .hero-date{
+      margin-top:35px;
+      font-size:10px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .hero-place{
+      margin-top:12px;
+      color:#aeb9a7;
+      font-family:"Cormorant Garamond",serif;
+      font-size:29px;
+      font-style:italic;
+    }
+
+    .hero-scroll{
+      position:absolute;
+      z-index:5;
+      bottom:22px;
+      left:50%;
+      transform:translateX(-50%);
+      color:#95a18e;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       GARDEN STORY PATH
+    ====================================================== */
+
+    .garden-story{
+      position:relative;
+      padding:120px 20px;
+      background:var(--paper);
+      color:var(--ink);
+      overflow:hidden;
+    }
+
+    .section-eyebrow{
+      text-align:center;
+      color:#6f816b;
+      font-size:8px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .section-title{
+      margin-top:18px;
+      text-align:center;
+      font-size:clamp(55px,8vw,96px);
+      line-height:.9;
+    }
+
+    .section-copy{
+      max-width:650px;
+      margin:27px auto 0;
+      color:#697267;
+      text-align:center;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(21px,3vw,29px);
+      line-height:1.55;
+    }
+
+    .garden-path{
+      position:relative;
+      width:min(900px,100%);
+      margin:70px auto 0;
+      padding:30px 0;
+    }
+
+    .garden-path::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:0;
+      bottom:0;
+      width:3px;
+      transform:translateX(-50%);
+      background:linear-gradient(#98aa90,#536b56,#98aa90);
+      border-radius:4px;
+    }
+
+    .garden-stop{
+      position:relative;
+      width:50%;
+      padding:20px 60px 55px;
+    }
+
+    .garden-stop:nth-child(odd){
+      text-align:right;
+    }
+
+    .garden-stop:nth-child(even){
+      margin-left:50%;
+    }
+
+    .garden-flower{
+      position:absolute;
+      top:22px;
+      width:42px;
+      height:42px;
+    }
+
+    .garden-stop:nth-child(odd) .garden-flower{
+      right:-21px;
+    }
+
+    .garden-stop:nth-child(even) .garden-flower{
+      left:-21px;
+    }
+
+    .garden-flower::before,
+    .garden-flower::after{
+      content:"";
+      position:absolute;
+      inset:9px;
+      border-radius:65% 35% 65% 35%;
+      background:#d9c5b7;
+      transform:rotate(45deg);
+    }
+
+    .garden-flower::after{
+      transform:rotate(135deg);
+    }
+
+    .garden-stop small{
+      color:#71816e;
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .garden-stop h3{
+      margin-top:8px;
+      font-size:36px;
+    }
+
+    .garden-stop p{
+      margin-top:9px;
+      color:#6d756a;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    /* ======================================================
+       FLOWER COUNTDOWN
+    ====================================================== */
+
+    .flower-countdown{
+      position:relative;
+      min-height:88vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      padding:100px 20px;
+      background:
+        radial-gradient(circle at 50% 50%,rgba(132,157,119,.12),transparent 20%),
+        #102016;
+      text-align:center;
+    }
+
+    .count-flower{
+      position:relative;
+      width:min(530px,82vw);
+      aspect-ratio:1/1;
+    }
+
+    .count-petal{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:42%;
+      height:58%;
+      border-radius:70% 30% 70% 30% / 66% 34% 66% 34%;
+      transform-origin:50% 100%;
+      background:
+        radial-gradient(circle at 40% 22%,rgba(255,255,255,.3),transparent 22%),
+        linear-gradient(145deg,#d8c7ba,#9e7f72);
+      box-shadow:inset -12px -12px 30px rgba(62,42,34,.08);
+      opacity:.9;
+    }
+
+    .count-petal:nth-child(1){transform:translate(-50%,-100%) rotate(0deg)}
+    .count-petal:nth-child(2){transform:translate(-50%,-100%) rotate(60deg)}
+    .count-petal:nth-child(3){transform:translate(-50%,-100%) rotate(120deg)}
+    .count-petal:nth-child(4){transform:translate(-50%,-100%) rotate(180deg)}
+    .count-petal:nth-child(5){transform:translate(-50%,-100%) rotate(240deg)}
+    .count-petal:nth-child(6){transform:translate(-50%,-100%) rotate(300deg)}
+
+    .count-core{
+      position:absolute;
+      z-index:3;
+      left:50%;
+      top:50%;
+      width:47%;
+      aspect-ratio:1/1;
+      transform:translate(-50%,-50%);
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:#14271b;
+      border:1px solid rgba(217,199,170,.18);
+      box-shadow:0 0 60px rgba(0,0,0,.25);
+    }
+
+    .count-core small{
+      display:block;
+      color:#9fad96;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .count-days{
+      display:block;
+      margin-top:8px;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(75px,13vw,130px);
+      line-height:.7;
+    }
+
+    .count-copy{
+      margin-top:14px;
+      color:#d7c8ad;
+      font-family:"Cormorant Garamond",serif;
+      font-size:23px;
+      font-style:italic;
+    }
+
+    .count-detail{
+      margin-top:24px;
+      color:#9ba693;
+      font-size:7px;
+      letter-spacing:2.5px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       BLOOM DETAILS
+    ====================================================== */
+
+    .bloom-details{
+      padding:120px 20px;
+      background:#edf0e8;
+      color:var(--ink);
+    }
+
+    .bloom-grid{
+      width:min(950px,100%);
+      margin:65px auto 0;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+
+    .bloom-card{
+      position:relative;
+      min-height:330px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#f8f7f0;
+      cursor:pointer;
+    }
+
+    .bloom-card::before,
+    .bloom-card::after{
+      content:"";
+      position:absolute;
+      width:120px;
+      height:170px;
+      border-radius:70% 30% 70% 30% / 65% 35% 65% 35%;
+      background:linear-gradient(145deg,#d9c8bd,#a88d7f);
+      transition:transform .65s ease, opacity .65s ease;
+      opacity:.92;
+    }
+
+    .bloom-card::before{
+      transform:translateX(-25px) rotate(-20deg);
+    }
+
+    .bloom-card::after{
+      transform:translateX(25px) rotate(20deg) scaleX(-1);
+    }
+
+    .bloom-card.open::before{
+      transform:translateX(-90px) rotate(-65deg);
+      opacity:.55;
+    }
+
+    .bloom-card.open::after{
+      transform:translateX(90px) rotate(65deg) scaleX(-1);
+      opacity:.55;
+    }
+
+    .bloom-content{
+      position:relative;
+      z-index:3;
+      width:80%;
+      text-align:center;
+      opacity:0;
+      transform:translateY(15px);
+      transition:.55s .15s ease;
+    }
+
+    .bloom-card.open .bloom-content{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .bloom-content small{
+      color:#71816e;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .bloom-content h3{
+      margin-top:9px;
+      font-size:35px;
+    }
+
+    .bloom-content p{
+      margin-top:10px;
+      color:#687166;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    .bloom-hint{
+      position:absolute;
+      z-index:4;
+      bottom:18px;
+      left:50%;
+      transform:translateX(-50%);
+      color:#7b8977;
+      font-size:7px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      transition:opacity .3s ease;
+    }
+
+    .bloom-card.open .bloom-hint{
+      opacity:0;
+    }
+
+    /* ======================================================
+       LOCATION GATE
+    ====================================================== */
+
+    .location{
+      position:relative;
+      min-height:90vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      padding:100px 20px;
+      background:
+        linear-gradient(rgba(12,25,16,.42),rgba(12,25,16,.68)),
+        radial-gradient(circle at 50% 35%,#77906f,#314635 55%,#0d1a13);
+      text-align:center;
+    }
+
+    .gate{
+      position:absolute;
+      left:50%;
+      bottom:0;
+      width:min(650px,82vw);
+      height:78%;
+      transform:translateX(-50%);
+      border:8px solid #1b2b1e;
+      border-bottom:none;
+      border-radius:320px 320px 0 0;
+      opacity:.72;
+    }
+
+    .gate::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:0;
+      bottom:0;
+      width:4px;
+      transform:translateX(-50%);
+      background:#1b2b1e;
+    }
+
+    .gate::after{
+      content:"";
+      position:absolute;
+      left:8%;
+      right:8%;
+      top:40%;
+      height:4px;
+      background:#1b2b1e;
+    }
+
+    .location-card{
+      position:relative;
+      z-index:3;
+      width:min(700px,100%);
+      padding:60px 35px;
+      border:1px solid rgba(246,242,231,.18);
+      background:rgba(12,25,16,.5);
+      backdrop-filter:blur(5px);
+    }
+
+    .location-card small{
+      color:#a8b49e;
+      font-size:8px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .location-card h2{
+      margin-top:16px;
+      font-size:clamp(58px,8vw,90px);
+      line-height:.86;
+    }
+
+    .location-name{
+      margin-top:26px;
+      color:#dcccad;
+      font-family:"Cormorant Garamond",serif;
+      font-size:35px;
+      font-style:italic;
+    }
+
+    .location-address{
+      margin-top:12px;
+      color:#a9b39f;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    .route-button{
+      display:inline-flex;
+      margin-top:27px;
+      padding:14px 22px;
+      border:1px solid #d8c7a7;
+      color:#e6dac0;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       RSVP FLOWER
+    ====================================================== */
+
+    .rsvp{
+      padding:120px 20px;
+      background:var(--paper);
+      color:var(--ink);
+    }
+
+    .rsvp-shell{
+      width:min(720px,100%);
+      margin:55px auto 0;
+      padding:48px;
+      border:1px solid var(--line);
+      background:#f8f6ee;
+      text-align:center;
+    }
+
+    .rsvp-shell h3{
+      font-size:42px;
+    }
+
+    .rsvp-shell p{
+      max-width:520px;
+      margin:12px auto 0;
+      color:#697267;
+      font-family:"Cormorant Garamond",serif;
+      font-size:22px;
+      line-height:1.5;
+    }
+
+    .choice-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:32px;
+    }
+
+    .choice-button{
+      min-height:105px;
+      border:1px solid #344c38;
+      background:transparent;
+      color:#243228;
+      cursor:pointer;
+      font-family:"Cormorant Garamond",serif;
+      font-size:28px;
+      transition:.25s ease;
+    }
+
+    .choice-button:hover,
+    .choice-button.active{
+      background:#1e3425;
+      color:#f4efe3;
+    }
+
+    .choice-button.yes.active::before{
+      content:"✿ ";
+      color:#d9c2ae;
+    }
+
+    .choice-button.no.active::before{
+      content:"🍂 ";
+    }
+
+    .rsvp-form{
+      display:none;
+      margin-top:30px;
+      text-align:left;
+    }
+
+    .rsvp-form.show{
+      display:block;
+    }
+
+    .form-group{
+      margin-bottom:22px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:7px;
+      color:#73816f;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    input,
+    select,
+    textarea{
+      width:100%;
+      padding:13px 3px;
+      border:none;
+      border-bottom:1px solid rgba(48,68,49,.28);
+      background:transparent;
+      outline:none;
+      color:#263028;
+      font-family:"Manrope",sans-serif;
+      font-size:12px;
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .submit-button{
+      width:100%;
+      margin-top:10px;
+      padding:17px;
+      border:1px solid #1e3425;
+      background:#1e3425;
+      color:#f5f0e5;
+      cursor:pointer;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .success{
+      display:none;
+      margin-top:28px;
+      color:#536c57;
+      font-family:"Cormorant Garamond",serif;
+      font-size:31px;
+    }
+
+    footer{
+      padding:72px 20px;
+      background:#09120d;
+      text-align:center;
+    }
+
+    .footer-names{
+      font-family:"Cormorant Garamond",serif;
+      font-size:44px;
+    }
+
+    footer p{
+      margin-top:11px;
+      color:#8f9a89;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       ANIMATIONS
+    ====================================================== */
+
+    @keyframes mistMove{
+      from{transform:translateX(-2%) translateY(0)}
+      to{transform:translateX(2%) translateY(-2%)}
+    }
+
+    @keyframes budAppear{
+      to{
+        opacity:1;
+        transform:translate(-50%,-45%) scale(1);
+      }
+    }
+
+    @keyframes stemGrow{
+      to{transform:translateX(-50%) scaleY(1)}
+    }
+
+    @keyframes petalOpen1{
+      to{transform:translateX(-50%) rotate(-34deg) scale(1)}
+    }
+
+    @keyframes petalOpen2{
+      to{transform:translateX(-50%) rotate(34deg) scale(1)}
+    }
+
+    @keyframes petalOpen3{
+      to{transform:translateX(-50%) rotate(90deg) scale(.9)}
+    }
+
+    @keyframes corePop{
+      to{transform:translate(-50%,-50%) scale(1)}
+    }
+
+    @keyframes vineGrow{
+      to{transform:translate(-50%,-1%) rotate(62deg) scaleY(1)}
+    }
+
+    @keyframes leafPop{
+      from{
+        opacity:0;
+        transform:scale(.3) rotate(-35deg);
+      }
+      to{
+        opacity:1;
+      }
+    }
+
+    @keyframes titleReveal{
+      to{
+        opacity:1;
+        transform:translate(-50%,-50%);
+      }
+    }
+
+    @keyframes doorLeft{
+      to{transform:translateX(-102%)}
+    }
+
+    @keyframes doorRight{
+      to{transform:translateX(102%)}
+    }
+
+    @media(max-width:760px){
+      .garden-path::before{
+        left:17px;
+      }
+
+      .garden-stop,
+      .garden-stop:nth-child(even){
+        width:100%;
+        margin-left:0;
+        padding:18px 0 42px 55px;
+        text-align:left;
+      }
+
+      .garden-stop:nth-child(odd) .garden-flower,
+      .garden-stop:nth-child(even) .garden-flower{
+        left:-4px;
+        right:auto;
+      }
+
+      .bloom-grid{
+        grid-template-columns:1fr;
+      }
+
+      .bloom-card{
+        min-height:290px;
+      }
+
+      .choice-grid{
+        grid-template-columns:1fr;
+      }
+
+      .rsvp-shell{
+        padding:35px 20px;
+      }
+
+      .back-link{
+        top:12px;
+        left:12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="../index.html#designs" class="back-link">
+    ← KUMÉ EVENT
+  </a>
+
+  <!-- ======================================================
+       SECRET GARDEN MINI CLIP
+  ====================================================== -->
+
+  <div class="garden-intro" id="gardenIntro">
+
+    <div class="intro-mist"></div>
+
+    <div class="bud">
+      <div class="bud-stem"></div>
+      <span class="bud-petal p1"></span>
+      <span class="bud-petal p2"></span>
+      <span class="bud-petal p3"></span>
+      <span class="bud-core"></span>
+    </div>
+
+    <div class="vine"></div>
+
+    <div class="intro-title">
+      <small>Beyond the Garden Gate</small>
+
+      <h2>
+        Name
+        <span>&</span>
+        Name
+      </h2>
+
+      <p>
+        Unser Tag beginnt dort, wo der Garten sich öffnet.
+      </p>
+    </div>
+
+    <div class="garden-door left"></div>
+    <div class="garden-door right"></div>
+
+    <button
+      class="skip-intro"
+      id="skipIntro"
+      type="button"
+    >
+      Intro überspringen
+    </button>
+
+  </div>
+
+  <!-- ======================================================
+       HERO
+  ====================================================== -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-vines">
+        <span class="hero-vine v1"></span>
+        <span class="hero-vine v2"></span>
+      </div>
+
+      <div class="hero-inner">
+
+        <div class="hero-kicker">
+          Welcome to our Secret Garden
+        </div>
+
+        <h1>
+          Name
+          <span>&</span>
+          Name
+        </h1>
+
+        <div class="hero-date">
+          00 · 00 · 2026
+        </div>
+
+        <div class="hero-place">
+          Ort
+        </div>
+
+      </div>
+
+      <div class="hero-scroll">
+        Folgt dem Gartenpfad
+      </div>
+
+    </section>
+
+    <!-- STORY PATH -->
+
+    <section class="garden-story">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Unser Weg bis hierher
+        </div>
+
+        <h2 class="section-title">
+          Ein Garten voller Erinnerungen
+        </h2>
+
+        <p class="section-copy">
+          Manche Geschichten wachsen ganz langsam.
+          Erst ein kleiner Moment, dann ein gemeinsamer Weg –
+          und irgendwann blüht daraus etwas Großes.
+        </p>
+
+        <div class="garden-path">
+
+          <article class="garden-stop">
+            <span class="garden-flower"></span>
+            <small>Der Anfang</small>
+            <h3>Das erste Treffen</h3>
+            <p>
+              Ein Moment, der damals klein wirkte
+              und heute der Anfang von allem ist.
+            </p>
+          </article>
+
+          <article class="garden-stop">
+            <span class="garden-flower"></span>
+            <small>Gemeinsam</small>
+            <h3>Unsere Lieblingsorte</h3>
+            <p>
+              Reisen, Abende, Gespräche und all die
+              kleinen Dinge, aus denen Zuhause entsteht.
+            </p>
+          </article>
+
+          <article class="garden-stop">
+            <span class="garden-flower"></span>
+            <small>Das Versprechen</small>
+            <h3>Der Antrag</h3>
+            <p>
+              Ein Ja, aus dem unser nächstes Kapitel
+              geworden ist.
+            </p>
+          </article>
+
+          <article class="garden-stop">
+            <span class="garden-flower"></span>
+            <small>Heute</small>
+            <h3>Unser besonderer Tag</h3>
+            <p>
+              Und diesen möchten wir mit euch teilen.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- FLOWER COUNTDOWN -->
+
+    <section class="flower-countdown">
+
+      <div class="count-flower">
+
+        <span class="count-petal"></span>
+        <span class="count-petal"></span>
+        <span class="count-petal"></span>
+        <span class="count-petal"></span>
+        <span class="count-petal"></span>
+        <span class="count-petal"></span>
+
+        <div class="count-core">
+
+          <div>
+
+            <small>
+              Noch
+            </small>
+
+            <span
+              class="count-days"
+              id="days"
+            >
+              000
+            </span>
+
+            <div class="count-copy">
+              Sonnenaufgänge bis zu unserem Tag
+            </div>
+
+            <div class="count-detail">
+              <span id="hours">00</span> Std ·
+              <span id="minutes">00</span> Min ·
+              <span id="seconds">00</span> Sek
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- BLOOM DETAILS -->
+
+    <section class="bloom-details">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Berührt die Blumen
+        </div>
+
+        <h2 class="section-title">
+          Was ihr wissen solltet
+        </h2>
+
+        <p class="section-copy">
+          Drei kleine Blüten verstecken
+          die wichtigsten Informationen.
+        </p>
+
+        <div class="bloom-grid">
+
+          <article class="bloom-card">
+
+            <div class="bloom-content">
+              <small>01 · Datum</small>
+              <h3>00. Monat 2026</h3>
+              <p>
+                Samstag · Beginn 17:30 Uhr
+              </p>
+            </div>
+
+            <div class="bloom-hint">
+              Blüte öffnen
+            </div>
+
+          </article>
+
+          <article class="bloom-card">
+
+            <div class="bloom-content">
+              <small>02 · Ort</small>
+              <h3>Eventlocation</h3>
+              <p>
+                Straße 123 · 12345 Ort
+              </p>
+            </div>
+
+            <div class="bloom-hint">
+              Blüte öffnen
+            </div>
+
+          </article>
+
+          <article class="bloom-card">
+
+            <div class="bloom-content">
+              <small>03 · Stil</small>
+              <h3>Garden Elegance</h3>
+              <p>
+                Naturtöne · elegant · festlich
+              </p>
+            </div>
+
+            <div class="bloom-hint">
+              Blüte öffnen
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- LOCATION GATE -->
+
+    <section class="location">
+
+      <div class="gate"></div>
+
+      <div class="location-card">
+
+        <small>
+          Hinter dem Gartentor
+        </small>
+
+        <h2>
+          Hier feiern wir.
+        </h2>
+
+        <div class="location-name">
+          Eventlocation
+        </div>
+
+        <div class="location-address">
+          Straße 123
+          <br>
+          12345 Ort
+        </div>
+
+        <a
+          class="route-button"
+          href="https://www.google.com/maps"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Zum Garten navigieren ↗
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- RSVP -->
+
+    <section class="rsvp">
+
+      <div class="container">
+
+        <div class="section-eyebrow">
+          Eine letzte Blüte
+        </div>
+
+        <h2 class="section-title">
+          Seid ihr dabei?
+        </h2>
+
+        <div class="rsvp-shell">
+
+          <h3>
+            Lasst uns wissen, ob wir euch
+            im Garten begrüßen dürfen.
+          </h3>
+
+          <p>
+            Eure Rückmeldung macht unsere Gästeliste komplett.
+          </p>
+
+          <div class="choice-grid">
+
+            <button
+              type="button"
+              class="choice-button yes"
+              data-choice="yes"
+            >
+              Wir kommen
+            </button>
+
+            <button
+              type="button"
+              class="choice-button no"
+              data-choice="no"
+            >
+              Leider nicht
+            </button>
+
+          </div>
+
+          <form
+            class="rsvp-form"
+            id="demoForm"
+          >
+
+            <input
+              type="hidden"
+              id="attendance"
+              value=""
+            >
+
+            <div class="form-group">
+
+              <label for="name">
+                Vor- & Nachname
+              </label>
+
+              <input
+                id="name"
+                type="text"
+                placeholder="Name"
+                required
+              >
+
+            </div>
+
+            <div
+              class="form-group"
+              id="guestGroup"
+            >
+
+              <label for="guests">
+                Personen
+              </label>
+
+              <select id="guests">
+                <option>1 Person</option>
+                <option>2 Personen</option>
+                <option>3 Personen</option>
+                <option>4 Personen</option>
+                <option>5 Personen</option>
+              </select>
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="message">
+                Eine kleine Nachricht
+              </label>
+
+              <textarea
+                id="message"
+                placeholder="Schreibt uns etwas ..."
+              ></textarea>
+
+            </div>
+
+            <button
+              type="submit"
+              class="submit-button"
+            >
+              Antwort senden
+            </button>
+
+          </form>
+
+          <div
+            class="success"
+            id="success"
+          >
+            Danke ♡ Wir freuen uns, dass ihr Teil unseres Gartens seid.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+
+    <div class="footer-names">
+      Name & Name
+    </div>
+
+    <p>
+      Beispiel-Design · Botanical · KUMÉ EVENT
+    </p>
+
+  </footer>
+
+  <script>
+    const gardenIntro =
+      document.getElementById("gardenIntro");
+
+    const skipIntro =
+      document.getElementById("skipIntro");
+
+    function closeIntro() {
+      gardenIntro.classList.add("hidden");
+    }
+
+    skipIntro.addEventListener(
+      "click",
+      closeIntro
+    );
+
+    setTimeout(
+      closeIntro,
+      8600
+    );
+
+    const eventDate =
+      new Date("2026-12-31T18:00:00").getTime();
+
+    function updateCountdown() {
+
+      const distance =
+        eventDate - Date.now();
+
+      if (distance <= 0) {
+
+        document
+          .getElementById("days")
+          .textContent =
+          "000";
+
+        document
+          .getElementById("hours")
+          .textContent =
+          "00";
+
+        document
+          .getElementById("minutes")
+          .textContent =
+          "00";
+
+        document
+          .getElementById("seconds")
+          .textContent =
+          "00";
+
+        return;
+      }
+
+      const days =
+        Math.floor(
+          distance /
+          (1000 * 60 * 60 * 24)
+        );
+
+      const hours =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60 * 24)
+          ) /
+          (1000 * 60 * 60)
+        );
+
+      const minutes =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60)
+          ) /
+          (1000 * 60)
+        );
+
+      const seconds =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60)
+          ) /
+          1000
+        );
+
+      document
+        .getElementById("days")
+        .textContent =
+        String(days).padStart(3,"0");
+
+      document
+        .getElementById("hours")
+        .textContent =
+        String(hours).padStart(2,"0");
+
+      document
+        .getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2,"0");
+
+      document
+        .getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2,"0");
+    }
+
+    updateCountdown();
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
+    document
+      .querySelectorAll(".bloom-card")
+      .forEach(
+        function(card) {
+
+          card.addEventListener(
+            "click",
+            function() {
+              this.classList.toggle("open");
+            }
+          );
+
+        }
+      );
+
+    const choiceButtons =
+      document.querySelectorAll(".choice-button");
+
+    const rsvpForm =
+      document.getElementById("demoForm");
+
+    const attendance =
+      document.getElementById("attendance");
+
+    const guestGroup =
+      document.getElementById("guestGroup");
+
+    choiceButtons.forEach(
+      function(button) {
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            choiceButtons.forEach(
+              function(item) {
+                item.classList.remove("active");
+              }
+            );
+
+            this.classList.add("active");
+
+            const choice =
+              this.dataset.choice;
+
+            attendance.value =
+              choice;
+
+            guestGroup.style.display =
+              choice === "yes"
+                ? "block"
+                : "none";
+
+            rsvpForm.classList.add("show");
+
+            rsvpForm.scrollIntoView({
+              behavior:"smooth",
+              block:"center"
+            });
+          }
+        );
+
+      }
+    );
+
+    rsvpForm.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+        this.style.display =
+          "none";
+
+        document
+          .getElementById("success")
+          .style.display =
+          "block";
+      }
+    );
+  </script>
+
+</body>
+</html>

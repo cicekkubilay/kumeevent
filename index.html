@@ -755,7 +755,7 @@
     }
 
     /* =====================================================
-       DESIGNS
+       DESIGNS – KOMPAKTE LISTE
     ===================================================== */
 
     .designs-section {
@@ -763,89 +763,175 @@
     }
 
     .design-grid {
-      margin-top: 65px;
+      margin-top: 55px;
 
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
 
-      gap: 20px;
+      gap: 12px;
     }
 
     .design-card {
       position: relative;
 
-      min-height: 580px;
+      min-height: 118px;
 
       overflow: hidden;
 
       cursor: pointer;
 
+      border: 1px solid rgba(40,30,20,.10);
+
       transition:
-        transform .35s ease,
-        box-shadow .35s ease;
+        transform .3s ease,
+        box-shadow .3s ease;
     }
 
     .design-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-3px);
 
       box-shadow:
-        0 25px 60px
-        rgba(50,35,25,.14);
+        0 14px 32px
+        rgba(50,35,25,.10);
     }
 
     .design-card:nth-child(1) {
       background:
-        linear-gradient(
-          145deg,
-          #eee6dd,
-          #cdbba9
-        );
+        radial-gradient(circle at 12% 50%, rgba(255,255,255,.36), transparent 24%),
+        linear-gradient(90deg, #eee6dd, #cdbba9);
     }
 
     .design-card:nth-child(2) {
       background:
-        linear-gradient(
-          145deg,
-          #d9d2c2,
-          #5d735f
-        );
+        radial-gradient(circle at 14% 50%, rgba(255,255,255,.18), transparent 24%),
+        linear-gradient(90deg, #d9d2c2, #5d735f);
     }
 
     .design-card:nth-child(3) {
       background:
-        linear-gradient(
-          145deg,
-          #d8d8d5,
-          #8d8d8a
-        );
+        radial-gradient(circle at 14% 50%, rgba(255,255,255,.25), transparent 24%),
+        linear-gradient(90deg, #d8d8d5, #8d8d8a);
+    }
+
+    .design-card:nth-child(4) {
+      background:
+        radial-gradient(circle at 15% 45%, rgba(255,255,255,.34), transparent 25%),
+        linear-gradient(90deg, #f3dadd, #b97684);
+    }
+
+    .design-card:nth-child(5) {
+      background:
+        radial-gradient(circle at 15% 50%, rgba(255,255,255,.08), transparent 24%),
+        linear-gradient(90deg, #211b18, #8c6c42);
+    }
+
+    .design-card:nth-child(6) {
+      background:
+        linear-gradient(90deg, #efede7 0%, #d9d5cb 34%, #a52020 100%);
+    }
+
+    .design-card:nth-child(7) {
+      background:
+        radial-gradient(circle at 15% 50%, rgba(255,255,255,.09), transparent 24%),
+        linear-gradient(90deg, #14271a, #7e9573);
+    }
+
+    .design-card:nth-child(8) {
+      background:
+        radial-gradient(circle at 18% 35%, rgba(255,255,255,.10), transparent 16%),
+        radial-gradient(circle at 72% 55%, rgba(255,255,255,.07), transparent 12%),
+        linear-gradient(90deg, #050713, #28345f);
     }
 
     .design-preview {
       position: absolute;
 
-      inset: 7%;
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      width: 34%;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border:
-        1px solid rgba(40,30,20,.14);
+      border-right:
+        1px solid rgba(255,255,255,.16);
 
-      color:
-        rgba(35,28,22,.5);
+      color: rgba(255,255,255,.78);
 
-      font-size: 9px;
+      font-size: 8px;
       letter-spacing: 3px;
       text-transform: uppercase;
       text-align: center;
 
-      transition: transform .35s ease;
+      transition:
+        transform .3s ease,
+        letter-spacing .3s ease;
     }
 
-    .design-card:hover
-    .design-preview {
-      transform: scale(.98);
+    .design-card:nth-child(1) .design-preview,
+    .design-card:nth-child(3) .design-preview,
+    .design-card:nth-child(6) .design-preview {
+      color: rgba(35,28,22,.55);
+    }
+
+    .design-card:hover .design-preview {
+      transform: scale(1.02);
+      letter-spacing: 3.5px;
+    }
+
+    .design-card .design-info,
+    .design-card .design-number,
+    .design-card .design-info h3,
+    .design-card .design-info p,
+    .design-card .design-demo-cta {
+      color: rgba(255,255,255,.95);
+    }
+
+    .design-card:nth-child(1) .design-info,
+    .design-card:nth-child(1) .design-number,
+    .design-card:nth-child(1) .design-info h3,
+    .design-card:nth-child(1) .design-info p,
+    .design-card:nth-child(1) .design-demo-cta,
+    .design-card:nth-child(3) .design-info,
+    .design-card:nth-child(3) .design-number,
+    .design-card:nth-child(3) .design-info h3,
+    .design-card:nth-child(3) .design-info p,
+    .design-card:nth-child(3) .design-demo-cta {
+      color: rgba(31,26,22,.84);
+    }
+
+    .design-card:nth-child(6) .design-info,
+    .design-card:nth-child(6) .design-number,
+    .design-card:nth-child(6) .design-info h3,
+    .design-card:nth-child(6) .design-info p,
+    .design-card:nth-child(6) .design-demo-cta {
+      color: rgba(255,255,255,.96);
+    }
+
+    .design-card:nth-child(6) .design-preview {
+      color: rgba(35,28,22,.62);
+    }
+
+    .design-info {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,.04),
+          rgba(0,0,0,.12)
+        );
+    }
+
+    .design-card:nth-child(1) .design-info,
+    .design-card:nth-child(3) .design-info {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.06),
+          rgba(255,255,255,.14)
+        );
     }
 
     /* DEMO BADGE */
@@ -853,114 +939,96 @@
     .demo-badge {
       position: absolute;
 
-      top: 26px;
-      right: 26px;
+      top: 14px;
+      right: 16px;
 
       z-index: 15;
 
-      padding: 10px 14px;
+      padding: 7px 10px;
 
       background: rgba(255,253,249,.92);
       color: var(--text);
 
       border:
-        1px solid rgba(40,30,20,.12);
+        1px solid rgba(40,30,20,.10);
 
-      backdrop-filter: blur(8px);
-
-      font-size: 7px;
-      letter-spacing: 3px;
+      font-size: 6px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-
-      transition:
-        background .25s ease,
-        color .25s ease;
-    }
-
-    .design-card:hover
-    .demo-badge {
-      background: var(--text);
-      color: white;
     }
 
     .design-info {
       position: absolute;
 
-      left: 0;
+      left: 34%;
       right: 0;
+      top: 0;
       bottom: 0;
 
       z-index: 10;
 
-      padding: 34px;
+      padding: 18px 86px 18px 28px;
 
-      color: white;
+      display: grid;
+      grid-template-columns: 88px minmax(140px, .65fr) 1fr auto;
+      align-items: center;
+      gap: 24px;
 
-      background:
-        linear-gradient(
-          transparent,
-          rgba(18,14,11,.78)
-        );
+      color: var(--text);
+
+      background: transparent;
     }
 
     .design-number {
-      font-size: 8px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      color: var(--beige);
 
-      opacity: .72;
+      font-size: 7px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .design-info h3 {
-      margin-top: 8px;
+      margin: 0;
 
-      font-size: 43px;
+      font-size: 32px;
 
-      line-height: .9;
+      line-height: .95;
     }
 
     .design-info p {
-      margin-top: 12px;
+      margin: 0;
 
-      font-size: 8px;
-      letter-spacing: 2px;
+      color: var(--text-soft);
+
+      font-size: 7px;
+      letter-spacing: 1.8px;
       text-transform: uppercase;
-
-      opacity: .7;
     }
 
-    /* DEMO CTA */
-
     .design-demo-cta {
-      margin-top: 20px;
-
-      padding-top: 17px;
+      margin: 0;
+      padding: 0;
 
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
 
-      border-top:
-        1px solid rgba(255,255,255,.25);
+      gap: 14px;
 
-      font-size: 8px;
-      letter-spacing: 2.5px;
+      border: none;
+
+      color: var(--text);
+
+      font-size: 7px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-
-      transition:
-        padding-left .3s ease;
     }
 
     .design-demo-cta span:last-child {
-      font-size: 16px;
+      font-size: 15px;
 
       transition:
         transform .3s ease;
-    }
-
-    .design-card:hover
-    .design-demo-cta {
-      padding-left: 5px;
     }
 
     .design-card:hover
@@ -1987,32 +2055,64 @@
       /* DESIGNS */
 
       .design-grid {
-        margin-top: 45px;
-
-        gap: 14px;
+        margin-top: 38px;
+        gap: 9px;
       }
 
       .design-card {
-        min-height: 440px;
+        min-height: 105px;
       }
 
-      .demo-badge {
-        top: 18px;
-        right: 18px;
+      .design-preview {
+        width: 31%;
 
-        padding: 9px 12px;
+        padding: 10px;
 
         font-size: 6px;
+        letter-spacing: 1.5px;
       }
 
       .design-info {
-        padding: 28px 24px;
+        left: 31%;
+
+        padding: 13px 50px 13px 16px;
+
+        display: block;
+      }
+
+      .design-number {
+        margin-bottom: 4px;
+
+        font-size: 6px;
+        letter-spacing: 1.5px;
+      }
+
+      .design-info h3 {
+        font-size: 27px;
+      }
+
+      .design-info p {
+        margin-top: 5px;
+
+        font-size: 6px;
+        letter-spacing: 1.2px;
       }
 
       .design-demo-cta {
-        margin-top: 15px;
+        position: absolute;
 
-        padding-top: 14px;
+        right: 14px;
+        top: 50%;
+
+        transform: translateY(-50%);
+      }
+
+      .design-demo-cta span:first-child {
+        display: none;
+      }
+
+      .demo-badge {
+        display: none;
       }
 
       /* REAL PROJECT */
@@ -2724,15 +2824,8 @@
             </p>
 
             <div class="design-demo-cta">
-
-              <span>
-                Demo ansehen
-              </span>
-
-              <span>
-                →
-              </span>
-
+              <span>Demo ansehen</span>
+              <span>→</span>
             </div>
 
           </div>
@@ -2772,15 +2865,8 @@
             </p>
 
             <div class="design-demo-cta">
-
-              <span>
-                Demo ansehen
-              </span>
-
-              <span>
-                →
-              </span>
-
+              <span>Demo ansehen</span>
+              <span>→</span>
             </div>
 
           </div>
@@ -2820,15 +2906,8 @@
             </p>
 
             <div class="design-demo-cta">
-
-              <span>
-                Demo ansehen
-              </span>
-
-              <span>
-                →
-              </span>
-
+              <span>Demo ansehen</span>
+              <span>→</span>
             </div>
 
           </div>
@@ -2837,6 +2916,211 @@
             href="./beispiel-modern/index.html"
             class="design-link"
             aria-label="Demo Modern ansehen"
+          ></a>
+
+        </article>
+
+        <!-- ROMANTISCH -->
+
+        <article class="design-card">
+
+          <div class="demo-badge">
+            Demo
+          </div>
+
+          <div class="design-preview">
+            Romantisch
+          </div>
+
+          <div class="design-info">
+
+            <div class="design-number">
+              Design 04
+            </div>
+
+            <h3>
+              Romantisch
+            </h3>
+
+            <p>
+              Rosé · Floral · Storytelling
+            </p>
+
+            <div class="design-demo-cta">
+              <span>Demo ansehen</span>
+              <span>→</span>
+            </div>
+
+          </div>
+
+          <a
+            href="./beispiel-romantisch/index.html"
+            class="design-link"
+            aria-label="Demo Romantisch ansehen"
+          ></a>
+
+        </article>
+
+        <!-- LUXURY -->
+
+        <article class="design-card">
+
+          <div class="demo-badge">
+            Demo
+          </div>
+
+          <div class="design-preview">
+            Luxury
+          </div>
+
+          <div class="design-info">
+
+            <div class="design-number">
+              Design 05
+            </div>
+
+            <h3>
+              Luxury
+            </h3>
+
+            <p>
+              Cinematic · Gold · Adventure
+            </p>
+
+            <div class="design-demo-cta">
+              <span>Demo ansehen</span>
+              <span>→</span>
+            </div>
+
+          </div>
+
+          <a
+            href="./beispiel-luxury/index.html"
+            class="design-link"
+            aria-label="Demo Luxury ansehen"
+          ></a>
+
+        </article>
+
+        <!-- ZEITSCHRIFT / EDITORIAL -->
+
+        <article class="design-card">
+
+          <div class="demo-badge">
+            Demo
+          </div>
+
+          <div class="design-preview">
+            Editorial
+          </div>
+
+          <div class="design-info">
+
+            <div class="design-number">
+              Design 06
+            </div>
+
+            <h3>
+              Editorial
+            </h3>
+
+            <p>
+              Magazin · Fashion · Statement
+            </p>
+
+            <div class="design-demo-cta">
+              <span>Demo ansehen</span>
+              <span>→</span>
+            </div>
+
+          </div>
+
+          <a
+            href="./beispiel-zeitschrift/index.html"
+            class="design-link"
+            aria-label="Demo Editorial ansehen"
+          ></a>
+
+        </article>
+
+        <!-- GARTEN / BOTANICAL -->
+
+        <article class="design-card">
+
+          <div class="demo-badge">
+            Demo
+          </div>
+
+          <div class="design-preview">
+            Secret Garden
+          </div>
+
+          <div class="design-info">
+
+            <div class="design-number">
+              Design 07
+            </div>
+
+            <h3>
+              Botanical
+            </h3>
+
+            <p>
+              Garden · Natürlich · Interaktiv
+            </p>
+
+            <div class="design-demo-cta">
+              <span>Demo ansehen</span>
+              <span>→</span>
+            </div>
+
+          </div>
+
+          <a
+            href="./beispiel-garten/index.html"
+            class="design-link"
+            aria-label="Demo Botanical Secret Garden ansehen"
+          ></a>
+
+        </article>
+
+        <!-- STERNE / CELESTIAL -->
+
+        <article class="design-card">
+
+          <div class="demo-badge">
+            Demo
+          </div>
+
+          <div class="design-preview">
+            Celestial
+          </div>
+
+          <div class="design-info">
+
+            <div class="design-number">
+              Design 08
+            </div>
+
+            <h3>
+              Celestial
+            </h3>
+
+            <p>
+              Sterne · Midnight · Experience
+            </p>
+
+            <div class="design-demo-cta">
+              <span>Demo ansehen</span>
+              <span>→</span>
+            </div>
+
+          </div>
+
+          <a
+            href="./beispiel-sterne/index.html"
+            class="design-link"
+            aria-label="Demo Celestial ansehen"
           ></a>
 
         </article>
@@ -2861,12 +3145,12 @@
 
       <h2>
 
-        Merve
+        Münevver
         <br>
-        & Emre
+        & Kubilay
 
         <span>
-          Beispielverlobung · 20.06.2027
+          Verlobung · 14.11.2026
         </span>
 
       </h2>
@@ -2885,7 +3169,7 @@
       <div>
 
         <a
-          href="beispiel-verlobung/index.html"
+          href="./beispiel-verlobung/index.html"
           class="button"
           style="margin-top:35px;"
         >
@@ -2906,20 +3190,20 @@
 
         <h3>
 
-          Merve
+          Münevver
 
           <span>
             &
           </span>
 
-          Emre
+          Kubilay
 
         </h3>
 
         <div class="preview-line"></div>
 
         <div class="preview-date">
-          20 · 06 · 2027
+          14 · 11 · 2026
         </div>
 
       </div>

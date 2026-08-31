@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Editorial – KUMÉ EVENT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --paper:#f3f0e8;
+      --white:#fbfaf6;
+      --ink:#111111;
+      --grey:#77736b;
+      --line:rgba(17,17,17,.17);
+      --red:#a52020;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      overflow-x:hidden;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:"DM Sans",sans-serif;
+      font-weight:300;
+    }
+
+    h1,h2,h3{
+      font-family:"Bodoni Moda",serif;
+      font-weight:400;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font:inherit;
+    }
+
+    .back-link{
+      position:fixed;
+      top:16px;
+      left:16px;
+      z-index:1200;
+      padding:10px 14px;
+      border:1px solid rgba(17,17,17,.18);
+      background:rgba(243,240,232,.84);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       MAGAZINE INTRO
+    ====================================================== */
+
+    .magazine-intro{
+      position:fixed;
+      inset:0;
+      z-index:1000;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background:#d9d5cc;
+      transition:opacity .9s ease, visibility .9s ease;
+    }
+
+    .magazine-intro.hidden{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    .intro-stage{
+      position:relative;
+      width:min(430px,72vw);
+      aspect-ratio:.72/1;
+      perspective:1800px;
+    }
+
+    .magazine{
+      position:absolute;
+      inset:0;
+      transform-style:preserve-3d;
+      box-shadow:0 40px 100px rgba(0,0,0,.22);
+    }
+
+    .page{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+      transform-origin:left center;
+      backface-visibility:hidden;
+      border:1px solid rgba(0,0,0,.08);
+      background:var(--white);
+      box-shadow:inset -20px 0 40px rgba(0,0,0,.035);
+    }
+
+    .cover{
+      z-index:8;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      padding:24px;
+      background:
+        linear-gradient(rgba(10,10,10,.13),rgba(10,10,10,.28)),
+        radial-gradient(circle at 50% 30%,#bdbab1,#77746f 72%);
+      color:#fff;
+      animation:turnPage 1.3s 2.4s cubic-bezier(.65,.02,.24,1) forwards;
+    }
+
+    .page-two{
+      z-index:7;
+      display:grid;
+      place-items:center;
+      background:#f4f0e8;
+      animation:turnPage 1.3s 4.1s cubic-bezier(.65,.02,.24,1) forwards;
+    }
+
+    .page-three{
+      z-index:6;
+      display:grid;
+      place-items:center;
+      background:#181818;
+      color:#fff;
+      animation:turnPage 1.3s 5.8s cubic-bezier(.65,.02,.24,1) forwards;
+    }
+
+    .page-four{
+      z-index:5;
+      display:grid;
+      place-items:center;
+      background:#a52020;
+      color:#fff;
+      animation:turnPage 1.3s 7.5s cubic-bezier(.65,.02,.24,1) forwards;
+    }
+
+    .page-final{
+      z-index:4;
+      display:grid;
+      place-items:center;
+      padding:30px;
+      background:#f7f4ed;
+      text-align:center;
+      animation:finalGrow 1.3s 9.3s ease forwards;
+    }
+
+    .cover-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      font-size:7px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .cover-logo{
+      text-align:center;
+      font-family:"Bodoni Moda",serif;
+      font-size:clamp(42px,9vw,64px);
+      line-height:.8;
+      letter-spacing:-3px;
+    }
+
+    .cover-logo small{
+      display:block;
+      margin-top:12px;
+      font-family:"DM Sans",sans-serif;
+      font-size:7px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .cover-bottom{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+    }
+
+    .cover-bottom h2{
+      max-width:75%;
+      font-size:31px;
+      line-height:.88;
+    }
+
+    .cover-bottom span{
+      font-size:7px;
+      letter-spacing:2px;
+      writing-mode:vertical-rl;
+      text-transform:uppercase;
+    }
+
+    .intro-word{
+      text-align:center;
+    }
+
+    .intro-word small{
+      display:block;
+      margin-bottom:16px;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .intro-word strong{
+      display:block;
+      font-family:"Bodoni Moda",serif;
+      font-size:clamp(56px,12vw,92px);
+      font-weight:400;
+      line-height:.8;
+      letter-spacing:-4px;
+    }
+
+    .intro-word em{
+      display:block;
+      margin-top:17px;
+      font-family:"Bodoni Moda",serif;
+      font-size:24px;
+      font-weight:400;
+    }
+
+    .final-mark{
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .page-final h2{
+      margin-top:22px;
+      font-size:clamp(48px,10vw,76px);
+      line-height:.76;
+      letter-spacing:-3px;
+    }
+
+    .page-final h2 span{
+      display:block;
+      margin:14px 0;
+      font-size:.48em;
+      font-style:italic;
+    }
+
+    .page-final p{
+      margin-top:25px;
+      color:#6c6861;
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .intro-caption{
+      position:absolute;
+      left:50%;
+      bottom:22px;
+      transform:translateX(-50%);
+      color:#5d5a55;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .skip-intro{
+      position:absolute;
+      z-index:20;
+      right:18px;
+      bottom:18px;
+      padding:9px 12px;
+      border:1px solid rgba(0,0,0,.18);
+      background:rgba(255,255,255,.35);
+      cursor:pointer;
+      font-size:7px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       WEBSITE / EDITORIAL HERO
+    ====================================================== */
+
+    .hero{
+      min-height:100svh;
+      position:relative;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      background:var(--white);
+      overflow:hidden;
+    }
+
+    .hero-copy{
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:110px 6vw 70px;
+    }
+
+    .issue{
+      margin-bottom:30px;
+      font-size:8px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .hero h1{
+      font-size:clamp(74px,10vw,145px);
+      line-height:.69;
+      letter-spacing:-.065em;
+    }
+
+    .hero h1 span{
+      display:block;
+      margin:17px 0;
+      color:var(--red);
+      font-size:.38em;
+      font-style:italic;
+      letter-spacing:-.03em;
+    }
+
+    .hero-meta{
+      margin-top:38px;
+      display:flex;
+      gap:28px;
+      flex-wrap:wrap;
+      font-size:8px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .hero-visual{
+      position:relative;
+      min-height:100svh;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg,transparent,rgba(0,0,0,.25)),
+        radial-gradient(circle at 52% 31%,#d7d3ca,#8a8781 67%,#55534f);
+    }
+
+    .hero-visual::before{
+      content:"PHOTO";
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      color:rgba(255,255,255,.55);
+      font-size:9px;
+      letter-spacing:6px;
+    }
+
+    .hero-visual::after{
+      content:"THE LOVE ISSUE";
+      position:absolute;
+      right:18px;
+      bottom:22px;
+      color:white;
+      font-size:7px;
+      letter-spacing:3px;
+      writing-mode:vertical-rl;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       MARQUEE
+    ====================================================== */
+
+    .marquee{
+      overflow:hidden;
+      padding:17px 0;
+      border-top:1px solid var(--ink);
+      border-bottom:1px solid var(--ink);
+      background:var(--paper);
+    }
+
+    .marquee-track{
+      display:flex;
+      width:max-content;
+      animation:marquee 18s linear infinite;
+    }
+
+    .marquee-track span{
+      padding-right:45px;
+      font-family:"Bodoni Moda",serif;
+      font-size:28px;
+      white-space:nowrap;
+    }
+
+    .marquee-track em{
+      color:var(--red);
+      font-style:italic;
+    }
+
+    /* ======================================================
+       STORY SPREAD
+    ====================================================== */
+
+    .story{
+      padding:120px 5vw;
+      background:var(--paper);
+    }
+
+    .story-grid{
+      width:min(1200px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:.85fr 1.15fr;
+      gap:7vw;
+      align-items:center;
+    }
+
+    .story-number{
+      color:var(--red);
+      font-size:8px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .story h2{
+      margin-top:18px;
+      font-size:clamp(60px,8vw,104px);
+      line-height:.82;
+      letter-spacing:-.05em;
+    }
+
+    .story h2 em{
+      display:block;
+      color:var(--red);
+      font-weight:400;
+    }
+
+    .story-text{
+      columns:2;
+      column-gap:35px;
+      color:#59554f;
+      font-family:"Bodoni Moda",serif;
+      font-size:20px;
+      line-height:1.55;
+    }
+
+    .story-text::first-letter{
+      float:left;
+      margin:5px 8px 0 0;
+      font-family:"Bodoni Moda",serif;
+      font-size:70px;
+      line-height:.65;
+      color:var(--red);
+    }
+
+    /* ======================================================
+       PHOTO STRIP
+    ====================================================== */
+
+    .photo-strip{
+      padding:0 4vw 120px;
+      background:var(--paper);
+    }
+
+    .photo-layout{
+      width:min(1250px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:18px;
+    }
+
+    .photo-large,
+    .photo-small{
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.15)),
+        radial-gradient(circle at 50% 35%,#cbc6bc,#85817b);
+    }
+
+    .photo-large{
+      min-height:650px;
+    }
+
+    .photo-stack{
+      display:grid;
+      gap:18px;
+    }
+
+    .photo-small{
+      min-height:316px;
+    }
+
+    .photo-label{
+      position:absolute;
+      left:18px;
+      bottom:16px;
+      color:#fff;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       DATE TYPOGRAPHY
+    ====================================================== */
+
+    .date-spread{
+      position:relative;
+      min-height:85vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background:#121212;
+      color:#fff;
+      text-align:center;
+      padding:90px 20px;
+    }
+
+    .date-spread::before{
+      content:"SAVE THE DATE";
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      color:rgba(255,255,255,.025);
+      font-family:"Bodoni Moda",serif;
+      font-size:20vw;
+      white-space:nowrap;
+    }
+
+    .date-inner{
+      position:relative;
+      z-index:2;
+    }
+
+    .date-inner small{
+      display:block;
+      color:#aaa39a;
+      font-size:8px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .giant-date{
+      margin-top:24px;
+      font-family:"Bodoni Moda",serif;
+      font-size:clamp(80px,17vw,220px);
+      line-height:.68;
+      letter-spacing:-.07em;
+    }
+
+    .giant-date span{
+      color:var(--red);
+    }
+
+    .date-place{
+      margin-top:38px;
+      font-family:"Bodoni Moda",serif;
+      font-size:30px;
+      font-style:italic;
+    }
+
+    /* ======================================================
+       DETAILS AS CREDITS
+    ====================================================== */
+
+    .credits{
+      padding:110px 5vw;
+      background:var(--white);
+    }
+
+    .credits-inner{
+      width:min(1050px,100%);
+      margin:0 auto;
+    }
+
+    .credits-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:30px;
+      padding-bottom:25px;
+      border-bottom:2px solid var(--ink);
+    }
+
+    .credits-head h2{
+      font-size:clamp(55px,8vw,92px);
+      line-height:.8;
+    }
+
+    .credits-head span{
+      padding-bottom:6px;
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .credit-row{
+      display:grid;
+      grid-template-columns:150px 1fr 1fr;
+      gap:30px;
+      padding:25px 0;
+      border-bottom:1px solid var(--line);
+      align-items:start;
+    }
+
+    .credit-no{
+      color:var(--red);
+      font-size:8px;
+      letter-spacing:3px;
+    }
+
+    .credit-row h3{
+      font-size:31px;
+    }
+
+    .credit-row p{
+      color:#68635c;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    /* ======================================================
+       COUNTDOWN
+    ====================================================== */
+
+    .countdown{
+      padding:100px 20px;
+      background:var(--red);
+      color:#fff;
+      text-align:center;
+    }
+
+    .countdown small{
+      display:block;
+      font-size:8px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .countdown-number{
+      display:block;
+      margin-top:18px;
+      font-family:"Bodoni Moda",serif;
+      font-size:clamp(100px,20vw,240px);
+      line-height:.7;
+      letter-spacing:-.07em;
+    }
+
+    .countdown-copy{
+      margin-top:25px;
+      font-family:"Bodoni Moda",serif;
+      font-size:30px;
+      font-style:italic;
+    }
+
+    .countdown-detail{
+      margin-top:28px;
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       LOCATION
+    ====================================================== */
+
+    .location{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      min-height:75vh;
+      background:var(--paper);
+    }
+
+    .location-copy{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:80px 7vw;
+    }
+
+    .location-copy small{
+      color:var(--red);
+      font-size:8px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .location-copy h2{
+      margin-top:18px;
+      font-size:clamp(55px,8vw,100px);
+      line-height:.82;
+    }
+
+    .location-name{
+      margin-top:28px;
+      font-family:"Bodoni Moda",serif;
+      font-size:29px;
+      font-style:italic;
+    }
+
+    .location-address{
+      margin-top:12px;
+      color:#68635c;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    .route-button{
+      align-self:flex-start;
+      margin-top:27px;
+      padding:13px 20px;
+      border:1px solid var(--ink);
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .location-visual{
+      position:relative;
+      min-height:520px;
+      background:
+        linear-gradient(rgba(0,0,0,.06),rgba(0,0,0,.18)),
+        radial-gradient(circle at 45% 38%,#d0cbc0,#7c7871);
+    }
+
+    .location-visual::after{
+      content:"VENUE / PHOTO";
+      position:absolute;
+      left:20px;
+      bottom:18px;
+      color:white;
+      font-size:7px;
+      letter-spacing:3px;
+    }
+
+    /* ======================================================
+       RSVP CARD
+    ====================================================== */
+
+    .rsvp{
+      padding:120px 20px;
+      background:#111;
+      color:#fff;
+    }
+
+    .rsvp-card{
+      width:min(700px,100%);
+      margin:0 auto;
+      padding:50px;
+      border:1px solid rgba(255,255,255,.2);
+      background:#171717;
+    }
+
+    .rsvp-head{
+      display:flex;
+      justify-content:space-between;
+      gap:25px;
+      padding-bottom:25px;
+      border-bottom:1px solid rgba(255,255,255,.2);
+    }
+
+    .rsvp-head small{
+      color:#aaa;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .rsvp-head h2{
+      margin-top:10px;
+      font-size:48px;
+      line-height:.85;
+    }
+
+    .rsvp-number{
+      color:var(--red);
+      font-family:"Bodoni Moda",serif;
+      font-size:54px;
+    }
+
+    .choice-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:30px;
+    }
+
+    .choice-button{
+      min-height:85px;
+      border:1px solid rgba(255,255,255,.28);
+      background:transparent;
+      color:#fff;
+      cursor:pointer;
+      font-family:"Bodoni Moda",serif;
+      font-size:24px;
+      transition:.2s ease;
+    }
+
+    .choice-button:hover,
+    .choice-button.active{
+      background:#fff;
+      color:#111;
+    }
+
+    .rsvp-form{
+      display:none;
+      margin-top:28px;
+    }
+
+    .rsvp-form.show{
+      display:block;
+    }
+
+    .form-group{
+      margin-bottom:21px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:7px;
+      color:#999;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    input,
+    select,
+    textarea{
+      width:100%;
+      padding:13px 2px;
+      border:none;
+      border-bottom:1px solid rgba(255,255,255,.25);
+      background:transparent;
+      outline:none;
+      color:#fff;
+      font-family:"DM Sans",sans-serif;
+      font-size:12px;
+    }
+
+    select option{
+      color:#111;
+    }
+
+    textarea{
+      min-height:85px;
+      resize:vertical;
+    }
+
+    .submit-button{
+      width:100%;
+      margin-top:10px;
+      padding:17px;
+      border:1px solid #fff;
+      background:#fff;
+      color:#111;
+      cursor:pointer;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .success{
+      display:none;
+      margin-top:28px;
+      color:#eee;
+      text-align:center;
+      font-family:"Bodoni Moda",serif;
+      font-size:29px;
+    }
+
+    footer{
+      padding:65px 20px;
+      background:#090909;
+      color:white;
+      text-align:center;
+    }
+
+    .footer-logo{
+      font-family:"Bodoni Moda",serif;
+      font-size:39px;
+    }
+
+    footer p{
+      margin-top:10px;
+      color:#777;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    @keyframes turnPage{
+      0%{
+        transform:rotateY(0deg);
+      }
+      100%{
+        transform:rotateY(-178deg);
+      }
+    }
+
+    @keyframes finalGrow{
+      0%{
+        transform:scale(1);
+      }
+      100%{
+        transform:scale(1.08);
+      }
+    }
+
+    @keyframes marquee{
+      from{
+        transform:translateX(0);
+      }
+      to{
+        transform:translateX(-50%);
+      }
+    }
+
+    @media(max-width:760px){
+      .intro-stage{
+        width:min(360px,76vw);
+      }
+
+      .hero{
+        grid-template-columns:1fr;
+      }
+
+      .hero-copy{
+        min-height:62svh;
+        padding:100px 25px 55px;
+      }
+
+      .hero h1{
+        font-size:clamp(72px,24vw,105px);
+      }
+
+      .hero-visual{
+        min-height:48svh;
+      }
+
+      .story{
+        padding:85px 20px;
+      }
+
+      .story-grid{
+        grid-template-columns:1fr;
+        gap:45px;
+      }
+
+      .story-text{
+        columns:1;
+      }
+
+      .photo-strip{
+        padding:0 20px 85px;
+      }
+
+      .photo-layout{
+        grid-template-columns:1fr;
+      }
+
+      .photo-large{
+        min-height:430px;
+      }
+
+      .photo-small{
+        min-height:280px;
+      }
+
+      .credits{
+        padding:85px 20px;
+      }
+
+      .credits-head{
+        display:block;
+      }
+
+      .credits-head span{
+        display:block;
+        margin-top:18px;
+      }
+
+      .credit-row{
+        grid-template-columns:60px 1fr;
+      }
+
+      .credit-row p{
+        grid-column:2;
+      }
+
+      .location{
+        grid-template-columns:1fr;
+      }
+
+      .location-copy{
+        padding:85px 25px;
+      }
+
+      .location-visual{
+        min-height:390px;
+      }
+
+      .rsvp{
+        padding:85px 20px;
+      }
+
+      .rsvp-card{
+        padding:35px 20px;
+      }
+
+      .choice-grid{
+        grid-template-columns:1fr;
+      }
+
+      .back-link{
+        top:12px;
+        left:12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="../index.html#designs" class="back-link">
+    ← KUMÉ EVENT
+  </a>
+
+  <!-- ======================================================
+       MAGAZINE MINI-CLIP
+  ====================================================== -->
+
+  <div class="magazine-intro" id="magazineIntro">
+
+    <div class="intro-stage">
+
+      <div class="magazine">
+
+        <section class="page cover">
+
+          <div class="cover-top">
+            <span>Issue No. 01</span>
+            <span>2026</span>
+          </div>
+
+          <div class="cover-logo">
+            KUMÉ
+            <small>— Event —</small>
+          </div>
+
+          <div class="cover-bottom">
+            <h2>
+              The Love Issue
+            </h2>
+            <span>Exclusive Invitation</span>
+          </div>
+
+        </section>
+
+        <section class="page page-two">
+
+          <div class="intro-word">
+            <small>Chapter 01</small>
+            <strong>THE DATE</strong>
+            <em>00 · 00 · 2026</em>
+          </div>
+
+        </section>
+
+        <section class="page page-three">
+
+          <div class="intro-word">
+            <small>Chapter 02</small>
+            <strong>THE PLACE</strong>
+            <em>Ort</em>
+          </div>
+
+        </section>
+
+        <section class="page page-four">
+
+          <div class="intro-word">
+            <small>Chapter 03</small>
+            <strong>THE PEOPLE</strong>
+            <em>you + us</em>
+          </div>
+
+        </section>
+
+        <section class="page page-final">
+
+          <div>
+            <div class="final-mark">
+              Private Edition
+            </div>
+
+            <h2>
+              Name
+              <span>&</span>
+              Name
+            </h2>
+
+            <p>
+              Die Einladung beginnt
+            </p>
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
+
+    <div class="intro-caption">
+      A KUMÉ EVENT Editorial
+    </div>
+
+    <button
+      class="skip-intro"
+      id="skipIntro"
+      type="button"
+    >
+      Intro überspringen
+    </button>
+
+  </div>
+
+  <!-- ======================================================
+       HERO
+  ====================================================== -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-copy">
+
+        <div class="issue">
+          The Love Issue · No. 01
+        </div>
+
+        <h1>
+          Name
+          <span>&</span>
+          Name
+        </h1>
+
+        <div class="hero-meta">
+          <span>00 · 00 · 2026</span>
+          <span>Ort</span>
+          <span>Private Invitation</span>
+        </div>
+
+      </div>
+
+      <div
+        class="hero-visual"
+        aria-label="Platzhalter für ein Paarfoto"
+      ></div>
+
+    </section>
+
+    <!-- MARQUEE -->
+
+    <div class="marquee">
+
+      <div class="marquee-track">
+
+        <span>
+          LOVE · DINNER · MUSIC · <em>MIDNIGHT</em> · CELEBRATION ·
+        </span>
+
+        <span>
+          LOVE · DINNER · MUSIC · <em>MIDNIGHT</em> · CELEBRATION ·
+        </span>
+
+        <span>
+          LOVE · DINNER · MUSIC · <em>MIDNIGHT</em> · CELEBRATION ·
+        </span>
+
+        <span>
+          LOVE · DINNER · MUSIC · <em>MIDNIGHT</em> · CELEBRATION ·
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- STORY -->
+
+    <section class="story">
+
+      <div class="story-grid">
+
+        <div>
+
+          <div class="story-number">
+            01 / The Story
+          </div>
+
+          <h2>
+            Eine Geschichte,
+            <em>die weitergeht.</em>
+          </h2>
+
+        </div>
+
+        <div class="story-text">
+          Manche Begegnungen fühlen sich im ersten Moment
+          ganz gewöhnlich an. Erst später versteht man,
+          dass genau dort etwas begonnen hat. Aus Gesprächen
+          wurden Erinnerungen, aus kleinen Momenten ein
+          gemeinsames Zuhause und aus einem Wir irgendwann
+          die Entscheidung, den nächsten großen Schritt
+          gemeinsam zu gehen. Diesen Tag möchten wir nicht
+          einfach nur feiern. Wir möchten ihn mit den Menschen
+          teilen, die Teil unserer Geschichte geworden sind.
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- PHOTO EDITORIAL -->
+
+    <section class="photo-strip">
+
+      <div class="photo-layout">
+
+        <div class="photo-large">
+          <div class="photo-label">
+            Portrait 01 · Unser Moment
+          </div>
+        </div>
+
+        <div class="photo-stack">
+
+          <div class="photo-small">
+            <div class="photo-label">
+              Detail 02
+            </div>
+          </div>
+
+          <div class="photo-small">
+            <div class="photo-label">
+              Detail 03
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- DATE -->
+
+    <section class="date-spread">
+
+      <div class="date-inner">
+
+        <small>
+          Mark your calendar
+        </small>
+
+        <div class="giant-date">
+          00<span>.</span>00
+        </div>
+
+        <div class="date-place">
+          2026 · Ort
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- CREDITS / PROGRAM -->
+
+    <section class="credits">
+
+      <div class="credits-inner">
+
+        <div class="credits-head">
+
+          <h2>
+            The Evening
+          </h2>
+
+          <span>
+            Event Credits / 2026
+          </span>
+
+        </div>
+
+        <div class="credit-row">
+
+          <div class="credit-no">
+            01 · 17:30
+          </div>
+
+          <h3>
+            Arrival
+          </h3>
+
+          <p>
+            Ankommen, begrüßen und gemeinsam
+            in den Abend starten.
+          </p>
+
+        </div>
+
+        <div class="credit-row">
+
+          <div class="credit-no">
+            02 · 18:00
+          </div>
+
+          <h3>
+            The Moment
+          </h3>
+
+          <p>
+            Der besondere Augenblick,
+            auf den wir uns schon lange freuen.
+          </p>
+
+        </div>
+
+        <div class="credit-row">
+
+          <div class="credit-no">
+            03 · 19:00
+          </div>
+
+          <h3>
+            Dinner
+          </h3>
+
+          <p>
+            Gemeinsam essen, reden
+            und Erinnerungen sammeln.
+          </p>
+
+        </div>
+
+        <div class="credit-row">
+
+          <div class="credit-no">
+            04 · 21:00
+          </div>
+
+          <h3>
+            After Dark
+          </h3>
+
+          <p>
+            Musik, Tanz und ein Abend,
+            der hoffentlich viel zu schnell vergeht.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- COUNTDOWN -->
+
+    <section class="countdown">
+
+      <small>
+        Until the next issue begins
+      </small>
+
+      <span
+        class="countdown-number"
+        id="days"
+      >
+        000
+      </span>
+
+      <div class="countdown-copy">
+        Tage bis zu unserem Tag.
+      </div>
+
+      <div class="countdown-detail">
+        <span id="hours">00</span> Stunden ·
+        <span id="minutes">00</span> Minuten ·
+        <span id="seconds">00</span> Sekunden
+      </div>
+
+    </section>
+
+    <!-- LOCATION -->
+
+    <section class="location">
+
+      <div class="location-copy">
+
+        <small>
+          02 / The Place
+        </small>
+
+        <h2>
+          Meet us
+          <br>
+          there.
+        </h2>
+
+        <div class="location-name">
+          Eventlocation
+        </div>
+
+        <div class="location-address">
+          Straße 123
+          <br>
+          12345 Ort
+        </div>
+
+        <a
+          class="route-button"
+          href="https://www.google.com/maps"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Route öffnen ↗
+        </a>
+
+      </div>
+
+      <div
+        class="location-visual"
+        aria-label="Platzhalter für Locationfoto"
+      ></div>
+
+    </section>
+
+    <!-- RSVP -->
+
+    <section class="rsvp">
+
+      <div class="rsvp-card">
+
+        <div class="rsvp-head">
+
+          <div>
+
+            <small>
+              Guest List / RSVP
+            </small>
+
+            <h2>
+              Will you
+              <br>
+              be there?
+            </h2>
+
+          </div>
+
+          <div class="rsvp-number">
+            03
+          </div>
+
+        </div>
+
+        <div class="choice-grid">
+
+          <button
+            type="button"
+            class="choice-button"
+            data-choice="yes"
+          >
+            Yes, of course.
+          </button>
+
+          <button
+            type="button"
+            class="choice-button"
+            data-choice="no"
+          >
+            Sadly, no.
+          </button>
+
+        </div>
+
+        <form
+          class="rsvp-form"
+          id="demoForm"
+        >
+
+          <input
+            type="hidden"
+            id="attendance"
+            value=""
+          >
+
+          <div class="form-group">
+
+            <label for="name">
+              Name
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              placeholder="Vor- & Nachname"
+              required
+            >
+
+          </div>
+
+          <div
+            class="form-group"
+            id="guestGroup"
+          >
+
+            <label for="guests">
+              Guests
+            </label>
+
+            <select id="guests">
+              <option>1 Person</option>
+              <option>2 Personen</option>
+              <option>3 Personen</option>
+              <option>4 Personen</option>
+              <option>5 Personen</option>
+            </select>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="message">
+              A note from you
+            </label>
+
+            <textarea
+              id="message"
+              placeholder="Eine kleine Nachricht ..."
+            ></textarea>
+
+          </div>
+
+          <button
+            type="submit"
+            class="submit-button"
+          >
+            RSVP bestätigen
+          </button>
+
+        </form>
+
+        <div
+          class="success"
+          id="success"
+        >
+          See you in the next issue.
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+
+    <div class="footer-logo">
+      KUMÉ
+    </div>
+
+    <p>
+      — EVENT — · Beispiel-Design · Editorial
+    </p>
+
+  </footer>
+
+  <script>
+    const magazineIntro =
+      document.getElementById("magazineIntro");
+
+    const skipIntro =
+      document.getElementById("skipIntro");
+
+    function closeIntro() {
+      magazineIntro.classList.add("hidden");
+    }
+
+    skipIntro.addEventListener(
+      "click",
+      closeIntro
+    );
+
+    setTimeout(
+      closeIntro,
+      11100
+    );
+
+    const eventDate =
+      new Date("2026-12-31T18:00:00").getTime();
+
+    function updateCountdown() {
+
+      const distance =
+        eventDate - Date.now();
+
+      if (distance <= 0) {
+
+        document
+          .getElementById("days")
+          .textContent =
+          "000";
+
+        document
+          .getElementById("hours")
+          .textContent =
+          "00";
+
+        document
+          .getElementById("minutes")
+          .textContent =
+          "00";
+
+        document
+          .getElementById("seconds")
+          .textContent =
+          "00";
+
+        return;
+      }
+
+      const days =
+        Math.floor(
+          distance /
+          (1000 * 60 * 60 * 24)
+        );
+
+      const hours =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60 * 24)
+          ) /
+          (1000 * 60 * 60)
+        );
+
+      const minutes =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60)
+          ) /
+          (1000 * 60)
+        );
+
+      const seconds =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60)
+          ) /
+          1000
+        );
+
+      document
+        .getElementById("days")
+        .textContent =
+        String(days).padStart(3,"0");
+
+      document
+        .getElementById("hours")
+        .textContent =
+        String(hours).padStart(2,"0");
+
+      document
+        .getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2,"0");
+
+      document
+        .getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2,"0");
+    }
+
+    updateCountdown();
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
+    const choiceButtons =
+      document.querySelectorAll(".choice-button");
+
+    const rsvpForm =
+      document.getElementById("demoForm");
+
+    const attendance =
+      document.getElementById("attendance");
+
+    const guestGroup =
+      document.getElementById("guestGroup");
+
+    choiceButtons.forEach(
+      function(button) {
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            choiceButtons.forEach(
+              function(item) {
+                item.classList.remove("active");
+              }
+            );
+
+            this.classList.add("active");
+
+            const choice =
+              this.dataset.choice;
+
+            attendance.value =
+              choice;
+
+            guestGroup.style.display =
+              choice === "yes"
+                ? "block"
+                : "none";
+
+            rsvpForm.classList.add("show");
+
+            rsvpForm.scrollIntoView({
+              behavior:"smooth",
+              block:"center"
+            });
+          }
+        );
+
+      }
+    );
+
+    rsvpForm.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+        this.style.display =
+          "none";
+
+        document
+          .getElementById("success")
+          .style.display =
+          "block";
+      }
+    );
+  </script>
+
+</body>
+</html>

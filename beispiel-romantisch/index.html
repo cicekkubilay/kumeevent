@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Romantisch – KUMÉ EVENT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#fff8f5;
+      --paper:#fffdfa;
+      --blush:#f1d7dc;
+      --rose:#c98592;
+      --rose-deep:#9f5b69;
+      --wine:#422a31;
+      --sage:#879078;
+      --text:#2a1d21;
+      --muted:#99727a;
+      --line:rgba(86,52,61,.14);
+      --shadow:0 26px 70px rgba(92,58,68,.10);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      overflow-x:hidden;
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Montserrat",sans-serif;
+      font-weight:300;
+    }
+
+    body.locked{
+      overflow:hidden;
+    }
+
+    h1,h2,h3{
+      font-family:"Cormorant Garamond",serif;
+      font-weight:400;
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .container{
+      width:min(1050px,calc(100% - 40px));
+      margin:0 auto;
+    }
+
+    .section{
+      position:relative;
+      padding:110px 24px;
+      overflow:hidden;
+    }
+
+    .eyebrow{
+      margin-bottom:18px;
+      color:var(--muted);
+      font-size:8px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .section-title{
+      text-align:center;
+      font-size:clamp(52px,8vw,92px);
+      line-height:.93;
+    }
+
+    .section-copy{
+      max-width:640px;
+      margin:28px auto 0;
+      color:#725c61;
+      text-align:center;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(21px,3vw,28px);
+      line-height:1.55;
+    }
+
+    .back-link{
+      position:fixed;
+      top:18px;
+      left:18px;
+      z-index:500;
+      padding:11px 15px;
+      border:1px solid var(--line);
+      background:rgba(255,253,250,.82);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      font-size:8px;
+      letter-spacing:2.2px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       HERO
+    ====================================================== */
+
+    .hero{
+      min-height:100svh;
+      position:relative;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      padding:90px 24px;
+      text-align:center;
+
+      background:
+        radial-gradient(circle at 50% 38%,rgba(255,255,255,.98),transparent 34%),
+        linear-gradient(180deg,#f1d6dc 0%,#fff8f5 72%);
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:30;
+      width:min(840px,100%);
+      opacity:0;
+      transform:translateY(20px);
+      animation:heroIn 1.3s .35s ease forwards;
+    }
+
+    .hero-small{
+      margin-bottom:28px;
+      color:var(--muted);
+      font-size:8px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .hero h1{
+      font-size:clamp(76px,13vw,150px);
+      line-height:.72;
+      letter-spacing:-.035em;
+    }
+
+    .hero h1 span{
+      display:block;
+      margin:17px 0;
+      color:var(--rose);
+      font-size:.39em;
+      font-style:italic;
+    }
+
+    .hero-date{
+      margin-top:36px;
+      font-size:10px;
+      letter-spacing:5px;
+      text-transform:uppercase;
+    }
+
+    .hero-place{
+      margin-top:12px;
+      color:var(--muted);
+      font-family:"Cormorant Garamond",serif;
+      font-size:29px;
+      font-style:italic;
+    }
+
+    .hero-copy{
+      max-width:610px;
+      margin:34px auto 0;
+      color:#735b61;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(21px,3vw,28px);
+      line-height:1.55;
+    }
+
+    .scroll-hint{
+      position:absolute;
+      z-index:50;
+      left:50%;
+      bottom:22px;
+      transform:translateX(-50%);
+      color:var(--muted);
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .scroll-hint::after{
+      content:"";
+      display:block;
+      width:1px;
+      height:34px;
+      margin:10px auto 0;
+      background:var(--muted);
+      opacity:.45;
+    }
+
+    /* Rosen */
+    .rose{
+      --s:140px;
+      position:absolute;
+      z-index:8;
+      width:var(--s);
+      height:var(--s);
+      opacity:0;
+      transform:scale(.12) rotate(-25deg);
+      animation:bloom 1.8s cubic-bezier(.18,.82,.2,1) forwards;
+    }
+
+    .rose::before,
+    .rose::after,
+    .rose i,
+    .rose b,
+    .rose em{
+      content:"";
+      position:absolute;
+      border-radius:63% 37% 62% 38% / 53% 43% 57% 47%;
+      background:
+        radial-gradient(circle at 32% 23%,rgba(255,255,255,.68),transparent 22%),
+        linear-gradient(145deg,#f8d9dd,#c9808d);
+      box-shadow:inset -10px -10px 18px rgba(105,49,63,.08);
+    }
+
+    .rose::before{inset:3%;transform:rotate(5deg)}
+    .rose::after{inset:16%;transform:rotate(72deg)}
+    .rose i{inset:28%;transform:rotate(142deg)}
+    .rose b{inset:38%;transform:rotate(218deg);background:linear-gradient(145deg,#edafb7,#ae6472)}
+    .rose em{inset:46%;transform:rotate(294deg);background:#985663}
+
+    .r1{left:2vw;top:8vh;--s:160px;animation-delay:.05s}
+    .r2{left:13vw;bottom:5vh;--s:100px;animation-delay:.7s}
+    .r3{right:3vw;top:8vh;--s:135px;animation-delay:.35s}
+    .r4{right:9vw;bottom:3vh;--s:175px;animation-delay:.95s}
+
+    /* Vogel */
+    .bird{
+      position:absolute;
+      z-index:22;
+      left:-160px;
+      top:19%;
+      width:115px;
+      height:75px;
+      animation:fly 11s 1.2s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    .bird-body{
+      position:absolute;
+      left:42px;
+      top:31px;
+      width:42px;
+      height:21px;
+      border-radius:60% 55% 45% 50%;
+      background:#4d373d;
+    }
+
+    .bird-body::before{
+      content:"";
+      position:absolute;
+      right:2px;
+      top:-10px;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background:#4d373d;
+    }
+
+    .bird-body::after{
+      content:"";
+      position:absolute;
+      right:-17px;
+      top:-5px;
+      width:20px;
+      height:8px;
+      clip-path:polygon(0 50%,100% 0,100% 100%);
+      background:#b9896c;
+    }
+
+    .wing{
+      position:absolute;
+      left:43px;
+      top:17px;
+      width:47px;
+      height:27px;
+      transform-origin:8px 20px;
+      border-radius:100% 0 100% 0;
+      background:#5d4249;
+      animation:wing .42s ease-in-out infinite alternate;
+    }
+
+    .bird-heart{
+      position:absolute;
+      left:5px;
+      top:4px;
+      color:var(--rose);
+      font-family:"Cormorant Garamond",serif;
+      font-size:28px;
+    }
+
+    /* ======================================================
+       STORY
+    ====================================================== */
+
+    .story{
+      background:#fffdfa;
+    }
+
+    .story-track{
+      position:relative;
+      width:min(900px,100%);
+      margin:70px auto 0;
+      padding:20px 0;
+    }
+
+    .story-track::before{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:0;
+      bottom:0;
+      width:1px;
+      background:linear-gradient(var(--rose-light),var(--rose),var(--rose-light));
+      transform:translateX(-50%);
+    }
+
+    .story-item{
+      position:relative;
+      width:50%;
+      padding:20px 55px 45px;
+    }
+
+    .story-item:nth-child(odd){
+      text-align:right;
+    }
+
+    .story-item:nth-child(even){
+      margin-left:50%;
+      text-align:left;
+    }
+
+    .story-dot{
+      position:absolute;
+      top:30px;
+      width:16px;
+      height:16px;
+      border:1px solid var(--rose);
+      border-radius:50%;
+      background:#fffdfa;
+    }
+
+    .story-item:nth-child(odd) .story-dot{right:-8px}
+    .story-item:nth-child(even) .story-dot{left:-8px}
+
+    .story-year{
+      color:var(--rose);
+      font-family:"Cormorant Garamond",serif;
+      font-size:24px;
+      font-style:italic;
+    }
+
+    .story-item h3{
+      margin-top:8px;
+      font-size:34px;
+    }
+
+    .story-item p{
+      margin-top:8px;
+      color:#725c61;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    /* ======================================================
+       ENVELOPE
+    ====================================================== */
+
+    .letter-section{
+      background:linear-gradient(145deg,#f0dadd,#faeeee 52%,#efe3de);
+      text-align:center;
+    }
+
+    .envelope-wrap{
+      width:min(520px,100%);
+      margin:55px auto 0;
+      perspective:1200px;
+    }
+
+    .envelope{
+      position:relative;
+      width:100%;
+      aspect-ratio:1.6/1;
+      cursor:pointer;
+      transform-style:preserve-3d;
+    }
+
+    .envelope-base{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      border:1px solid rgba(107,65,74,.16);
+      background:#efd9dc;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .envelope-base::before,
+    .envelope-base::after{
+      content:"";
+      position:absolute;
+      bottom:-1px;
+      width:70%;
+      height:100%;
+      background:#f6e7e8;
+    }
+
+    .envelope-base::before{
+      left:-16%;
+      clip-path:polygon(0 100%,100% 0,100% 100%);
+    }
+
+    .envelope-base::after{
+      right:-16%;
+      clip-path:polygon(0 0,100% 100%,0 100%);
+    }
+
+    .envelope-flap{
+      position:absolute;
+      z-index:5;
+      inset:0;
+      transform-origin:top center;
+      clip-path:polygon(0 0,100% 0,50% 68%);
+      background:#e8c8cd;
+      transition:transform .8s cubic-bezier(.2,.7,.2,1);
+      backface-visibility:hidden;
+    }
+
+    .envelope-letter{
+      position:absolute;
+      z-index:3;
+      left:8%;
+      right:8%;
+      bottom:10%;
+      min-height:72%;
+      padding:40px 34px;
+      background:#fffdfa;
+      border:1px solid var(--line);
+      transition:
+        transform .9s .15s cubic-bezier(.2,.7,.2,1),
+        opacity .5s ease;
+      transform:translateY(26%);
+      box-shadow:0 20px 50px rgba(80,52,60,.08);
+    }
+
+    .envelope-letter h3{
+      font-size:38px;
+    }
+
+    .envelope-letter p{
+      margin-top:14px;
+      color:#715a60;
+      font-family:"Cormorant Garamond",serif;
+      font-size:21px;
+      line-height:1.5;
+    }
+
+    .envelope.open .envelope-flap{
+      transform:rotateX(180deg);
+    }
+
+    .envelope.open .envelope-letter{
+      transform:translateY(-44%);
+    }
+
+    .envelope-hint{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       POLAROIDS
+    ====================================================== */
+
+    .polaroid-section{
+      background:#fffdfa;
+    }
+
+    .polaroid-grid{
+      width:min(950px,100%);
+      margin:65px auto 0;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:30px;
+      align-items:start;
+    }
+
+    .polaroid{
+      padding:13px 13px 22px;
+      background:#fff;
+      border:1px solid rgba(80,55,61,.08);
+      box-shadow:0 18px 50px rgba(90,58,65,.12);
+      transform:rotate(var(--rot));
+      transition:transform .35s ease;
+    }
+
+    .polaroid:hover{
+      transform:rotate(0deg) translateY(-8px);
+    }
+
+    .polaroid:nth-child(1){--rot:-5deg}
+    .polaroid:nth-child(2){--rot:4deg;margin-top:35px}
+    .polaroid:nth-child(3){--rot:-3deg}
+
+    .photo-placeholder{
+      aspect-ratio:4/5;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 50% 40%,rgba(255,255,255,.58),transparent 30%),
+        linear-gradient(145deg,#ead5d7,#cfa1a8);
+      color:rgba(67,42,48,.50);
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .polaroid-caption{
+      margin-top:18px;
+      color:#715c61;
+      text-align:center;
+      font-family:"Cormorant Garamond",serif;
+      font-size:23px;
+      font-style:italic;
+    }
+
+    /* ======================================================
+       ROMANTIC COUNTDOWN
+    ====================================================== */
+
+    .countdown-story{
+      padding:120px 24px;
+      background:var(--wine);
+      color:white;
+      text-align:center;
+    }
+
+    .sunset-number{
+      display:block;
+      margin-top:24px;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(88px,16vw,180px);
+      line-height:.8;
+    }
+
+    .sunset-copy{
+      margin-top:16px;
+      color:#dfbcc1;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(23px,4vw,36px);
+      font-style:italic;
+    }
+
+    .mini-countdown{
+      margin-top:35px;
+      color:#d9b6bc;
+      font-size:8px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       SAVE THE DATE
+    ====================================================== */
+
+    .save-section{
+      background:#f8eeee;
+    }
+
+    .save-card{
+      width:min(650px,100%);
+      margin:55px auto 0;
+      padding:80px 45px;
+      border:1px solid rgba(111,68,78,.16);
+      background:
+        radial-gradient(circle at 18% 15%,rgba(221,173,182,.18),transparent 24%),
+        radial-gradient(circle at 82% 85%,rgba(135,144,120,.14),transparent 22%),
+        #fffdfa;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+
+    .save-small{
+      color:var(--muted);
+      font-size:8px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .save-day{
+      margin-top:25px;
+      color:var(--rose);
+      font-family:"Cormorant Garamond",serif;
+      font-size:32px;
+      font-style:italic;
+    }
+
+    .save-date{
+      margin-top:8px;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(54px,9vw,92px);
+      line-height:.9;
+    }
+
+    .save-place{
+      margin-top:30px;
+      color:#705a60;
+      font-size:10px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       FLOWER TIMELINE
+    ====================================================== */
+
+    .program{
+      background:#fffdfa;
+    }
+
+    .flower-line{
+      position:relative;
+      width:min(760px,100%);
+      margin:60px auto 0;
+      padding-left:85px;
+    }
+
+    .flower-line::before{
+      content:"";
+      position:absolute;
+      left:36px;
+      top:0;
+      bottom:0;
+      width:2px;
+      background:linear-gradient(#a8b097,#74806a);
+      border-radius:5px;
+    }
+
+    .program-item{
+      position:relative;
+      padding:0 0 45px;
+    }
+
+    .program-flower{
+      position:absolute;
+      left:-68px;
+      top:0;
+      width:42px;
+      height:42px;
+    }
+
+    .program-flower::before,
+    .program-flower::after{
+      content:"";
+      position:absolute;
+      inset:6px;
+      border-radius:60% 40% 60% 40%;
+      background:linear-gradient(145deg,#f0c4ca,#c98592);
+      transform:rotate(45deg);
+    }
+
+    .program-flower::after{
+      transform:rotate(135deg);
+    }
+
+    .program-time{
+      color:var(--rose);
+      font-family:"Cormorant Garamond",serif;
+      font-size:30px;
+    }
+
+    .program-item h3{
+      margin-top:3px;
+      font-size:31px;
+    }
+
+    .program-item p{
+      margin-top:7px;
+      color:#705b60;
+      font-size:11px;
+      line-height:1.8;
+    }
+
+    /* ======================================================
+       LOCATION
+    ====================================================== */
+
+    .location{
+      background:linear-gradient(145deg,#edd8dc,#f9eeee 55%,#f0e3de);
+      text-align:center;
+    }
+
+    .location-quote{
+      max-width:700px;
+      margin:0 auto;
+      color:var(--wine);
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(37px,6vw,62px);
+      font-style:italic;
+      line-height:1.05;
+    }
+
+    .location-card{
+      width:min(790px,100%);
+      margin:50px auto 0;
+      padding:60px 40px;
+      border:1px solid var(--line);
+      background:#fffdfa;
+      box-shadow:var(--shadow);
+    }
+
+    .location-name{
+      font-family:"Cormorant Garamond",serif;
+      font-size:44px;
+    }
+
+    .location-address{
+      margin-top:14px;
+      color:#705b60;
+      font-size:11px;
+      line-height:1.9;
+    }
+
+    .map-button{
+      display:inline-flex;
+      margin-top:28px;
+      padding:15px 26px;
+      border:1px solid var(--wine);
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       WISHES
+    ====================================================== */
+
+    .wishes{
+      background:#fffdfa;
+      text-align:center;
+    }
+
+    .wish-box{
+      width:min(640px,100%);
+      margin:50px auto 0;
+      padding:45px;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+
+    .wish-box textarea{
+      width:100%;
+      min-height:120px;
+      padding:18px;
+      border:1px solid var(--line);
+      background:#fffaf8;
+      resize:vertical;
+      outline:none;
+      color:var(--text);
+      font-family:"Cormorant Garamond",serif;
+      font-size:21px;
+    }
+
+    .wish-button{
+      margin-top:16px;
+      padding:16px 26px;
+      border:1px solid var(--wine);
+      background:var(--wine);
+      color:#fff;
+      cursor:pointer;
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .wish-floating{
+      position:fixed;
+      z-index:450;
+      left:50%;
+      bottom:25px;
+      width:min(360px,calc(100% - 30px));
+      padding:16px 18px;
+      border:1px solid var(--line);
+      background:rgba(255,253,250,.95);
+      box-shadow:0 18px 50px rgba(74,45,53,.16);
+      color:#705960;
+      font-family:"Cormorant Garamond",serif;
+      font-size:19px;
+      opacity:0;
+      transform:translate(-50%,20px);
+      pointer-events:none;
+      transition:.35s ease;
+    }
+
+    .wish-floating.show{
+      opacity:1;
+      transform:translate(-50%,0);
+    }
+
+    /* ======================================================
+       RSVP
+    ====================================================== */
+
+    .rsvp{
+      background:var(--wine);
+      color:#fff;
+      text-align:center;
+    }
+
+    .rsvp .eyebrow{
+      color:#dcb8be;
+    }
+
+    .rsvp-choice{
+      width:min(700px,100%);
+      margin:50px auto 0;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .choice-button{
+      min-height:130px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,.25);
+      background:transparent;
+      color:#fff;
+      cursor:pointer;
+      font-family:"Cormorant Garamond",serif;
+      font-size:30px;
+      transition:.25s ease;
+    }
+
+    .choice-button:hover,
+    .choice-button.active{
+      background:#fff8f5;
+      color:var(--wine);
+    }
+
+    .rsvp-form{
+      display:none;
+      width:min(650px,100%);
+      margin:35px auto 0;
+      padding:40px;
+      background:#fff8f5;
+      color:var(--text);
+      text-align:left;
+    }
+
+    .rsvp-form.show{
+      display:block;
+    }
+
+    .form-group{
+      margin-bottom:22px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:7px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    input,
+    select,
+    textarea{
+      width:100%;
+      padding:14px 4px;
+      border:none;
+      border-bottom:1px solid rgba(85,52,61,.35);
+      background:transparent;
+      outline:none;
+      color:var(--text);
+      font-family:"Montserrat",sans-serif;
+      font-size:12px;
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .submit-button{
+      width:100%;
+      margin-top:14px;
+      padding:18px;
+      border:1px solid var(--wine);
+      background:var(--wine);
+      color:#fff;
+      cursor:pointer;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    .success{
+      display:none;
+      margin-top:30px;
+      color:#efcbd0;
+      font-family:"Cormorant Garamond",serif;
+      font-size:32px;
+    }
+
+    footer{
+      padding:75px 20px;
+      background:#2d1d22;
+      color:#fff;
+      text-align:center;
+    }
+
+    .footer-names{
+      font-family:"Cormorant Garamond",serif;
+      font-size:44px;
+    }
+
+    footer p{
+      margin-top:12px;
+      color:#d3afb6;
+      font-size:7px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+    }
+
+    /* ======================================================
+       PETALS
+    ====================================================== */
+
+    .petals{
+      position:fixed;
+      inset:0;
+      z-index:220;
+      overflow:hidden;
+      pointer-events:none;
+    }
+
+    .petal{
+      position:absolute;
+      top:-25px;
+      width:16px;
+      height:10px;
+      border-radius:100% 0 100% 0;
+      background:linear-gradient(135deg,#f2c6cb,#cb8793);
+      opacity:.25;
+      animation:fall linear infinite;
+    }
+
+    .petal:nth-child(1){left:7%;animation-duration:15s}
+    .petal:nth-child(2){left:22%;animation-duration:18s;animation-delay:-9s}
+    .petal:nth-child(3){left:39%;animation-duration:14s;animation-delay:-5s}
+    .petal:nth-child(4){left:58%;animation-duration:19s;animation-delay:-12s}
+    .petal:nth-child(5){left:76%;animation-duration:16s;animation-delay:-7s}
+    .petal:nth-child(6){left:92%;animation-duration:17s;animation-delay:-14s}
+
+    @keyframes heroIn{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @keyframes bloom{
+      0%{
+        opacity:0;
+        transform:scale(.12) rotate(-25deg);
+        filter:blur(5px);
+      }
+
+      100%{
+        opacity:.86;
+        transform:scale(1) rotate(0);
+        filter:blur(0);
+      }
+    }
+
+    @keyframes fly{
+      0%{transform:translateX(-160px) translateY(20px)}
+      35%{transform:translateX(40vw) translateY(-20px)}
+      66%{transform:translateX(70vw) translateY(22px)}
+      100%{transform:translateX(calc(100vw + 250px)) translateY(-22px)}
+    }
+
+    @keyframes wing{
+      from{transform:rotate(-20deg)}
+      to{transform:rotate(36deg)}
+    }
+
+    @keyframes fall{
+      0%{transform:translateY(-30px) translateX(0) rotate(0deg)}
+      50%{transform:translateY(52vh) translateX(45px) rotate(220deg)}
+      100%{transform:translateY(108vh) translateX(-22px) rotate(460deg)}
+    }
+
+    @media(max-width:760px){
+      .section{
+        padding:88px 20px;
+      }
+
+      .hero{
+        padding:95px 20px 80px;
+      }
+
+      .hero h1{
+        font-size:clamp(70px,23vw,104px);
+      }
+
+      .r1{left:-42px;--s:105px}
+      .r2{left:2vw;--s:72px}
+      .r3{right:-38px;--s:95px}
+      .r4{right:-12px;--s:112px}
+
+      .story-track::before{
+        left:16px;
+      }
+
+      .story-item,
+      .story-item:nth-child(even){
+        width:100%;
+        margin-left:0;
+        padding:18px 0 38px 50px;
+        text-align:left;
+      }
+
+      .story-item:nth-child(odd) .story-dot,
+      .story-item:nth-child(even) .story-dot{
+        left:8px;
+        right:auto;
+      }
+
+      .polaroid-grid{
+        grid-template-columns:1fr;
+      }
+
+      .polaroid:nth-child(2){
+        margin-top:0;
+      }
+
+      .flower-line{
+        padding-left:65px;
+      }
+
+      .flower-line::before{
+        left:28px;
+      }
+
+      .program-flower{
+        left:-55px;
+      }
+
+      .rsvp-choice{
+        grid-template-columns:1fr;
+      }
+
+      .rsvp-form{
+        padding:30px 20px;
+      }
+
+      .letter-card{
+        padding:48px 22px;
+      }
+
+      .save-card{
+        padding:60px 25px;
+      }
+
+      .back-link{
+        top:12px;
+        left:12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="../index.html#designs" class="back-link">
+    ← KUMÉ EVENT
+  </a>
+
+  <div class="petals" aria-hidden="true">
+    <i class="petal"></i>
+    <i class="petal"></i>
+    <i class="petal"></i>
+    <i class="petal"></i>
+    <i class="petal"></i>
+    <i class="petal"></i>
+  </div>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="rose r1"><i></i><b></b><em></em></div>
+    <div class="rose r2"><i></i><b></b><em></em></div>
+    <div class="rose r3"><i></i><b></b><em></em></div>
+    <div class="rose r4"><i></i><b></b><em></em></div>
+
+    <div class="bird" aria-hidden="true">
+      <div class="bird-heart">♡</div>
+      <div class="bird-body"></div>
+      <div class="wing"></div>
+    </div>
+
+    <div class="hero-inner">
+
+      <div class="hero-small">
+        Für immer beginnt mit einem Moment
+      </div>
+
+      <h1>
+        Name
+        <span>&</span>
+        Name
+      </h1>
+
+      <div class="hero-date">
+        00 · 00 · 2026
+      </div>
+
+      <div class="hero-place">
+        Ort
+      </div>
+
+      <p class="hero-copy">
+        Zwei Herzen. Ein Versprechen.
+        Und ein Tag, an dem wir unsere Geschichte
+        mit den Menschen feiern, die wir lieben.
+      </p>
+
+    </div>
+
+    <div class="scroll-hint">
+      Unsere Geschichte entdecken
+    </div>
+
+  </section>
+
+  <!-- STORY -->
+
+  <section class="section story">
+
+    <div class="container">
+
+      <div class="eyebrow" style="text-align:center;">
+        Bevor dieser Tag kommt
+      </div>
+
+      <h2 class="section-title">
+        Unsere Geschichte
+      </h2>
+
+      <p class="section-copy">
+        Manche Geschichten beginnen ganz leise.
+        Und plötzlich werden aus Momenten Erinnerungen fürs Leben.
+      </p>
+
+      <div class="story-track">
+
+        <article class="story-item">
+          <span class="story-dot"></span>
+          <div class="story-year">2022</div>
+          <h3>Das erste Treffen</h3>
+          <p>
+            Ein ganz normaler Tag,
+            der rückblickend alles verändert hat.
+          </p>
+        </article>
+
+        <article class="story-item">
+          <span class="story-dot"></span>
+          <div class="story-year">2023</div>
+          <h3>Unser erstes Abenteuer</h3>
+          <p>
+            Aus gemeinsamen Stunden wurden Reisen,
+            Lieblingsorte und immer mehr Zuhause.
+          </p>
+        </article>
+
+        <article class="story-item">
+          <span class="story-dot"></span>
+          <div class="story-year">2025</div>
+          <h3>Der Antrag</h3>
+          <p>
+            Ein Ja, das wir niemals vergessen werden.
+          </p>
+        </article>
+
+        <article class="story-item">
+          <span class="story-dot"></span>
+          <div class="story-year">2026</div>
+          <h3>Unser Tag</h3>
+          <p>
+            Jetzt möchten wir dieses Kapitel
+            gemeinsam mit euch feiern.
+          </p>
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ENVELOPE -->
+
+  <section class="section letter-section">
+
+    <div class="container">
+
+      <div class="eyebrow">
+        Nur für euch
+      </div>
+
+      <h2 class="section-title">
+        Eine kleine Nachricht
+      </h2>
+
+      <p class="section-copy">
+        Manchmal passen die schönsten Dinge
+        nicht in eine klassische Einladung.
+      </p>
+
+      <div class="envelope-wrap">
+
+        <div class="envelope" id="envelope">
+
+          <div class="envelope-base"></div>
+
+          <div class="envelope-letter">
+            <h3>Ihr gehört zu unserer Geschichte.</h3>
+            <p>
+              Deshalb wäre unser besonderer Tag
+              ohne euch einfach nicht derselbe.
+              Wir freuen uns darauf, gemeinsam zu lachen,
+              zu feiern und Erinnerungen zu sammeln.
+            </p>
+          </div>
+
+          <div class="envelope-flap"></div>
+
+        </div>
+
+        <div class="envelope-hint">
+          Zum Öffnen anklicken
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- POLAROIDS -->
+
+  <section class="section polaroid-section">
+
+    <div class="container">
+
+      <div class="eyebrow" style="text-align:center;">
+        Kleine Erinnerungen
+      </div>
+
+      <h2 class="section-title">
+        Momente, die bleiben
+      </h2>
+
+      <div class="polaroid-grid">
+
+        <article class="polaroid">
+          <div class="photo-placeholder">
+            Unser erstes Foto
+          </div>
+          <div class="polaroid-caption">
+            Da fing alles an
+          </div>
+        </article>
+
+        <article class="polaroid">
+          <div class="photo-placeholder">
+            Lieblingsmoment
+          </div>
+          <div class="polaroid-caption">
+            Immer wieder du
+          </div>
+        </article>
+
+        <article class="polaroid">
+          <div class="photo-placeholder">
+            Der Antrag
+          </div>
+          <div class="polaroid-caption">
+            Das schönste Ja
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ROMANTIC COUNTDOWN -->
+
+  <section class="countdown-story">
+
+    <div class="eyebrow">
+      Bis wir gemeinsam feiern
+    </div>
+
+    <span class="sunset-number" id="sunsetDays">
+      000
+    </span>
+
+    <div class="sunset-copy">
+      Sonnenuntergänge bis zu unserem Tag.
+    </div>
+
+    <div class="mini-countdown">
+      <span id="days">000</span> Tage ·
+      <span id="hours">00</span> Stunden ·
+      <span id="minutes">00</span> Minuten ·
+      <span id="seconds">00</span> Sekunden
+    </div>
+
+  </section>
+
+  <!-- SAVE THE DATE -->
+
+  <section class="section save-section">
+
+    <div class="container">
+
+      <div class="eyebrow" style="text-align:center;">
+        Bitte haltet euch diesen Tag frei
+      </div>
+
+      <h2 class="section-title">
+        Save the Date
+      </h2>
+
+      <div class="save-card">
+
+        <div class="save-small">
+          Wir feiern
+        </div>
+
+        <div class="save-day">
+          Samstag
+        </div>
+
+        <div class="save-date">
+          00. Monat 2026
+        </div>
+
+        <div class="save-place">
+          Eventlocation · Ort · 17:30 Uhr
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FLOWER PROGRAM -->
+
+  <section class="section program">
+
+    <div class="container">
+
+      <div class="eyebrow" style="text-align:center;">
+        Wie unser Abend wächst
+      </div>
+
+      <h2 class="section-title">
+        Unser Ablauf
+      </h2>
+
+      <div class="flower-line">
+
+        <article class="program-item">
+          <span class="program-flower"></span>
+          <div class="program-time">17:30</div>
+          <h3>Ankommen</h3>
+          <p>
+            Begrüßen, anstoßen und den Abend gemeinsam beginnen.
+          </p>
+        </article>
+
+        <article class="program-item">
+          <span class="program-flower"></span>
+          <div class="program-time">18:00</div>
+          <h3>Unser Moment</h3>
+          <p>
+            Der Augenblick, auf den wir uns schon so lange freuen.
+          </p>
+        </article>
+
+        <article class="program-item">
+          <span class="program-flower"></span>
+          <div class="program-time">19:00</div>
+          <h3>Dinner</h3>
+          <p>
+            Gemeinsam essen, reden, lachen und Erinnerungen sammeln.
+          </p>
+        </article>
+
+        <article class="program-item">
+          <span class="program-flower"></span>
+          <div class="program-time">21:00</div>
+          <h3>Feiern</h3>
+          <p>
+            Musik, Tanz und ein Abend, der hoffentlich viel zu schnell vergeht.
+          </p>
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- LOCATION -->
+
+  <section class="section location">
+
+    <div class="container">
+
+      <div class="location-quote">
+        „Dort, wo wir diesen Abend
+        mit euch unvergesslich machen.“
+      </div>
+
+      <div class="location-card">
+
+        <div class="eyebrow">
+          Unsere Location
+        </div>
+
+        <div class="location-name">
+          Eventlocation
+        </div>
+
+        <div class="location-address">
+          Straße 123
+          <br>
+          12345 Ort
+        </div>
+
+        <a
+          class="map-button"
+          href="https://www.google.com/maps"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Route öffnen ↗
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- WISHES -->
+
+  <section class="section wishes">
+
+    <div class="container">
+
+      <div class="eyebrow">
+        Hinterlasst etwas, das bleibt
+      </div>
+
+      <h2 class="section-title">
+        Ein Wunsch für uns
+      </h2>
+
+      <p class="section-copy">
+        Ein lieber Satz, ein Wunsch oder einfach ein Gedanke,
+        den wir mit in diesen Tag nehmen dürfen.
+      </p>
+
+      <div class="wish-box">
+
+        <textarea
+          id="wishText"
+          placeholder="Schreibt uns einen kleinen Wunsch ..."
+        ></textarea>
+
+        <button
+          type="button"
+          class="wish-button"
+          id="wishButton"
+        >
+          Wunsch senden ♡
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="wish-floating" id="wishFloating">
+    ♡ Danke für euren Wunsch.
+  </div>
+
+  <!-- RSVP -->
+
+  <section class="section rsvp">
+
+    <div class="container">
+
+      <div class="eyebrow">
+        Jetzt fehlt nur noch eure Antwort
+      </div>
+
+      <h2 class="section-title">
+        Dürfen wir mit euch rechnen?
+      </h2>
+
+      <div class="rsvp-choice">
+
+        <button
+          type="button"
+          class="choice-button"
+          data-choice="yes"
+        >
+          ♡ Wir sind dabei
+        </button>
+
+        <button
+          type="button"
+          class="choice-button"
+          data-choice="no"
+        >
+          Leider nicht
+        </button>
+
+      </div>
+
+      <form
+        class="rsvp-form"
+        id="demoForm"
+      >
+
+        <input
+          type="hidden"
+          id="attendance"
+          value=""
+        >
+
+        <div class="form-group">
+          <label for="name">
+            Vor- & Nachname
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Name"
+            required
+          >
+        </div>
+
+        <div class="form-group" id="guestGroup">
+          <label for="guests">
+            Anzahl der Personen
+          </label>
+
+          <select id="guests">
+            <option>1 Person</option>
+            <option>2 Personen</option>
+            <option>3 Personen</option>
+            <option>4 Personen</option>
+            <option>5 Personen</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            Nachricht
+          </label>
+
+          <textarea
+            id="message"
+            placeholder="Eine kleine Nachricht ..."
+          ></textarea>
+        </div>
+
+        <button
+          class="submit-button"
+          type="submit"
+        >
+          Antwort senden
+        </button>
+
+      </form>
+
+      <div
+        class="success"
+        id="success"
+      >
+        Danke ♡ Eure Rückmeldung ist angekommen.
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+
+    <div class="footer-names">
+      Name & Name
+    </div>
+
+    <p>
+      Beispiel-Design · Romantisch · KUMÉ EVENT
+    </p>
+
+  </footer>
+
+  <script>
+    const eventDate =
+      new Date("2026-12-31T18:00:00").getTime();
+
+    function updateCountdown() {
+
+      const distance =
+        eventDate - Date.now();
+
+      if (distance <= 0) {
+
+        document.getElementById("sunsetDays").textContent = "000";
+        document.getElementById("days").textContent = "000";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+
+        return;
+      }
+
+      const days =
+        Math.floor(
+          distance /
+          (1000 * 60 * 60 * 24)
+        );
+
+      const hours =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60 * 24)
+          ) /
+          (1000 * 60 * 60)
+        );
+
+      const minutes =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60 * 60)
+          ) /
+          (1000 * 60)
+        );
+
+      const seconds =
+        Math.floor(
+          (
+            distance %
+            (1000 * 60)
+          ) /
+          1000
+        );
+
+      document
+        .getElementById("sunsetDays")
+        .textContent =
+        String(days).padStart(3,"0");
+
+      document
+        .getElementById("days")
+        .textContent =
+        String(days).padStart(3,"0");
+
+      document
+        .getElementById("hours")
+        .textContent =
+        String(hours).padStart(2,"0");
+
+      document
+        .getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2,"0");
+
+      document
+        .getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2,"0");
+    }
+
+    updateCountdown();
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
+    const envelope =
+      document.getElementById("envelope");
+
+    envelope.addEventListener(
+      "click",
+      function() {
+        this.classList.toggle("open");
+      }
+    );
+
+    const choiceButtons =
+      document.querySelectorAll(".choice-button");
+
+    const rsvpForm =
+      document.getElementById("demoForm");
+
+    const guestGroup =
+      document.getElementById("guestGroup");
+
+    const attendance =
+      document.getElementById("attendance");
+
+    choiceButtons.forEach(
+      function(button) {
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            choiceButtons.forEach(
+              function(item) {
+                item.classList.remove("active");
+              }
+            );
+
+            this.classList.add("active");
+
+            const choice =
+              this.dataset.choice;
+
+            attendance.value =
+              choice;
+
+            guestGroup.style.display =
+              choice === "yes"
+                ? "block"
+                : "none";
+
+            rsvpForm.classList.add("show");
+
+            rsvpForm.scrollIntoView({
+              behavior:"smooth",
+              block:"center"
+            });
+          }
+        );
+
+      }
+    );
+
+    rsvpForm.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+        this.style.display =
+          "none";
+
+        document
+          .getElementById("success")
+          .style.display =
+          "block";
+      }
+    );
+
+    const wishButton =
+      document.getElementById("wishButton");
+
+    const wishFloating =
+      document.getElementById("wishFloating");
+
+    wishButton.addEventListener(
+      "click",
+      function() {
+
+        const wish =
+          document
+            .getElementById("wishText")
+            .value
+            .trim();
+
+        if (!wish) {
+          return;
+        }
+
+        wishFloating.textContent =
+          "♡ Danke für euren Wunsch.";
+
+        wishFloating.classList.add("show");
+
+        document
+          .getElementById("wishText")
+          .value =
+          "";
+
+        setTimeout(
+          function() {
+            wishFloating.classList.remove("show");
+          },
+          2600
+        );
+      }
+    );
+  </script>
+
+</body>
+</html>
