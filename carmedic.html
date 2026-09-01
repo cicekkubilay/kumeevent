@@ -44,8 +44,8 @@ footer{padding:44px 0 30px;border-top:1px solid #1c2229;color:#87939e}.footerTop
 const SHOPIFY={
   domain:'hvpaqg-a3.myshopify.com',
   apiVersion:'2026-07',
-  // Optional: Ein PUBLIC Storefront-Token darf im Browser stehen. Cart funktioniert bei Shopify auch tokenlos.
-  storefrontAccessToken:''
+  // Public Storefront Access Token aus dem Shopify-Headless-Kanal.
+  storefrontAccessToken:'957b5f1b818f54af0f2893b6887a0128'
 };
 SHOPIFY.endpoint=`https://${SHOPIFY.domain}/api/${SHOPIFY.apiVersion}/graphql.json`;
 
@@ -178,8 +178,17 @@ async function createShopifyCheckout(){
   if(SHOPIFY.storefrontAccessToken)headers['X-Shopify-Storefront-Access-Token']=SHOPIFY.storefrontAccessToken;
   try{
     const res=await fetch(SHOPIFY.endpoint,{method:'POST',headers,body:JSON.stringify({query:mutation,variables})});
-    if(!res.ok)throw new Error(`Shopify antwortet mit HTTP ${res.status}`);
-    const json=await res.json();
+    const raw=await res.text();
+    let json=null;
+    try{ json=raw ? JSON.parse(raw) : null; }catch(_){ /* Shopify/Proxy kann im Fehlerfall auch Klartext liefern */ }
+    if(!res.ok){
+      const apiMessage=json?.errors?.map(e=>e.message).filter(Boolean).join(' · ')
+        || json?.data?.cartCreate?.userErrors?.map(e=>e.message).filter(Boolean).join(' · ')
+        || raw.slice(0,500)
+        || `HTTP ${res.status}`;
+      throw new Error(`Shopify HTTP ${res.status}: ${apiMessage}`);
+    }
+    if(!json)throw new Error('Shopify hat keine gültige JSON-Antwort geliefert.');
     if(json.errors?.length)throw new Error(json.errors.map(e=>e.message).join(' · '));
     const payload=json.data?.cartCreate;
     if(payload?.userErrors?.length)throw new Error(payload.userErrors.map(e=>e.message).join(' · '));
