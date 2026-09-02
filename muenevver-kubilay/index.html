@@ -1850,6 +1850,13 @@
 
 <body class="language-open">
 
+  <!-- HINTERGRUNDMUSIK -->
+  <audio id="backgroundMusic" preload="auto" loop playsinline>
+    <source src="musik.mp3" type="audio/mpeg">
+    <source src="musik.mps3" type="audio/mpeg">
+  </audio>
+
+
 
   <!-- ======================================================
        SPRACHAUSWAHL
@@ -3292,6 +3299,8 @@
           "click",
           function() {
 
+            primeBackgroundMusic();
+
             applyLanguage(
               button.dataset.language
             );
@@ -3314,6 +3323,80 @@
         );
 
       });
+
+
+    /* ======================================================
+       HINTERGRUNDMUSIK
+       Die Musik wird bereits beim Klick auf Deutsch/Türkçe
+       leise gestartet. Dadurch erlaubt auch Safari/iPhone
+       die Wiedergabe. Erst beim Öffnen der Karte wird sie
+       hörbar eingeblendet.
+    ====================================================== */
+
+    const backgroundMusic =
+      document.getElementById("backgroundMusic");
+
+    let musicPrimed = false;
+    let musicStarted = false;
+    let musicFadeTimer = null;
+
+    function primeBackgroundMusic() {
+      if (!backgroundMusic || musicPrimed) return;
+
+      /*
+        Nicht komplett auf 0 stellen:
+        Manche mobilen Browser stoppen "stumm" gestartetes Audio.
+      */
+      backgroundMusic.volume = 0.001;
+
+      const playPromise = backgroundMusic.play();
+
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise
+          .then(function() {
+            musicPrimed = true;
+          })
+          .catch(function(error) {
+            console.log("Musik konnte beim ersten Klick nicht gestartet werden:", error);
+          });
+      } else {
+        musicPrimed = true;
+      }
+    }
+
+    function startBackgroundMusic() {
+      if (!backgroundMusic || musicStarted) return;
+
+      musicStarted = true;
+
+      /*
+        Falls der Browser die Musik nach dem Sprach-Klick
+        bereits leise abspielt, wird sie einfach hochgefadet.
+        Falls nicht, versuchen wir die Wiedergabe erneut.
+      */
+      if (backgroundMusic.paused) {
+        const retry = backgroundMusic.play();
+
+        if (retry && typeof retry.catch === "function") {
+          retry.catch(function(error) {
+            console.log("Musikstart wurde vom Browser blockiert:", error);
+          });
+        }
+      }
+
+      clearInterval(musicFadeTimer);
+
+      let volume = Math.max(backgroundMusic.volume || 0, 0.001);
+
+      musicFadeTimer = setInterval(function() {
+        volume = Math.min(volume + 0.025, 0.55);
+        backgroundMusic.volume = volume;
+
+        if (volume >= 0.55) {
+          clearInterval(musicFadeTimer);
+        }
+      }, 90);
+    }
 
 
     /* ======================================================
@@ -3473,6 +3556,14 @@
             .62
           )
         );
+
+      /*
+        Sobald die Karte weit genug geöffnet ist,
+        startet die Hintergrundmusik sanft von vorne.
+      */
+      if (progress >= .38 && !musicStarted) {
+        startBackgroundMusic();
+      }
 
 
       cardCover.style.transform =
