@@ -1260,8 +1260,9 @@
 
     .document-item-row{
       display:grid;
-      grid-template-columns:1fr 110px 150px 130px 44px;
-      gap:10px;
+      /* Leistung bewusst kompakter; Löschen bleibt als letzte Spalte in derselben Zeile. */
+      grid-template-columns:minmax(280px, 1.35fr) 100px 150px 120px 150px 44px;
+      gap:12px;
       align-items:end;
       padding:14px 0;
       border-bottom:1px solid var(--line);
@@ -1279,11 +1280,32 @@
     }
 
     .remove-item{
+      width:44px;
       height:44px;
+      align-self:end;
+      justify-self:end;
       border:1px solid rgba(123,64,56,.30);
       background:transparent;
       color:#7b4038;
       font-size:18px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* Auf kleineren Ansichten bleibt Löschen kompakt rechts statt über die ganze Zeile zu laufen. */
+    @media(max-width:900px){
+      .document-item-row .remove-item{
+        justify-self:end;
+      }
+    }
+
+    @media(max-width:520px){
+      .document-item-row .remove-item{
+        grid-column:1;
+        justify-self:end;
+      }
     }
 
     .document-summary{
@@ -1759,6 +1781,19 @@
       }
     }
 
+
+    /* GÄSTEFOTOS */
+    .guest-photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+    .guest-photo-card{border:1px solid var(--line);background:var(--paper);padding:24px}
+    .guest-photo-card h2{font-size:30px;margin:6px 0 12px}
+    .guest-photo-url{word-break:break-all;padding:12px;border:1px solid var(--line);background:#fff;font-size:11px;line-height:1.6}
+    .guest-photo-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .guest-photo-qr{display:flex;align-items:center;justify-content:center;min-height:260px;background:#fff;border:1px solid var(--line);padding:20px}
+    .guest-upload-list{display:grid;gap:10px;margin-top:18px}
+    .guest-upload-row{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:14px;border:1px solid var(--line);background:#fff}
+    .guest-upload-meta{font-size:10px;color:var(--muted);margin-top:5px}
+    @media(max-width:760px){.guest-photo-grid{grid-template-columns:1fr}.guest-upload-row{grid-template-columns:1fr}}
+
   </style>
 </head>
 
@@ -1830,6 +1865,10 @@
         Rechnungen
       </button>
 
+      <button class="sidebar-page-button" id="openGuestPhotos" type="button">
+        Gästefotos
+      </button>
+
       <div class="sidebar-label">Projekte</div>
       <div class="project-nav" id="projectNav"></div>
 
@@ -1871,6 +1910,10 @@
 
           <button class="mobile-tool-button" id="mobileInvoices" type="button">
             Rechnungen
+          </button>
+
+          <button class="mobile-tool-button" id="mobileGuestPhotos" type="button">
+            Gästefotos & QR-Code
           </button>
         </div>
       </div>
@@ -1981,6 +2024,8 @@
       <section class="admin-view hidden" id="documentsView"></section>
 
       <section class="admin-view hidden" id="invoicesView"></section>
+
+      <section class="admin-view hidden" id="guestPhotosView"></section>
     </main>
   </section>
 
@@ -1992,6 +2037,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
   <script>
     const SUPABASE_URL = "https://novhauupppznhuvandxh.supabase.co";
@@ -2039,9 +2085,12 @@
     const mobileDocuments = document.getElementById("mobileDocuments");
     const openInvoices = document.getElementById("openInvoices");
     const mobileInvoices = document.getElementById("mobileInvoices");
+    const openGuestPhotos = document.getElementById("openGuestPhotos");
+    const mobileGuestPhotos = document.getElementById("mobileGuestPhotos");
     const dashboardView = document.getElementById("dashboardView");
     const documentsView = document.getElementById("documentsView");
     const invoicesView = document.getElementById("invoicesView");
+    const guestPhotosView = document.getElementById("guestPhotosView");
 
     let currentUser = null;
     let currentProfile = null;
@@ -2052,6 +2101,8 @@
     let customerProfiles = [];
     let documents = [];
     let documentItems = [];
+    let guestUploadEvents = [];
+    let guestUploads = [];
     let currentAdminView = "dashboard";
 
     function showLogin(message = "") {
@@ -2107,7 +2158,9 @@
         membersResult,
         profilesResult,
         documentsResult,
-        documentItemsResult
+        documentItemsResult,
+        guestEventsResult,
+        guestUploadsResult
       ] = await Promise.all([
         client
           .from("projects")
@@ -2135,7 +2188,17 @@
         client
           .from("document_items")
           .select("id, document_id, position, description, quantity, unit_price, total, created_at")
-          .order("position", { ascending: true })
+          .order("position", { ascending: true }),
+
+        client
+          .from("guest_upload_events")
+          .select("id, project_id, upload_code, event_name, event_date, welcome_text, uploads_enabled, created_at")
+          .order("created_at", { ascending: false }),
+
+        client
+          .from("guest_uploads")
+          .select("id, upload_event_id, storage_path, original_filename, mime_type, file_size, guest_name, created_at")
+          .order("created_at", { ascending: false })
       ]);
 
       if (projectsResult.error) throw projectsResult.error;
@@ -2144,6 +2207,8 @@
       if (profilesResult.error) throw profilesResult.error;
       if (documentsResult.error) throw documentsResult.error;
       if (documentItemsResult.error) throw documentItemsResult.error;
+      if (guestEventsResult.error) throw guestEventsResult.error;
+      if (guestUploadsResult.error) throw guestUploadsResult.error;
 
       projects = projectsResult.data || [];
       rsvps = rsvpsResult.data || [];
@@ -2151,6 +2216,8 @@
       customerProfiles = profilesResult.data || [];
       documents = documentsResult.data || [];
       documentItems = documentItemsResult.data || [];
+      guestUploadEvents = guestEventsResult.data || [];
+      guestUploads = guestUploadsResult.data || [];
 
       renderGlobalStats();
       renderProjectNav();
@@ -2166,6 +2233,10 @@
 
         if (currentAdminView === "invoices") {
           renderInvoicesPage(activeProjectId);
+        }
+
+        if (currentAdminView === "guestPhotos") {
+          renderGuestPhotosPage(activeProjectId);
         }
       } else {
         projectArea.innerHTML = '<div class="empty">Noch keine Projekte vorhanden.</div>';
@@ -2394,10 +2465,12 @@
       dashboardView.classList.toggle("hidden", view !== "dashboard");
       documentsView.classList.toggle("hidden", view !== "documents");
       invoicesView.classList.toggle("hidden", view !== "invoices");
+      guestPhotosView.classList.toggle("hidden", view !== "guestPhotos");
 
       openDashboard.classList.toggle("active", view === "dashboard");
       openDocuments.classList.toggle("active", view === "documents");
       openInvoices.classList.toggle("active", view === "invoices");
+      openGuestPhotos.classList.toggle("active", view === "guestPhotos");
 
       if (view === "documents") {
         renderDocumentsPage();
@@ -2407,8 +2480,136 @@
         renderInvoicesPage();
       }
 
+      if (view === "guestPhotos") {
+        renderGuestPhotosPage();
+      }
+
       closeManager();
       window.scrollTo({ top:0, behavior:"smooth" });
+    }
+
+    function guestPhotoUrl(code) {
+      return `https://www.kume-event.de/fotos/?event=${encodeURIComponent(code)}`;
+    }
+
+    function formatBytes(bytes) {
+      const value = Number(bytes || 0);
+      if (!value) return "—";
+      if (value < 1024 * 1024) return `${Math.round(value / 1024)} KB`;
+      return `${(value / 1024 / 1024).toFixed(1)} MB`;
+    }
+
+    async function createGuestUploadEvent(projectId) {
+      const project = projects.find(item => item.id === projectId);
+      if (!project) return;
+      const { error } = await client.from("guest_upload_events").insert({
+        project_id: project.id,
+        event_name: project.title,
+        event_date: project.event_date || null,
+        welcome_text: "Teilt eure schönsten Momente mit uns."
+      });
+      if (error) return alert("Gästefotos konnten nicht aktiviert werden: " + error.message);
+      await loadDashboardData();
+      setAdminView("guestPhotos");
+    }
+
+    async function toggleGuestUploads(eventId, enabled) {
+      const { error } = await client.from("guest_upload_events").update({ uploads_enabled: enabled }).eq("id", eventId);
+      if (error) return alert("Status konnte nicht geändert werden: " + error.message);
+      await loadDashboardData();
+      setAdminView("guestPhotos");
+    }
+
+    async function copyGuestPhotoUrl(code) {
+      const url = guestPhotoUrl(code);
+      try { await navigator.clipboard.writeText(url); alert("Upload-Link kopiert."); }
+      catch { prompt("Upload-Link kopieren:", url); }
+    }
+
+    function downloadGuestQr(projectId, code) {
+      const canvas = document.querySelector("#guestPhotoQr canvas");
+      const img = document.querySelector("#guestPhotoQr img");
+      let dataUrl = canvas?.toDataURL("image/png") || img?.src;
+      if (!dataUrl) return alert("QR-Code ist noch nicht bereit.");
+      const project = projects.find(item => item.id === projectId);
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = `KUME-QR-${(project?.slug || projectId)}.png`;
+      a.click();
+    }
+
+    async function openGuestUploadFile(uploadId) {
+      const upload = guestUploads.find(item => item.id === uploadId);
+      if (!upload) return;
+      const { data, error } = await client.storage.from("guest-uploads").createSignedUrl(upload.storage_path, 300);
+      if (error || !data?.signedUrl) return alert("Datei konnte nicht geöffnet werden. Prüfe die Storage-Admin-Policy.");
+      window.open(data.signedUrl, "_blank", "noopener");
+    }
+
+    async function deleteGuestUpload(uploadId) {
+      const upload = guestUploads.find(item => item.id === uploadId);
+      if (!upload || !confirm("Diese Gästedatei wirklich löschen?")) return;
+      const storageResult = await client.storage.from("guest-uploads").remove([upload.storage_path]);
+      if (storageResult.error) return alert("Datei konnte nicht aus dem Storage gelöscht werden: " + storageResult.error.message);
+      const { error } = await client.from("guest_uploads").delete().eq("id", upload.id);
+      if (error) return alert("Datenbankeintrag konnte nicht gelöscht werden: " + error.message);
+      await loadDashboardData();
+      setAdminView("guestPhotos");
+    }
+
+    function renderGuestPhotosPage(projectId = activeProjectId) {
+      if (!projects.length) {
+        guestPhotosView.innerHTML = `<div class="admin-page-head"><div><div class="eyebrow">KUMÉ EVENT BACKEND</div><h1>Gästefotos</h1></div></div><div class="page-empty" style="margin-top:30px">Noch keine Projekte vorhanden.</div>`;
+        return;
+      }
+      const project = projects.find(item => item.id === projectId) || projects[0];
+      activeProjectId = project.id;
+      const uploadEvent = guestUploadEvents.find(item => item.project_id === project.id);
+      const uploads = uploadEvent ? guestUploads.filter(item => item.upload_event_id === uploadEvent.id) : [];
+
+      guestPhotosView.innerHTML = `
+        <div class="admin-page-head">
+          <div><div class="eyebrow">KUMÉ EVENT BACKEND</div><h1>Gästefotos</h1><p class="admin-page-copy">QR-Code und Uploads für jedes Event zentral verwalten.</p></div>
+        </div>
+        <div class="admin-page-toolbar">
+          <select class="page-project-select" id="guestPhotoProjectSelect">${projectOptionsHtml(project.id)}</select>
+        </div>
+        ${!uploadEvent ? `
+          <div class="guest-photo-card" style="margin-top:28px">
+            <div class="eyebrow">NOCH NICHT AKTIV</div><h2>${escapeHtml(project.title)}</h2>
+            <p class="admin-page-copy">Aktiviere Gästefotos. Danach erhält dieses Event automatisch einen eigenen Upload-Link und QR-Code.</p>
+            <button class="primary" type="button" onclick="createGuestUploadEvent('${project.id}')">Gästefotos aktivieren</button>
+          </div>` : `
+          <div class="guest-photo-grid">
+            <div class="guest-photo-card">
+              <div class="eyebrow">UPLOAD-LINK</div><h2>${escapeHtml(project.title)}</h2>
+              <div class="guest-photo-url">${escapeHtml(guestPhotoUrl(uploadEvent.upload_code))}</div>
+              <div class="guest-photo-actions">
+                <button class="secondary" type="button" onclick="copyGuestPhotoUrl('${uploadEvent.upload_code}')">Link kopieren</button>
+                <button class="secondary" type="button" onclick="window.open('${guestPhotoUrl(uploadEvent.upload_code)}','_blank','noopener')">Upload-Seite öffnen ↗</button>
+                <button class="secondary" type="button" onclick="toggleGuestUploads('${uploadEvent.id}', ${!uploadEvent.uploads_enabled})">${uploadEvent.uploads_enabled ? 'Uploads pausieren' : 'Uploads aktivieren'}</button>
+              </div>
+              <div class="guest-upload-meta">Status: ${uploadEvent.uploads_enabled ? 'Aktiv' : 'Pausiert'} · ${uploads.length} Upload${uploads.length === 1 ? '' : 's'}</div>
+            </div>
+            <div class="guest-photo-card">
+              <div class="eyebrow">QR-CODE</div>
+              <div class="guest-photo-qr" id="guestPhotoQr"></div>
+              <div class="guest-photo-actions"><button class="secondary" type="button" onclick="downloadGuestQr('${project.id}','${uploadEvent.upload_code}')">QR-Code herunterladen</button></div>
+            </div>
+          </div>
+          <section class="page-section">
+            <div class="page-section-head"><div><div class="eyebrow">GÄSTE-UPLOADS</div><h2>${uploads.length} Dateien</h2></div></div>
+            <div class="guest-upload-list">
+              ${uploads.length ? uploads.map(upload => `<div class="guest-upload-row"><div><strong>${escapeHtml(upload.original_filename || 'Datei')}</strong><div class="guest-upload-meta">${escapeHtml(upload.guest_name || 'Gast ohne Namen')} · ${formatBytes(upload.file_size)} · ${formatDateTime(upload.created_at)}</div></div><div class="guest-photo-actions"><button class="table-action" type="button" onclick="openGuestUploadFile('${upload.id}')">Öffnen</button><button class="table-action" type="button" onclick="deleteGuestUpload('${upload.id}')">Löschen</button></div></div>`).join('') : '<div class="page-empty">Noch keine Gästefotos hochgeladen.</div>'}
+            </div>
+          </section>`}
+      `;
+
+      document.getElementById("guestPhotoProjectSelect")?.addEventListener("change", event => renderGuestPhotosPage(event.target.value));
+      if (uploadEvent && window.QRCode) {
+        const target = document.getElementById("guestPhotoQr");
+        if (target) new QRCode(target, { text: guestPhotoUrl(uploadEvent.upload_code), width:220, height:220, correctLevel: QRCode.CorrectLevel.H });
+      }
     }
 
     function projectOptionsHtml(selectedId) {
@@ -2799,6 +3000,18 @@
           label: "Premium",
           price: 649,
           description: "Individuelles Premium-Konzept mit aufwendigen Animationen, Sonderfunktionen und stärker personalisiertem Design."
+        },
+        fotobox300: {
+          label: "Fotobox · 300 Drucke",
+          price: 250,
+          description: "Fotobox-Paket inklusive 300 Drucken. Zuzüglich Anfahrt mit 0,35 € pro km und 50 € Pauschale für Auf- & Abbau.",
+          itemLabel: "Fotobox – 300 Drucke"
+        },
+        fotoboxFlat: {
+          label: "Fotobox · Druckflatrate",
+          price: 500,
+          description: "Fotobox-Paket mit Druckflatrate. Zuzüglich Anfahrt mit 0,35 € pro km und 50 € Pauschale für Auf- & Abbau.",
+          itemLabel: "Fotobox – Druckflatrate"
         }
       };
 
@@ -2873,22 +3086,34 @@
           </div>
 
           <div class="offer-section">
-            <div class="eyebrow">PAKET</div>
-            <div class="offer-section-title">Grundpaket auswählen</div>
-
+            <div class="eyebrow">DIGITALE EINLADUNGEN</div>
+            <div class="offer-section-title">Digitale Einladung auswählen</div>
             <div class="package-grid">
-              ${Object.entries(packagePresets).map(([code, pkg], index) => `
-                <label class="package-card ${index === 0 ? "active" : ""}">
-                  <input type="radio" name="offerPackage" value="${code}" ${index === 0 ? "checked" : ""}>
+              ${["standard","erweitert","premium"].map((code) => { const pkg = packagePresets[code]; return `
+                <label class="package-card" data-package-group="digital">
+                  <input type="radio" name="digitalPackage" value="${code}">
                   <div class="package-name">${pkg.label}</div>
                   <div class="package-price">${money(pkg.price)}</div>
                   <div class="package-copy">${pkg.description}</div>
-                </label>
-              `).join("")}
+                </label>`; }).join("")}
             </div>
           </div>
 
           <div class="offer-section">
+            <div class="eyebrow">FOTOBOX</div>
+            <div class="offer-section-title">Fotobox-Paket auswählen</div>
+            <div class="package-grid">
+              ${["fotobox300","fotoboxFlat"].map(code => { const pkg = packagePresets[code]; return `
+                <label class="package-card" data-package-group="fotobox">
+                  <input type="radio" name="fotoboxPackage" value="${code}">
+                  <div class="package-name">${pkg.label}</div>
+                  <div class="package-price">${money(pkg.price)}</div>
+                  <div class="package-copy">${pkg.description}</div>
+                </label>`; }).join("")}
+            </div>
+          </div>
+
+          <div class="offer-section" id="digitalExtrasSection">
             <div class="eyebrow">EXTRAS</div>
             <div class="offer-section-title">Zusatzleistungen</div>
 
@@ -2911,6 +3136,13 @@
             </div>
           </div>
 
+          <div class="offer-section" id="fotoboxOptionsSection" style="display:none;">
+            <div class="eyebrow">FOTOBOX · ANFAHRT</div>
+            <div class="offer-section-title">Anfahrt eintragen</div>
+            <div class="document-form-grid"><div class="field"><label>Anfahrt (km)</label><input id="fotoboxKm" type="number" min="0" step="1" value="0"></div></div>
+            <div class="muted" style="margin-top:10px;">Anfahrt: 0,35 € pro km. Auf- & Abbau: immer 50,00 € pauschal.</div>
+          </div>
+
           <div class="offer-section">
             <div class="eyebrow">LEISTUNGEN</div>
             <div class="offer-editor-head">
@@ -2923,61 +3155,11 @@
 
           <div class="offer-section">
             <div class="eyebrow">PREIS</div>
-            <div class="offer-section-title">Rabatt & Steuer</div>
-
-            <div class="discount-row">
-              <div class="field">
-                <label>Rabattart</label>
-                <select id="offerDiscountType">
-                  <option value="percent">Prozent</option>
-                  <option value="fixed">Fester Betrag €</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label>Rabatt</label>
-                <input id="offerDiscountValue" type="number" min="0" step="0.01" value="0">
-              </div>
-            </div>
-
-            <div class="document-form-grid">
-              <div class="field">
-                <label>Umsatzsteuer</label>
-                <select id="offerTaxRate">
-                  <option value="19">19 %</option>
-                  <option value="7">7 %</option>
-                  <option value="0">0 %</option>
-                </select>
-              </div>
-
-              <div class="field full">
-                <label>Notizen / Angebotsbedingungen</label>
-                <textarea id="offerNotes">Dieses Angebot ist für den beschriebenen Leistungsumfang verbindlich. Nachträgliche Änderungs- oder Zusatzwünsche können den Gesamtpreis abhängig vom tatsächlichen Mehraufwand um bis zu ca. 10 % verändern. Weitergehende Änderungen erfolgen nur nach vorheriger Abstimmung.</textarea>
-              </div>
-            </div>
-
-            <div class="offer-terms-preview">
-              <strong>Hinweis:</strong> Die 10-%-Regel bezieht sich nur auf nachträgliche Änderungs- oder Zusatzwünsche. Für den im Angebot konkret beschriebenen Leistungsumfang gilt der ausgewiesene Preis.
-            </div>
-
-            <div class="document-summary">
-              <div class="document-summary-row">
-                <span>Zwischensumme</span>
-                <strong id="offerSubtotal">0,00 €</strong>
-              </div>
-              <div class="document-summary-row discount">
-                <span>Rabatt</span>
-                <strong id="offerDiscountAmount">− 0,00 €</strong>
-              </div>
-              <div class="document-summary-row">
-                <span id="offerTaxLabel">MwSt. 19 %</span>
-                <strong id="offerTaxAmount">0,00 €</strong>
-              </div>
-              <div class="document-summary-row total">
-                <span>Gesamt</span>
-                <strong id="offerTotal">0,00 €</strong>
-              </div>
-            </div>
+            <input id="offerTaxRate" type="hidden" value="0">
+            <input id="offerDiscountType" type="hidden" value="percent">
+            <input id="offerDiscountValue" type="hidden" value="0">
+            <div class="offer-terms-preview">Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</div>
+            <div class="document-summary"><div class="document-summary-row"><span>Zwischensumme</span><strong id="offerSubtotal">0,00 €</strong></div><div class="document-summary-row discount" id="offerDiscountRow" style="display:none;"><span>Rabatt</span><strong id="offerDiscountAmount">− 0,00 €</strong></div><div class="document-summary-row total"><span>Gesamt</span><strong id="offerTotal">0,00 €</strong></div></div>
           </div>
 
           <div class="manager-feedback" id="managerFeedback"></div>
@@ -3020,6 +3202,10 @@
             <label>Einzelpreis €</label>
             <input class="item-price" type="number" min="0" step="0.01" value="${Number(unitPrice).toFixed(2)}" required>
           </div>
+          <div class="field">
+            <label>Rabatt %</label>
+            <input class="item-discount" type="number" min="0" max="100" step="0.01" value="0">
+          </div>
           <div>
             <label style="display:block;margin-bottom:9px;color:var(--brown);font-size:8px;letter-spacing:2px;text-transform:uppercase">Gesamt</label>
             <div class="document-item-total">0,00 €</div>
@@ -3040,32 +3226,40 @@
         recalcOffer();
       }
 
+      function selectedDigitalPackageCode() {
+        return document.querySelector('input[name="digitalPackage"]:checked')?.value || "";
+      }
+
+      function selectedFotoboxPackageCode() {
+        return document.querySelector('input[name="fotoboxPackage"]:checked')?.value || "";
+      }
+
       function selectedPackageCode() {
-        return document.querySelector('input[name="offerPackage"]:checked')?.value || "standard";
+        return [selectedDigitalPackageCode(), selectedFotoboxPackageCode()].filter(Boolean).join("+") || null;
       }
 
       function syncPresetItems() {
-        const packageCode = selectedPackageCode();
-        const pkg = packagePresets[packageCode];
-
+        const digitalCode = selectedDigitalPackageCode();
+        const fotoboxCode = selectedFotoboxPackageCode();
+        document.getElementById("fotoboxOptionsSection").style.display = fotoboxCode ? "block" : "none";
+        document.getElementById("digitalExtrasSection").style.display = digitalCode ? "block" : "none";
         offerItems.querySelectorAll("[data-preset-code]").forEach(row => row.remove());
 
-        addRow(
-          `Digitale Einladung – Paket ${pkg.label}`,
-          1,
-          pkg.price,
-          `package:${packageCode}`
-        );
-
-        document.querySelectorAll(".offer-extra:checked").forEach(input => {
-          addRow(
-            input.dataset.label,
-            1,
-            Number(input.dataset.price || 0),
-            `extra:${input.dataset.code}`
+        if (digitalCode) {
+          const pkg = packagePresets[digitalCode];
+          addRow(`Digitale Einladung – Paket ${pkg.label}`, 1, pkg.price, `package:${digitalCode}`);
+          document.querySelectorAll(".offer-extra:checked").forEach(input =>
+            addRow(input.dataset.label, 1, Number(input.dataset.price || 0), `extra:${input.dataset.code}`)
           );
-        });
+        }
 
+        if (fotoboxCode) {
+          const pkg = packagePresets[fotoboxCode];
+          addRow(pkg.itemLabel, 1, pkg.price, `package:${fotoboxCode}`);
+          const km = Math.max(0, Number(document.getElementById("fotoboxKm").value || 0));
+          if (km > 0) addRow("Anfahrt", km, 0.35, "fotobox:travel");
+          addRow("Auf- & Abbau", 1, 50, "fotobox:setup");
+        }
         recalcOffer();
       }
 
@@ -3075,30 +3269,24 @@
         offerItems.querySelectorAll(".document-item-row").forEach(row => {
           const qty = Number(row.querySelector(".item-qty").value || 0);
           const price = Number(row.querySelector(".item-price").value || 0);
-          const total = qty * price;
+          const discount = Math.min(100, Math.max(0, Number(row.querySelector(".item-discount")?.value || 0)));
+          const total = qty * price * (1 - discount / 100);
           subtotal += total;
           row.querySelector(".document-item-total").textContent = money(total);
         });
 
-        const discountType = offerDiscountType.value;
-        const discountValue = Math.max(0, Number(offerDiscountValue.value || 0));
+        const discountType = "percent";
+        const discountValue = 0;
+        const discountAmount = 0;
 
-        let discountAmount =
-          discountType === "fixed"
-            ? discountValue
-            : subtotal * Math.min(discountValue, 100) / 100;
-
-        discountAmount = Math.min(discountAmount, subtotal);
-
-        const taxableSubtotal = Math.max(0, subtotal - discountAmount);
+        const taxableSubtotal = subtotal;
         const taxRate = Number(offerTaxRate.value || 0);
         const taxAmount = taxableSubtotal * taxRate / 100;
         const total = taxableSubtotal + taxAmount;
 
         document.getElementById("offerSubtotal").textContent = money(subtotal);
         document.getElementById("offerDiscountAmount").textContent = `− ${money(discountAmount)}`;
-        document.getElementById("offerTaxLabel").textContent = `MwSt. ${taxRate} %`;
-        document.getElementById("offerTaxAmount").textContent = money(taxAmount);
+        document.getElementById("offerDiscountRow").style.display = discountAmount > 0 ? "flex" : "none";
         document.getElementById("offerTotal").textContent = money(total);
 
         return {
@@ -3114,7 +3302,8 @@
 
       document.querySelectorAll(".package-card").forEach(card => {
         card.addEventListener("click", () => {
-          document.querySelectorAll(".package-card").forEach(item => item.classList.remove("active"));
+          const group = card.dataset.packageGroup;
+          document.querySelectorAll(`.package-card[data-package-group="${group}"]`).forEach(item => item.classList.remove("active"));
           card.classList.add("active");
           syncPresetItems();
         });
@@ -3123,6 +3312,8 @@
       document.querySelectorAll(".offer-extra").forEach(input => {
         input.addEventListener("change", syncPresetItems);
       });
+
+      document.getElementById("fotoboxKm").addEventListener("input", () => { if (selectedFotoboxPackageCode()) syncPresetItems(); });
 
       addOfferItem.addEventListener("click", () => addRow());
       offerTaxRate.addEventListener("change", recalcOffer);
@@ -3147,9 +3338,12 @@
           }
 
           const items = rows.map((row, index) => {
-            const description = row.querySelector(".item-desc").value.trim();
+            let description = row.querySelector(".item-desc").value.trim();
             const quantity = Number(row.querySelector(".item-qty").value || 0);
-            const unitPrice = Number(row.querySelector(".item-price").value || 0);
+            const originalUnitPrice = Number(row.querySelector(".item-price").value || 0);
+            const itemDiscount = Math.min(100, Math.max(0, Number(row.querySelector(".item-discount")?.value || 0)));
+            const unitPrice = originalUnitPrice * (1 - itemDiscount / 100);
+            if (itemDiscount > 0) description += ` (inkl. ${String(itemDiscount).replace(".", ",")} % Rabatt)`;
 
             if (!description) {
               throw new Error("Bitte bei jeder Position eine Leistung eintragen.");
@@ -3193,7 +3387,7 @@
             total: sums.total,
             deposit_amount: 0,
             paid_amount: 0,
-            notes: document.getElementById("offerNotes").value.trim() || null
+            notes: document.getElementById("offerNotes")?.value.trim() || null
           };
 
           const { data: createdDocument, error: documentError } =
@@ -4122,8 +4316,8 @@
         y += 6;
       }
 
-      pdf.text(`MwSt. ${Number(doc.tax_rate)} %: ${money(doc.tax_amount)}`, rightX, y, {align:"right"});
-      y += 8;
+      if (Number(doc.tax_rate || 0) > 0) { pdf.text(`MwSt. ${Number(doc.tax_rate)} %: ${money(doc.tax_amount)}`, rightX, y, {align:"right"}); y += 6; }
+      y += 2;
 
       pdf.setFontSize(14);
       pdf.text(`Gesamt: ${money(doc.total)}`, rightX, y, {align:"right"});
@@ -4133,6 +4327,8 @@
         pdf.setFontSize(9);
         pdf.text(`Vereinbarte Anzahlung: ${money(doc.deposit_amount)}`, rightX, y, {align:"right"});
       }
+
+      if (Number(doc.tax_rate || 0) === 0) { y += 10; pdf.setFontSize(8); pdf.setTextColor(85,56,42); pdf.text("Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.", rightX, y, {align:"right"}); }
 
       if (doc.notes) {
         y += 16;
@@ -4154,7 +4350,7 @@
       pdf.setFontSize(6.5);
       pdf.setTextColor(110,95,84);
       pdf.text(
-        "KUMÉ EVENT · Bitte ergänze vor produktiver Rechnungsnutzung noch deine vollständigen Unternehmens- und Steuerdaten.",
+        "KUMÉ EVENT ·Inhaber: Münevver Akbulut.",
         margin,
         287
       );
@@ -4272,10 +4468,7 @@
               <strong>− ${money(doc.discount_amount)}</strong>
             </div>
           ` : ""}
-          <div class="document-summary-row">
-            <span>MwSt. ${Number(doc.tax_rate)} %</span>
-            <strong>${money(doc.tax_amount)}</strong>
-          </div>
+          ${Number(doc.tax_rate || 0) > 0 ? `<div class="document-summary-row"><span>MwSt. ${Number(doc.tax_rate)} %</span><strong>${money(doc.tax_amount)}</strong></div>` : ""}
           <div class="document-summary-row total">
             <span>Gesamt</span>
             <strong>${money(doc.total)}</strong>
@@ -4339,7 +4532,8 @@
         mobileCsvExport,
         mobileOpenInvitation,
         mobileDocuments,
-        mobileInvoices
+        mobileInvoices,
+        mobileGuestPhotos
       ].forEach(button => {
         if (button) button.disabled = !hasProject;
       });
@@ -4376,6 +4570,15 @@
     mobileInvoices.addEventListener("click", () => {
       closeMobileMenu();
       setAdminView("invoices");
+    });
+
+    openGuestPhotos.addEventListener("click", () => {
+      setAdminView("guestPhotos");
+    });
+
+    mobileGuestPhotos.addEventListener("click", () => {
+      closeMobileMenu();
+      setAdminView("guestPhotos");
     });
 
     mobileMenuToggle.addEventListener("click", toggleMobileMenu);

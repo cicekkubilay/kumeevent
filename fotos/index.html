@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>KUMÉ · Gästefotos</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f7f4ef;
+      color: #181816;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      max-width: 620px;
+      margin: auto;
+      padding: 38px 18px 60px;
+    }
+
+    .brand {
+      text-align: center;
+      letter-spacing: .32em;
+      font-size: 18px;
+      font-weight: 650;
+      margin: 8px 0 34px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e7e1d8;
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.04);
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: 11px;
+      color: #77736c;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: Georgia, serif;
+      font-weight: 400;
+      text-align: center;
+      font-size: 34px;
+      line-height: 1.08;
+      margin: 10px 0 8px;
+    }
+
+    #date {
+      text-align: center;
+      color: #77736c;
+      margin-bottom: 22px;
+    }
+
+    .welcome {
+      text-align: center;
+      line-height: 1.6;
+      margin: 0 auto 28px;
+      max-width: 460px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 650;
+      margin: 18px 0 8px;
+    }
+
+    .optional {
+      font-weight: 400;
+      color: #77736c;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid #e7e1d8;
+      border-radius: 13px;
+      padding: 14px 15px;
+      font: inherit;
+    }
+
+    .picker {
+      display: block;
+      border: 1.5px dashed #cfc7bc;
+      border-radius: 18px;
+      padding: 27px 18px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 18px;
+      background: #fcfbf9;
+    }
+
+    .picker strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .picker span,
+    .selected,
+    .foot {
+      color: #77736c;
+      font-size: 13px;
+    }
+
+    #files {
+      display: none;
+    }
+
+    .selected {
+      margin: 12px 2px 0;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 15px 18px;
+      margin-top: 20px;
+      background: #1f1f1c;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .progress {
+      height: 7px;
+      background: #eee9e2;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 18px;
+      display: none;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0;
+      background: #222;
+      transition: width .25s;
+    }
+
+    .message {
+      margin-top: 16px;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      display: none;
+      line-height: 1.45;
+    }
+
+    .ok {
+      display: block;
+      background: #edf6f0;
+      color: #2f6b48;
+    }
+
+    .err {
+      display: block;
+      background: #fbefed;
+      color: #9a3d36;
+    }
+
+    .loading {
+      text-align: center;
+      color: #77736c;
+      padding: 35px 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .foot {
+      text-align: center;
+      font-size: 11px;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+<main>
+
+  <div class="brand">
+    KUMÉ
+  </div>
+
+  <section class="card">
+
+    <div id="loading" class="loading">
+      Event wird geladen …
+    </div>
+
+    <div id="content" class="hidden">
+
+      <div class="eyebrow">
+        Gästefotos
+      </div>
+
+      <h1 id="eventName"></h1>
+
+      <div id="date"></div>
+
+      <p id="welcome" class="welcome"></p>
+
+
+      <label for="guestName">
+        Dein Name
+        <span class="optional">(optional)</span>
+      </label>
+
+      <input
+        id="guestName"
+        type="text"
+        maxlength="100"
+        autocomplete="name"
+        placeholder="z. B. Sarah & Mehmet"
+      >
+
+
+      <label class="picker" for="files">
+
+        <strong>
+          Fotos & Videos auswählen
+        </strong>
+
+        <span>
+          Du kannst mehrere Dateien gleichzeitig auswählen.
+        </span>
+
+      </label>
+
+      <input
+        id="files"
+        type="file"
+        accept="image/*,video/*"
+        multiple
+      >
+
+
+      <div id="selected" class="selected">
+        Noch keine Dateien ausgewählt.
+      </div>
+
+
+      <button id="uploadBtn" disabled>
+        HOCHLADEN
+      </button>
+
+
+      <div id="progress" class="progress">
+        <div id="bar" class="bar"></div>
+      </div>
+
+
+      <div id="message" class="message"></div>
+
+
+      <div class="foot">
+        Mit dem Upload stellst du die ausgewählten Aufnahmen
+        dem Veranstalter zur Verfügung.
+      </div>
+
+    </div>
+
+
+    <div id="fatal" class="message err"></div>
+
+  </section>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://novhauupppznhuvandxh.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_MVtzAxSyh6_waJoajVVpLg_G_-n7s4R";
+
+const FUNCTION_URL =
+  SUPABASE_URL + "/functions/v1/guest-photo-upload";
+
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const uploadCode =
+  (params.get("event") || "").trim();
+
+
+const loading =
+  document.getElementById("loading");
+
+const content =
+  document.getElementById("content");
+
+const fatal =
+  document.getElementById("fatal");
+
+const filesInput =
+  document.getElementById("files");
+
+const selected =
+  document.getElementById("selected");
+
+const uploadBtn =
+  document.getElementById("uploadBtn");
+
+const message =
+  document.getElementById("message");
+
+const progress =
+  document.getElementById("progress");
+
+const bar =
+  document.getElementById("bar");
+
+
+
+function showFatal(text) {
+
+  loading.classList.add("hidden");
+
+  content.classList.add("hidden");
+
+  fatal.textContent = text;
+
+  fatal.className = "message err";
+}
+
+
+
+function formatDate(value) {
+
+  if (!value) return "";
+
+  const date =
+    new Date(value + "T12:00:00");
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat(
+    "de-DE",
+    {
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    }
+  ).format(date);
+}
+
+
+
+async function loadEvent() {
+
+  if (!uploadCode) {
+
+    showFatal(
+      "Dieser QR-Code bzw. Upload-Link ist ungültig."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const url =
+      SUPABASE_URL +
+      "/rest/v1/guest_upload_events" +
+      "?select=event_name,event_date,welcome_text,uploads_enabled" +
+      "&upload_code=eq." +
+      encodeURIComponent(uploadCode) +
+      "&uploads_enabled=eq.true" +
+      "&limit=1";
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization:
+              "Bearer " + SUPABASE_ANON_KEY
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+
+    const rows =
+      await response.json();
+
+
+    if (!rows.length) {
+
+      showFatal(
+        "Dieser Upload-Link ist ungültig oder nicht mehr aktiv."
+      );
+
+      return;
+    }
+
+
+    const event =
+      rows[0];
+
+
+    document.getElementById(
+      "eventName"
+    ).textContent =
+      event.event_name || "";
+
+
+    document.getElementById(
+      "date"
+    ).textContent =
+      formatDate(event.event_date);
+
+
+    document.getElementById(
+      "welcome"
+    ).textContent =
+      event.welcome_text ||
+      "Teilt eure schönsten Momente mit uns.";
+
+
+    loading.classList.add("hidden");
+
+    content.classList.remove("hidden");
+
+  }
+
+  catch (error) {
+
+    showFatal(
+      "Das Event konnte gerade nicht geladen werden. Bitte versuche es später erneut."
+    );
+
+  }
+}
+
+
+
+filesInput.addEventListener(
+  "change",
+  function () {
+
+    const files =
+      [...filesInput.files];
+
+
+    uploadBtn.disabled =
+      !files.length;
+
+
+    if (!files.length) {
+
+      selected.textContent =
+        "Noch keine Dateien ausgewählt.";
+
+    }
+
+    else if (files.length === 1) {
+
+      selected.textContent =
+        files[0].name;
+
+    }
+
+    else {
+
+      selected.textContent =
+        files.length +
+        " Dateien ausgewählt";
+
+    }
+
+
+    message.className =
+      "message";
+
+  }
+);
+
+
+
+uploadBtn.addEventListener(
+  "click",
+  async function () {
+
+    const files =
+      [...filesInput.files];
+
+
+    if (!files.length) {
+      return;
+    }
+
+
+    uploadBtn.disabled = true;
+
+    filesInput.disabled = true;
+
+
+    progress.style.display =
+      "block";
+
+    bar.style.width =
+      "0%";
+
+
+    message.className =
+      "message";
+
+
+    const guestName =
+      document
+        .getElementById("guestName")
+        .value
+        .trim();
+
+
+    let uploaded = 0;
+
+
+    try {
+
+      for (const file of files) {
+
+        const formData =
+          new FormData();
+
+
+        formData.append(
+          "upload_code",
+          uploadCode
+        );
+
+
+        formData.append(
+          "guest_name",
+          guestName
+        );
+
+
+        formData.append(
+          "file",
+          file,
+          file.name
+        );
+
+
+        const response =
+          await fetch(
+            FUNCTION_URL,
+            {
+              method: "POST",
+
+              headers: {
+                apikey:
+                  SUPABASE_ANON_KEY
+              },
+
+              body:
+                formData
+            }
+          );
+
+
+        let result = {};
+
+
+        try {
+
+          result =
+            await response.json();
+
+        }
+
+        catch {}
+
+
+        if (
+          !response.ok ||
+          !result.success
+        ) {
+
+          throw new Error(
+            result.error ||
+            "Upload fehlgeschlagen."
+          );
+
+        }
+
+
+        uploaded++;
+
+
+        const percent =
+          Math.round(
+            uploaded /
+            files.length *
+            100
+          );
+
+
+        bar.style.width =
+          percent + "%";
+
+      }
+
+
+      if (uploaded === 1) {
+
+        message.textContent =
+          "Danke! Deine Datei wurde erfolgreich hochgeladen. 🤍";
+
+      }
+
+      else {
+
+        message.textContent =
+          "Danke! " +
+          uploaded +
+          " Dateien wurden erfolgreich hochgeladen. 🤍";
+
+      }
+
+
+      message.className =
+        "message ok";
+
+
+      filesInput.value =
+        "";
+
+
+      selected.textContent =
+        "Noch keine Dateien ausgewählt.";
+
+    }
+
+    catch (error) {
+
+      message.textContent =
+        "Upload nicht vollständig: " +
+        error.message;
+
+
+      message.className =
+        "message err";
+
+    }
+
+    finally {
+
+      filesInput.disabled =
+        false;
+
+
+      uploadBtn.disabled =
+        true;
+
+    }
+
+  }
+);
+
+
+loadEvent();
+
+</script>
+
+</body>
+</html>
