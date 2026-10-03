@@ -2489,7 +2489,7 @@
     }
 
     function guestPhotoUrl(code) {
-  return `https://kumeevent.de/fotos/?event=${code}`;
+  return `https://kumevent.de/fotos/?event=${code}`;
 }
 
     function formatBytes(bytes) {
@@ -4340,56 +4340,37 @@
         pdf.setTextColor(85,56,42);
         pdf.text("HINWEISE",margin,y);
         y += 6;
-        // Zahlungsinformationen nur auf Rechnungen
-if (["deposit_invoice", "final_invoice"].includes(doc.document_type)) {
-  y += 16;
 
-  if (y > 235) {
-    pdf.addPage();
-    y = 24;
-  }
-
-  pdf.setFontSize(7);
-  pdf.setTextColor(85,56,42);
-  pdf.text("ZAHLUNGSINFORMATIONEN", margin, y);
-
-  y += 7;
-
-  pdf.setFontSize(8.5);
-  pdf.setTextColor(24,21,18);
-  pdf.text("Banküberweisung", margin, y);
-
-  y += 6;
-  pdf.setFontSize(8);
-  pdf.text("Name: Kubilay Cicek", margin, y);
-
-  y += 5;
-  pdf.text("IBAN: DE28100123450828560901", margin, y);
-
-  y += 5;
-  pdf.text("BIC: TRBKDEBBXXX", margin, y);
-
-  y += 9;
-  pdf.setFontSize(8.5);
-  pdf.text("PayPal", margin, y);
-
-  y += 6;
-  pdf.setFontSize(8);
-  pdf.text("info@carabic.shop", margin, y);
-}
         pdf.setTextColor(47,39,34);
         pdf.setFontSize(8);
         const lines = pdf.splitTextToSize(doc.notes, pageW - margin*2);
         pdf.text(lines, margin, y);
       }
+      // ZAHLUNGSINFORMATIONEN
+pdf.setFontSize(7);
+pdf.setTextColor(85,56,42);
+pdf.text("ZAHLUNGSINFORMATIONEN", margin, 245);
 
-      pdf.setFontSize(6.5);
-      pdf.setTextColor(110,95,84);
-      pdf.text(
-        "KUMÉ EVENT ·Inhaber: Münevver Akbulut.",
-        margin,
-        287
-      );
+pdf.setFontSize(8);
+pdf.setTextColor(24,21,18);
+
+pdf.text("Banküberweisung", margin, 252);
+pdf.text("Name: Kubilay Cicek", margin, 258);
+pdf.text("IBAN: DE28100123450828560901", margin, 263);
+pdf.text("BIC: TRBKDEBBXXX", margin, 268);
+
+pdf.text("PayPal: info@carabic.shop", margin, 276);
+
+
+// FOOTER
+pdf.setFontSize(6.5);
+pdf.setTextColor(110,95,84);
+pdf.text(
+  "KUMÉ EVENT · Inhaber: Münevver Akbulut.",
+  margin,
+  287
+);
+    
 
       pdf.save(`${safePdfFileName(doc.document_number)}-${safePdfFileName(documentTypeLabel(doc.document_type))}.pdf`);
     }
