@@ -1858,8 +1858,10 @@
       </button>
 
       <button class="sidebar-page-button" id="openDocuments" type="button">
-        Angebote & Aufträge
+        Angebote
       </button>
+
+      <button class="sidebar-page-button" id="openOrders" type="button">Aufträge</button>
 
       <button class="sidebar-page-button" id="openInvoices" type="button">
         Rechnungen
@@ -1905,8 +1907,10 @@
           </button>
 
           <button class="mobile-tool-button" id="mobileDocuments" type="button">
-            Angebote & Aufträge
+            Angebote
           </button>
+
+          <button class="mobile-tool-button" id="mobileOrders" type="button">Aufträge</button>
 
           <button class="mobile-tool-button" id="mobileInvoices" type="button">
             Rechnungen
@@ -2023,6 +2027,8 @@
 
       <section class="admin-view hidden" id="documentsView"></section>
 
+      <section class="admin-view hidden" id="ordersView"></section>
+
       <section class="admin-view hidden" id="invoicesView"></section>
 
       <section class="admin-view hidden" id="guestPhotosView"></section>
@@ -2083,6 +2089,9 @@
     const openDocuments = document.getElementById("openDocuments");
     const mobileDashboard = document.getElementById("mobileDashboard");
     const mobileDocuments = document.getElementById("mobileDocuments");
+    const openOrders = document.getElementById("openOrders");
+    const mobileOrders = document.getElementById("mobileOrders");
+    const ordersView = document.getElementById("ordersView");
     const openInvoices = document.getElementById("openInvoices");
     const mobileInvoices = document.getElementById("mobileInvoices");
     const openGuestPhotos = document.getElementById("openGuestPhotos");
@@ -2464,16 +2473,22 @@
 
       dashboardView.classList.toggle("hidden", view !== "dashboard");
       documentsView.classList.toggle("hidden", view !== "documents");
+      ordersView.classList.toggle("hidden", view !== "orders");
       invoicesView.classList.toggle("hidden", view !== "invoices");
       guestPhotosView.classList.toggle("hidden", view !== "guestPhotos");
 
       openDashboard.classList.toggle("active", view === "dashboard");
       openDocuments.classList.toggle("active", view === "documents");
+      openOrders.classList.toggle("active", view === "orders");
       openInvoices.classList.toggle("active", view === "invoices");
       openGuestPhotos.classList.toggle("active", view === "guestPhotos");
 
       if (view === "documents") {
         renderDocumentsPage();
+      }
+
+      if (view === "orders") {
+        renderOrdersPage();
       }
 
       if (view === "invoices") {
@@ -2620,153 +2635,68 @@
       `).join("");
     }
 
-    function renderDocumentsPage(projectId = activeProjectId) {
-      if (!projects.length) {
-        documentsView.innerHTML = `
-          <div class="admin-page-head">
-            <div>
-              <div class="eyebrow">KUMÉ EVENT BACKEND</div>
-              <h1>Angebote & Aufträge</h1>
-            </div>
-          </div>
-          <div class="page-empty" style="margin-top:30px">
-            Noch keine Projekte vorhanden.
-          </div>
-        `;
-        return;
-      }
-
-      const project = projects.find(item => item.id === projectId) || projects[0];
-      activeProjectId = project.id;
-
-      const docs = projectDocuments(project.id)
-        .filter(doc => ["offer","order_confirmation"].includes(doc.document_type));
-
-      const offers = docs.filter(doc => doc.document_type === "offer");
-      const orders = docs.filter(doc => doc.document_type === "order_confirmation");
-
-      documentsView.innerHTML = `
-        <div class="admin-page-head">
-          <div>
-            <div class="eyebrow">KUMÉ EVENT BACKEND</div>
-            <h1>Angebote & Aufträge</h1>
-            <p class="admin-page-copy">
-              Angebote erstellen und bearbeiten, Kundenentscheidungen dokumentieren
-              und angenommene Angebote automatisch in Auftragsbestätigungen übernehmen.
-            </p>
-          </div>
-
-          <div class="admin-chip">${escapeHtml(project.title)}</div>
+    function documentCard(doc, kind) {
+      const project = projects.find(p => p.id === doc.project_id);
+      const actions = kind === 'offer' ? `
+        <button class="table-action" onclick="setOfferDecision('${doc.id}','accepted')">✓ Annehmen</button>
+        <button class="table-action" onclick="setOfferDecision('${doc.id}','rejected')">✕ Ablehnen</button>` : kind === 'order' ? `
+        <button class="table-action" onclick="openInvoiceCreator('${doc.id}')">+ Rechnung</button>` : '';
+      return `<article class="page-doc-card">
+        <div><div class="document-number">${escapeHtml(doc.document_number || 'Dokument')}</div><div class="document-sub">${escapeHtml(project?.title || 'Projekt')}</div></div>
+        <div><span class="document-badge">${documentStatusLabel(doc.status)}</span><div class="document-sub">${escapeHtml(doc.customer_name || 'Kunde')}</div></div>
+        <div><div class="document-money">${money(doc.total)}</div><div class="document-sub">Gesamtbetrag</div></div>
+        <div class="page-doc-actions">
+          <button class="table-action" onclick="openDocumentDetails('${doc.id}')">Details</button>
+          <button class="table-action" onclick="openDocumentEditor('${doc.id}')">Bearbeiten</button>
+          <button class="table-action" onclick="downloadDocumentPdf('${doc.id}')">PDF</button>
+          ${actions}
+          <button class="table-action" style="color:#b34b45" onclick="deleteBusinessDocument('${doc.id}')">Löschen</button>
         </div>
+      </article>`;
+    }
 
-        <div class="admin-page-toolbar">
-          <select class="page-project-select" id="documentsProjectSelect">
-            ${projectOptionsHtml(project.id)}
-          </select>
+    function businessProjectFilter(view, projectId) {
+      return `<div class="admin-page-toolbar"><select class="page-project-select" id="${view}ProjectSelect">
+        <option value="all" ${projectId === 'all' ? 'selected' : ''}>Alle Projekte</option>
+        ${projects.map(p => `<option value="${p.id}" ${p.id === projectId ? 'selected' : ''}>${escapeHtml(p.title)}</option>`).join('')}
+      </select></div>`;
+    }
 
-          <button class="secondary" type="button" onclick="openOfferCreator('${project.id}')">
-            + Neues Angebot
-          </button>
-        </div>
+    function renderDocumentsPage(projectId = 'all') {
+      const offers = documents.filter(d => d.document_type === 'offer' && (projectId === 'all' || d.project_id === projectId));
+      documentsView.innerHTML = `<div class="admin-page-head"><div><div class="eyebrow">KUMÉ EVENT</div><h1>Angebote</h1><p class="admin-page-copy">Angebote erstellen, Positionen und Pakete bearbeiten, als PDF herunterladen und annehmen oder ablehnen.</p></div>
+        <button class="primary" onclick="openOfferCreator(document.getElementById('newOfferProject').value)" ${!projects.length ? 'disabled' : ''}>+ Angebot erstellen</button></div>
+        <div class="admin-page-toolbar"><label>Neues Angebot für <select class="page-project-select" id="newOfferProject">${projectOptionsHtml(activeProjectId)}</select></label></div>
+        ${businessProjectFilter('offers',projectId)}
+        <section class="page-section"><div class="page-section-head"><h2>Alle Angebote (${offers.length})</h2></div>
+        <div class="page-doc-grid">${offers.length ? offers.map(d => documentCard(d,'offer')).join('') : '<div class="page-empty">Noch keine Angebote vorhanden.</div>'}</div></section>`;
+      document.getElementById('offersProjectSelect')?.addEventListener('change', e => renderDocumentsPage(e.target.value));
+    }
 
-        <section class="page-section">
-          <div class="page-section-head">
-            <div>
-              <div class="eyebrow">ANGEBOTE</div>
-              <h2>Offerten</h2>
-            </div>
-          </div>
+    function renderOrdersPage(projectId = 'all') {
+      const orders = documents.filter(d => d.document_type === 'order_confirmation' && (projectId === 'all' || d.project_id === projectId));
+      ordersView.innerHTML = `<div class="admin-page-head"><div><div class="eyebrow">KUMÉ EVENT</div><h1>Aufträge</h1><p class="admin-page-copy">Angenommene Angebote werden automatisch zu Aufträgen. Details und Positionen bleiben bearbeitbar; anschließend Anzahlung oder Schlussrechnung erstellen.</p></div></div>
+        ${businessProjectFilter('orders',projectId)}<section class="page-section"><div class="page-section-head"><h2>Alle Aufträge (${orders.length})</h2></div>
+        <div class="page-doc-grid">${orders.length ? orders.map(d => documentCard(d,'order')).join('') : '<div class="page-empty">Noch keine Aufträge vorhanden. Nimm zuerst ein Angebot an.</div>'}</div></section>`;
+      document.getElementById('ordersProjectSelect')?.addEventListener('change', e => renderOrdersPage(e.target.value));
+    }
 
-          <div class="page-doc-grid">
-            ${offers.length ? offers.map(doc => `
-              <article class="page-doc-card">
-                <div>
-                  <div class="document-number">${escapeHtml(doc.document_number)}</div>
-                  <div class="document-sub">${documentTypeLabel(doc.document_type)}</div>
-                </div>
-
-                <div>
-                  <span class="document-badge">${documentStatusLabel(doc.status)}</span>
-                  <div class="document-sub">
-                    ${doc.issue_date ? new Intl.DateTimeFormat("de-DE").format(new Date(doc.issue_date + "T12:00:00")) : "—"}
-                  </div>
-                </div>
-
-                <div>
-                  <div class="document-money">${money(doc.total)}</div>
-                  <div class="document-sub">Gesamt</div>
-                </div>
-
-                <div>
-                  <div class="document-sub">Kunde</div>
-                  <div style="margin-top:5px;font-size:11px">
-                    ${escapeHtml(doc.customer_name || project.title)}
-                  </div>
-                </div>
-
-                <div class="page-doc-actions">
-                  <button class="table-action" type="button" onclick="openDocumentDetails('${doc.id}')">Öffnen</button>
-                  <button class="table-action" type="button" onclick="openDocumentEditor('${doc.id}')">Bearbeiten</button>
-                  <button class="table-action" type="button" onclick="downloadDocumentPdf('${doc.id}')">PDF</button>
-                </div>
-              </article>
-            `).join("") : `
-              <div class="page-empty">Noch kein Angebot für dieses Projekt.</div>
-            `}
-          </div>
-        </section>
-
-        <section class="page-section">
-          <div class="page-section-head">
-            <div>
-              <div class="eyebrow">ANGENOMMENE AUFTRÄGE</div>
-              <h2>Auftragsbestätigungen</h2>
-            </div>
-          </div>
-
-          <div class="page-doc-grid">
-            ${orders.length ? orders.map(doc => `
-              <article class="page-doc-card">
-                <div>
-                  <div class="document-number">${escapeHtml(doc.document_number)}</div>
-                  <div class="document-sub">Auftragsbestätigung</div>
-                </div>
-
-                <div>
-                  <span class="document-badge">${documentStatusLabel(doc.status)}</span>
-                </div>
-
-                <div>
-                  <div class="document-money">${money(doc.total)}</div>
-                  <div class="document-sub">Auftragssumme</div>
-                </div>
-
-                <div>
-                  <div class="document-money">${money(doc.deposit_amount || 0)}</div>
-                  <div class="document-sub">Anzahlung</div>
-                </div>
-
-                <div class="page-doc-actions">
-                  <button class="table-action" type="button" onclick="openDocumentDetails('${doc.id}')">Öffnen</button>
-                  <button class="table-action" type="button" onclick="openDocumentEditor('${doc.id}')">Bearbeiten</button>
-                  <button class="table-action" type="button" onclick="downloadDocumentPdf('${doc.id}')">PDF</button>
-                  <button class="table-action" type="button" onclick="openInvoiceCreator('${doc.id}')">Rechnung</button>
-                </div>
-              </article>
-            `).join("") : `
-              <div class="page-empty">
-                Sobald ein Angebot als angenommen markiert wird, erscheint hier die Auftragsbestätigung.
-              </div>
-            `}
-          </div>
-        </section>
-      `;
-
-      document.getElementById("documentsProjectSelect")?.addEventListener("change", event => {
-        activeProjectId = event.target.value;
-        renderProjectNav();
-        renderDocumentsPage(activeProjectId);
-      });
+    async function deleteBusinessDocument(id) {
+      const doc = documents.find(d => d.id === id);
+      if (!doc) return;
+      const dependents = documents.filter(d => d.source_document_id === id);
+      if (dependents.length) return alert('Dieses Dokument hat verknüpfte Folgebelege. Bitte erst die abhängigen Dokumente prüfen bzw. löschen.');
+      if (!confirm(`${documentTypeLabel(doc.document_type)} ${doc.document_number} wirklich dauerhaft löschen?`)) return;
+      try {
+        const { error: itemError } = await client.from('document_items').delete().eq('document_id',id);
+        if (itemError) throw itemError;
+        const { error } = await client.from('documents').delete().eq('id',id);
+        if (error) throw error;
+        await loadDashboardData();
+        if (currentAdminView === 'orders') renderOrdersPage();
+        else if (currentAdminView === 'invoices') renderInvoicesPage();
+        else renderDocumentsPage();
+      } catch (e) { console.error(e); alert('Löschen fehlgeschlagen: ' + e.message); }
     }
 
     function renderInvoicesPage(projectId = activeProjectId) {
@@ -3536,7 +3466,8 @@
 
         activeProjectId = doc.project_id;
         await loadDashboardData();
-        openDocumentsManager(doc.project_id);
+        if (currentAdminView === "orders") setAdminView("orders");
+        else openDocumentsManager(doc.project_id);
 
       } catch (error) {
         console.error(error);
@@ -4366,7 +4297,7 @@ pdf.text("PayPal: info@carabic.shop", margin, 276);
 pdf.setFontSize(6.5);
 pdf.setTextColor(110,95,84);
 pdf.text(
-  "KUMÉ EVENT · Inhaber: Münevver Akbulut.",
+  "KUMÉ EVENT · Inhaber: Kubilay Cicek.",
   margin,
   287
 );
@@ -4412,7 +4343,7 @@ pdf.text(
           <button class="manager-close" type="button"
             onclick="${["deposit_invoice","final_invoice"].includes(doc.document_type)
               ? `openInvoicesManager('${doc.project_id}')`
-              : `openDocumentsManager('${doc.project_id}')`}">×</button>
+              : doc.document_type === "order_confirmation" ? `setAdminView('orders')` : `openDocumentsManager('${doc.project_id}')`}">×</button>
         </div>
 
         <div class="manager-info">
@@ -4435,6 +4366,7 @@ pdf.text(
           <button class="small-action" type="button" onclick="downloadDocumentPdf('${doc.id}')">
             PDF herunterladen
           </button>
+          <button class="small-action" type="button" onclick="deleteBusinessDocument('${doc.id}')">Löschen</button>
 
           ${doc.document_type === "order_confirmation" ? `
             <button class="small-action" type="button" onclick="openInvoiceCreator('${doc.id}')">
@@ -4579,6 +4511,9 @@ pdf.text(
       closeMobileMenu();
       setAdminView("documents");
     });
+
+    openOrders.addEventListener("click", () => setAdminView("orders"));
+    mobileOrders.addEventListener("click", () => { closeMobileMenu(); setAdminView("orders"); });
 
     openInvoices.addEventListener("click", () => {
       setAdminView("invoices");
